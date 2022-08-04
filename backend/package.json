@@ -1,0 +1,19 @@
+{
+  "name": "global-store-backend",
+  "version": "0.0.1",
+  "description": "The backend implementation of global-store application.",
+  "main": "app.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mahmoud-Ehab/global-store.git"
+  },
+  "author": "Mahmoud E. Abdelsalam",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/Mahmoud-Ehab/global-store/issues"
+  },
+  "homepage": "https://github.com/Mahmoud-Ehab/global-store#readme"
+}
