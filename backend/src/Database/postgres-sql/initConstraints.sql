@@ -1,0 +1,3 @@
+ALTER TABLE users
+ADD CONSTRAINT MAX_CR 
+CHECK (users.CR < 10);
