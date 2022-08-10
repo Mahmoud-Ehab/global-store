@@ -5,11 +5,10 @@ import QueriesInterface from '../interfaces/QueriesInterface'
 
 abstract class DataController<T> implements DataControllerInterface<T> {
   private client: Client;
-  private queries: QueriesInterface;
+  protected queries: QueriesInterface;
 
-  constructor(client: Client, queries: QueriesInterface) {
+  constructor(client: Client) {
     this.client = client;
-    this.queries = queries;
   }
 
   async get(id: number): Promise<T> {
