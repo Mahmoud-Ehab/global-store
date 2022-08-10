@@ -21,10 +21,9 @@ abstract class DataController<T> implements DataControllerInterface<T> {
   async getAll(): Promise<T[]> {
     const query = this.queries.getAll();
     const res = await this.client.query(query);
-    
+
     const data: Array<T> = [];
     res.rows.forEach(row => data.push(this.parseData(row)));
-
     return data;
   }
 
@@ -34,7 +33,6 @@ abstract class DataController<T> implements DataControllerInterface<T> {
     
     const data: Array<T> = [];
     res.rows.forEach(row => data.push(this.parseData(row)));
-
     return data;
   }
 
@@ -44,7 +42,6 @@ abstract class DataController<T> implements DataControllerInterface<T> {
     
     const data: Array<T> = [];
     res.rows.forEach(row => data.push(this.parseData(row)));
-
     return data;
   }
 
