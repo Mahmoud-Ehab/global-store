@@ -1,6 +1,5 @@
 import { Client } from "pg";
 import DataDriverInterface from "./interfaces/DataDriverInterface";
-
 import UsersController from './controllers/UsersController'
 import PublicationsController from './controllers/PublicationsController'
 import ReviewsController from './controllers/ReviewsController'
@@ -8,7 +7,7 @@ import ReviewsController from './controllers/ReviewsController'
 
 class DataDriver implements DataDriverInterface{
   private client: Client;
-  private queriesQueue: Array<Function>;
+  private queriesQueue: Array<Function> = [];
 
   private usersController: UsersController;
   private publicationsController: PublicationsController;
@@ -24,16 +23,19 @@ class DataDriver implements DataDriverInterface{
     return this.reviewsController;
   }
 
-  initClient(): void {
+  connectClient(): void {
     this.client = new Client({
       host: 'localhost',
       user: 'mahmoudehab',
       password: 'admin',
       database: 'globalstore',
     });
+
     this.usersController = new UsersController(this.client);
     this.publicationsController = new PublicationsController(this.client);
     this.reviewsController = new ReviewsController(this.client);
+
+    this.client.connect();
   }
 
   endClient(): void {
@@ -42,10 +44,6 @@ class DataDriver implements DataDriverInterface{
 
   query(func: Function): void {
     this.queriesQueue.push(func);
-  }
-
-  queries(list: Function[]): void {
-    this.queriesQueue.push(...list);
   }
 
   async execute(): Promise<boolean | Error> {
