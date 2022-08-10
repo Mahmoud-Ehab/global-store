@@ -37,8 +37,8 @@ class Queries implements QueriesInterface {
   
     Object.keys(filter).forEach((key, i) => {
       text += ` ${key}=$${i+1}`;
-      values.push(filter[key]);
     });
+    values.push(...Object.values(filter));
   
     return ({
       name: 'get-filtered-data',
@@ -53,8 +53,8 @@ class Queries implements QueriesInterface {
   
     Object.keys(filter).forEach((key, i) => {
       text += ` ${key} LIKE $${i+1}`;
-      values.push(filter[key]);
     });
+    values.push(...Object.values(filter));
   
     return ({
       name: 'get-filtered-data-with-regex',
