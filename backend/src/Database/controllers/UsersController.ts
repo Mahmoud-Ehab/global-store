@@ -1,10 +1,7 @@
 import DataController from '../abstracts/DataController'
-import Queries from '../Queries';
 import User from '../types/User'
 
-class UsersController extends DataController<User> {
-  queries = new Queries('users');
-  
+class UsersController extends DataController<User> {  
   protected parseData(data: User): User {
     const user: User = {
       id: data.id,

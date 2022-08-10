@@ -1,10 +1,7 @@
 import DataController from '../abstracts/DataController'
-import Queries from '../Queries';
 import Review from '../types/Review'
 
 class ReviewsController extends DataController<Review> {
-  queries = new Queries('reviews');
-
   protected parseData(data: Review): Review {
     const review: Review = {
       id: data.id,

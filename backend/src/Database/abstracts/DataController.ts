@@ -7,8 +7,9 @@ abstract class DataController<T> implements DataControllerInterface<T> {
   private client: Client;
   protected queries: QueriesInterface;
 
-  constructor(client: Client) {
+  constructor(client: Client, queries: QueriesInterface) {
     this.client = client;
+    this.queries = queries;
   }
 
   async get(id: number): Promise<T> {

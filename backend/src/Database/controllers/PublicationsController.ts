@@ -1,10 +1,7 @@
 import DataController from '../abstracts/DataController'
-import Queries from '../Queries';
 import Publication from '../types/Publication'
 
 class PublicationsController extends DataController<Publication> {
-  queries = new Queries('publications');
-
   protected parseData(data: Publication): Publication {
     const publication: Publication = {
       id: data.id,

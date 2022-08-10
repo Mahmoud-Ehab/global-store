@@ -1,8 +1,12 @@
 import { Client } from "pg";
+
 import DataDriverInterface from "./interfaces/DataDriverInterface";
+
+import Queries from "./Queries";
 import UsersController from './controllers/UsersController'
 import PublicationsController from './controllers/PublicationsController'
 import ReviewsController from './controllers/ReviewsController'
+
 
 
 class DataDriver implements DataDriverInterface{
@@ -30,11 +34,18 @@ class DataDriver implements DataDriverInterface{
       password: 'admin',
       database: 'globalstore',
     });
-
-    this.usersController = new UsersController(this.client);
-    this.publicationsController = new PublicationsController(this.client);
-    this.reviewsController = new ReviewsController(this.client);
-
+    this.usersController = new UsersController(
+      this.client, 
+      new Queries('users')
+    );
+    this.publicationsController = new PublicationsController(
+      this.client, 
+      new Queries('publications')
+    );
+    this.reviewsController = new ReviewsController(
+      this.client, 
+      new Queries('reviews')
+    );
     this.client.connect();
   }
 
