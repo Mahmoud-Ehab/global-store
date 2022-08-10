@@ -8,7 +8,6 @@ import PublicationsController from './controllers/PublicationsController'
 import ReviewsController from './controllers/ReviewsController'
 
 
-
 class DataDriver implements DataDriverInterface{
   private client: Client;
   private queriesQueue: Array<Function> = [];
