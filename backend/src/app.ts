@@ -1,16 +1,7 @@
-import client from './Database/client'
-import UsersController from './Database/controllers/UsersController'
-import DataDriver from './DataDriver'
+import DataDriver from './Database/DataDriver'
 
-// Trying the Database & DataDriver pre-implementation
-const dataDriver = new DataDriver({
-  users: new UsersController(client),
-});
+const dataDriver = new DataDriver();
 
-client.connect();
-const user1 = dataDriver.getUsers()?.get(1);
-user1?.then(res => {
-  console.log(res)
-  client.end();
-})
-.catch(e => console.error(e));
+dataDriver.connectClient();
+dataDriver.query(async () => console.log(await dataDriver.users.getAll()));
+dataDriver.execute().then(() => dataDriver.endClient());
