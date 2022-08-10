@@ -1,9 +1,7 @@
 interface DataDriver {
-  initClient(): void;
+  connectClient(): void;
   endClient(): void;
-
   query(func: Function): void;
-  queries(list: Array<Function>): void;
   execute(): Promise<boolean | Error>;
 }
 
