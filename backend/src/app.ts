@@ -1,4 +1,4 @@
-import DataDriver from './Database/DataDriver'
+import DataDriver from './database/DataDriver'
 
 const dataDriver = new DataDriver();
 
