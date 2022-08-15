@@ -26,6 +26,8 @@ If you're only interested in running the app, then skip ahead to [NPM commands s
 ## Database Component
 Two major components of the backend development are: Database & Server. The database contains sql queries for initializing PostgreSQL Server, and the overall functionalities for communicating with the server via JS. It's worth mentioning that the database component considered having application's business rules (interfaces, types and abstracts).
 
+> Each controller has acquantance relationship with a relative type (user, publication or review). Not illustrated in the diagram, however, for more simplicity in modeling the system.
+
 ![database diagram](./docs/diagrams/database-diagram.svg)
 
 ## Server Component
