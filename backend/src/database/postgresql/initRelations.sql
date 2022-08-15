@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS users (
   id serial NOT NULL PRIMARY KEY,
   username varchar(20) NOT NULL,
+  password varchar(256) NOT NULL,
   nickname varchar(20),
   CR SMALLINT DEFAULT 1,
   TRW SMALLINT DEFAULT 0,
