@@ -1,3 +1,24 @@
+# Get Started
+
+## NPM install
+Install the dependencies by executing the following command in the root directory:
+```
+npm install
+```
+
+## NPM run build
+This would just use the `tsc` command (TypeScript Compiler) and the `tsconfig.json` file in the root directory, in order to compile the files from `src` into JavaScript and relocate them in `dist` directory.
+```
+npm run build
+```
+
+## NPM run start
+This command could only be used right after building. It executes `app.js` from `dist` directory via node.
+```
+npm run start
+```
+
+
 # Overview of The Structure
 
 If you're only interested in running the app, then skip ahead to [NPM commands section](#NPM-commands).
@@ -51,24 +72,4 @@ src
     |   Server.ts
     |   ...
 
-```
-
-
-# NPM commands
-## NPM install
-Install the dependencies by executing the following command in the root directory:
-```
-npm install
-```
-
-## NPM run build
-This would just use the `tsc` command (TypeScript Compiler) and the `tsconfig.json` file in the root directory, in order to compile the files from `src` into JavaScript and relocate them in `dist` directory.
-```
-npm run build
-```
-
-## NPM run start
-This command could only be used right after building. It executes `app.js` from `dist` directory via node.
-```
-npm run start
 ```
