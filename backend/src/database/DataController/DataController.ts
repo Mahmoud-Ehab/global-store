@@ -1,6 +1,6 @@
 import { Client, QueryResult } from 'pg'
-import DataControllerInterface from '../interfaces/DataControllerInterface'
-import QueriesInterface from '../interfaces/QueriesInterface'
+import DataControllerInterface from './DataControllerInterface'
+import QueriesInterface from '../Queries/QueriesInterface'
 
 
 abstract class DataController<T> implements DataControllerInterface<T> {

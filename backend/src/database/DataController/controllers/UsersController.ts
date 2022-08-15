@@ -1,4 +1,4 @@
-import DataController from '../abstracts/DataController'
+import DataController from '../DataController'
 import User from '../types/User'
 
 class UsersController extends DataController<User> {  

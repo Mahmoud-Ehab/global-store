@@ -1,11 +1,11 @@
 import { Client } from "pg";
 
-import DataDriverInterface from "./interfaces/DataDriverInterface";
+import DataDriverInterface from "./DataDriverInterface";
 
-import Queries from "./Queries";
-import UsersController from './controllers/UsersController'
-import PublicationsController from './controllers/PublicationsController'
-import ReviewsController from './controllers/ReviewsController'
+import Queries from "../Queries/Queries";
+import UsersController from '../DataController/controllers/UsersController'
+import PublicationsController from '../DataController/controllers/PublicationsController'
+import ReviewsController from '../DataController/controllers/ReviewsController'
 
 
 class DataDriver implements DataDriverInterface{

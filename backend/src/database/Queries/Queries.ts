@@ -1,5 +1,5 @@
 import { QueryConfig } from "pg";
-import QueriesInterface from "./interfaces/QueriesInterface";
+import QueriesInterface from "./QueriesInterface";
 
 class Queries implements QueriesInterface {
   private tableName: string;

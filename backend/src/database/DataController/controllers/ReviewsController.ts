@@ -1,4 +1,4 @@
-import DataController from '../abstracts/DataController'
+import DataController from '../DataController'
 import Review from '../types/Review'
 
 class ReviewsController extends DataController<Review> {
