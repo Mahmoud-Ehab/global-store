@@ -1,5 +1,6 @@
 databasename="globalstore"
 
+dropdb ${databasename}
 createdb ${databasename}
 
 psql -d ${databasename} -f initRelations.sql
