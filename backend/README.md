@@ -42,35 +42,40 @@ the structure of "src" directory may be visualized as follow:
 src
 |   app.ts
 |
-|---database
-    |   DataDriver.ts
-    |   Queries.ts
-    |
-    |---abstract
-    |   |   DataController.ts
-    |   |
-    |
-    |---controllers
-    |   |   UsersController.ts
-    |   |   PublicationsController.ts
-    |   |   ReviewsController.ts
-    |
-    |---interfaces
-    |   |   DataControllerInterface.ts
-    |   |   DataDriverInterface.ts
-    |   |   QueriesInterface.ts
-    |
-    |---postgresql
-    |   |   initRelations.sql
-    |   |   ...
-    |
-    |---types
-    |   |   Publication.ts
-    |   |   Review.ts
-    |   |   User.ts
-    |
+|-database
+|   |
+|   |--DataController
+|   |   |   DataController.ts
+|   |   |   DataControllerInterface.ts
+|   |   |
+|   |   |---controllers
+|   |   |   |   UsersController.ts
+|   |   |   |   PublicationsController.ts
+|   |   |   |   ReviewsController.ts
+|   |   |   |
+|   |   |
+|   |   |---types
+|   |   |   |   Publication.ts
+|   |   |   |   Review.ts
+|   |   |   |   User.ts
+|   |   |
+|   |
+|   |--DataDriver
+|   |   |   DataDriver.ts
+|   |   |   DataDriverInterface.ts
+|   |   |   
+|   |
+|   |--postgresql
+|   |   |   initRelations.sql
+|   |   |   ...
+|   |   |   
+|   |
+|   |--Queries
+|   |   |   Queries.ts
+|   |   |   QueriesInterface.ts
+|   |   |
 |
-|---server
+|-server
     |   Server.ts
     |   ...
 
