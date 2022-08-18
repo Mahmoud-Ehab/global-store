@@ -1,11 +1,11 @@
-interface DataDriver {
-  get users(): Object;
-  get publications(): Object;
-  get reviews(): Object;
-  connectClient(): void;
-  endClient(): void;
+import DataController from "../DataController/DataControllerInterface";
+
+interface QueryManager {
+  get users(): DataController<any>;
+  get publications(): DataController<any>;
+  get reviews(): DataController<any>;
   query(func: Function): void;
   execute(): Promise<boolean | Error>;
 }
 
-export default DataDriver;
+export default QueryManager;
