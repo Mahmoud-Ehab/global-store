@@ -1,6 +1,6 @@
 import { Client } from "pg";
 
-import DataDriverInterface from "./DataDriverInterface";
+import DataDriverInterface from "./QueryManagerInterface";
 
 import Queries from "../Queries/Queries";
 import UsersController from '../DataController/controllers/UsersController'

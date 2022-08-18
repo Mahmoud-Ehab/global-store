@@ -1,4 +1,4 @@
-import DataDriver from './database/DataDriver'
+import DataDriver from './database/QueryManager/QueryManager'
 
 const dataDriver = new DataDriver();
 
