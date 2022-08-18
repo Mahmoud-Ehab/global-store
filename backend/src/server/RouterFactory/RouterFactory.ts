@@ -1,13 +1,17 @@
 import express = require("express");
 import RouterFactoryInterface from "./RouterFactoryInterface";
 import Endpoint from "../Endpoints/EndpointType";
+import QueryManagerInterface from "../../database/QueryManager/QueryManagerInterface";
 
 abstract class RouterFactory implements RouterFactoryInterface {
   private _router: express.Router;
   private _endpoints: Array<Endpoint>;
 
-  constructor() {
+  protected queryManager: QueryManagerInterface;
+
+  constructor(qm: QueryManagerInterface) {
     this._router = express.Router();
+    this.queryManager = qm;
     this._endpoints = [];
   }
 
