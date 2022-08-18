@@ -1,6 +1,6 @@
 import { Client } from "pg";
 
-import DataDriverInterface from "./QueryManagerInterface";
+import QueryManagerInterface from "./QueryManagerInterface";
 
 import Queries from "../Queries/Queries";
 import UsersController from '../DataController/controllers/UsersController'
@@ -8,7 +8,7 @@ import PublicationsController from '../DataController/controllers/PublicationsCo
 import ReviewsController from '../DataController/controllers/ReviewsController'
 
 
-class DataDriver implements DataDriverInterface{
+class QueryManager implements QueryManagerInterface{
   private client: Client;
   private queriesQueue: Array<Function> = [];
 
@@ -26,7 +26,7 @@ class DataDriver implements DataDriverInterface{
     return this.reviewsController;
   }
 
-  connectClient(): void {
+  private connect(): Promise<void> {
     this.client = new Client({
       host: 'localhost',
       user: 'mahmoudehab',
@@ -45,19 +45,26 @@ class DataDriver implements DataDriverInterface{
       this.client, 
       new Queries('reviews')
     );
-    this.client.connect();
+
+    return this.client.connect();
   }
 
-  endClient(): void {
-    this.client.end();
+  private disconnect(): void {
+    const endFunc = async () => this.client.end();
+    this.queriesQueue.push(endFunc);
   }
 
   query(func: Function): void {
-    this.queriesQueue.push(func);
+    const pushQuery = () => this.queriesQueue.push(func);
+    if (this.queriesQueue.length === 0)
+      this.connect().then(() => pushQuery());
+    else
+      pushQuery();
   }
 
   async execute(): Promise<boolean | Error> {
     try {
+      this.disconnect(); // push disconnect query
       while (this.queriesQueue.length > 0) {
         const queryFunc = this.queriesQueue.shift();
         if (queryFunc) await queryFunc();
@@ -70,4 +77,4 @@ class DataDriver implements DataDriverInterface{
   }
 }
 
-export default DataDriver;
+export default QueryManager;
