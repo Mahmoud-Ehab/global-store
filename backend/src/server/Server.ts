@@ -4,6 +4,7 @@ import RouterFactoryInterface from "./RouterFactory/RouterFactoryInterface";
 class Server {
   private expressApp: express.Application;
   private routersFactories: Array<RouterFactoryInterface>;
+  private appListener: any;
 
   constructor() {
     this.expressApp = express();
@@ -25,9 +26,14 @@ class Server {
       res.status(500).send({ error: err.message });
     });
 
-    this.expressApp.listen(5000, () => {
-      console.log(`Example app is hosting on http://localhost:${5000}`)
+    this.appListener = this.expressApp.listen(5000, () => {
+      console.log(`Example app is hosting on http://localhost:${5000}`);
     })
+  }
+
+  close(callback: Function) {
+    if (this.appListener)
+      this.appListener.close(callback);
   }
 
   addRouter(router: RouterFactoryInterface) {
