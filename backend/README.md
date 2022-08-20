@@ -77,6 +77,20 @@ src
 |
 |-server
     |   Server.ts
-    |   ...
+    |   
+    |--Endpoints
+    |   |   Endpoints.ts
+    |   |   EndpointType.ts
+    |   |
+    |
+    |--RouterFactory
+    |   |   RouterFactory.ts
+    |   |   RouterFactoryInterface.ts
+    |   |
+    |   |---factories
+    |   |   PublicationRouterFactory.ts
+    |   |   ReviewRouterFactory.ts
+    |   |   UserRouterFactory.ts
+    |   |   
 
 ```
