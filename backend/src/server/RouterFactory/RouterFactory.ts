@@ -8,6 +8,7 @@ abstract class RouterFactory implements RouterFactoryInterface {
   private _endpoints: Array<Endpoint>;
 
   protected queryManager: QueryManagerInterface;
+  protected _routerName: string;
 
   constructor(qm: QueryManagerInterface) {
     this._router = express.Router();
@@ -17,6 +18,10 @@ abstract class RouterFactory implements RouterFactoryInterface {
 
   get router(): express.Router {
     return this._router;
+  }
+
+  get routerName(): string {
+    return this._routerName;
   }
 
   get endpoints(): Array<Endpoint> {
