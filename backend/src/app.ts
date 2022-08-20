@@ -1,7 +1,11 @@
-import DataDriver from './database/QueryManager/QueryManager'
+import QueryManager from './database/QueryManager/QueryManager'
+import Server from './server/Server';
 
-const dataDriver = new DataDriver();
+import UserRouterFactory from './server/RouterFactory/factories/UserRouterFactory';
 
-dataDriver.connectClient();
-dataDriver.query(async () => console.log(await dataDriver.users.getAll()));
-dataDriver.execute().then(() => dataDriver.endClient());
+const queryManager = new QueryManager();
+const userRF = new UserRouterFactory(queryManager);
+const server = new Server();
+
+server.addRouter(userRF);
+server.start();
