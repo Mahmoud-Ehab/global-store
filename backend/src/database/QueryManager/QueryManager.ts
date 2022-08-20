@@ -50,16 +50,16 @@ class QueryManager implements QueryManagerInterface{
   }
 
   private disconnect(): void {
-    const endFunc = async () => this.client.end();
+    const endFunc = async () => await this.client.end();
     this.queriesQueue.push(endFunc);
   }
 
-  query(func: Function): void {
-    const pushQuery = () => this.queriesQueue.push(func);
-    if (this.queriesQueue.length === 0)
-      this.connect().then(() => pushQuery());
-    else
-      pushQuery();
+  query(func: Function): QueryManager {
+    if (this.queriesQueue.length === 0) {
+      this.connect();
+    }
+    this.queriesQueue.push(func);
+    return this;
   }
 
   async execute(): Promise<boolean | Error> {
