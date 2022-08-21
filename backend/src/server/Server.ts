@@ -1,4 +1,5 @@
 import express = require("express");
+import bodyParser = require("body-parser");
 import RouterFactoryInterface from "./RouterFactory/RouterFactoryInterface";
 
 class Server {
@@ -12,20 +13,24 @@ class Server {
   }
 
   start() {
-    // init route endpoint
+    // third-party middlewares
+    this.expressApp.use(bodyParser.json());
+
+    // router-level middlewares
+    this.loadRouters();
+
+    // application-level middlewares
     this.expressApp.get('/', (_req, _res) => {
       _res.send("Hello world");
     });
 
-    // load the routers
-    this.loadRouters();
-
-    // define an error handler middleware
+    // error-handling middlewares
     this.expressApp.use((err: any, req: any, res: any, next: any) => {
       console.log(err.stack);
       res.status(500).send({ error: err.message });
     });
 
+    // start the server
     this.appListener = this.expressApp.listen(5000, () => {
       console.log(`Example app is hosting on http://localhost:${5000}`);
     })
