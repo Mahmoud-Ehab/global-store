@@ -7,9 +7,14 @@ class Server {
   private routersFactories: Array<RouterFactoryInterface>;
   private appListener: any;
 
-  constructor() {
+  private host: string;
+  private port: number;
+
+  constructor(host: string, port: number) {
     this.expressApp = express();
     this.routersFactories = [];
+    this.host = host;
+    this.port = port;
   }
 
   start() {
@@ -31,8 +36,8 @@ class Server {
     });
 
     // start the server
-    this.appListener = this.expressApp.listen(5000, () => {
-      console.log(`Example app is hosting on http://localhost:${5000}`);
+    this.appListener = this.expressApp.listen(this.port, this.host, () => {
+      console.log(`Example app is hosting on http://localhost:${this.port}`);
     })
   }
 

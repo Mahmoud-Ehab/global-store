@@ -3,7 +3,7 @@ import Server from './server/Server';
 
 import UserRouterFactory from './server/RouterFactory/factories/UserRouterFactory';
 
-const server = new Server();
+const server = new Server("localhost", 5000);
 const queryManager = new QueryManager();
 const userRF = new UserRouterFactory(queryManager);
 
