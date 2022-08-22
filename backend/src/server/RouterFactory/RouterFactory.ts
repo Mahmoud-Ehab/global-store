@@ -42,6 +42,16 @@ abstract class RouterFactory implements RouterFactoryInterface {
     this._router.post(path, ...handlers);
   }
 
+  delete(path: string, ...handlers: express.Handler[]): void {
+    this._endpoints.push({text: path, type: 'DELETE'});
+    this._router.delete(path, ...handlers);
+  }
+
+  patch(path: string, ...handlers: express.Handler[]): void {
+    this._endpoints.push({text: path, type: 'PATCH'});
+    this._router.patch(path, ...handlers);
+  }
+
   private clone(_endpoints: Array<Endpoint>): Array<Endpoint> {
     const clonned: Array<Endpoint> = [];
     _endpoints.forEach(ep => clonned.push({...ep}));
