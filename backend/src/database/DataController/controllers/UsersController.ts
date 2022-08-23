@@ -6,9 +6,10 @@ class UsersController extends DataController<User> {
     const user: User = {
       id: data.id,
       username: data.username,
+      password: data.password,
       nickname: data.nickname,
       cr: data.cr,
-      trw: data.trw
+      trw: data.trw,
     }    
     return user;
   }
