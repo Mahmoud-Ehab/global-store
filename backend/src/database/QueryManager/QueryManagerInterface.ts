@@ -6,7 +6,7 @@ interface QueryManager {
   get users(): UsersController;
   get publications(): PublicationsController;
   get reviews(): ReviewsController;
-  query(func: Function): QueryManager;
+  query(func: () => Promise<any>): QueryManager;
   execute(): Promise<void>;
 }
 

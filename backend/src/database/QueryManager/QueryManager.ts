@@ -54,7 +54,7 @@ class QueryManager implements QueryManagerInterface{
     this.queriesQueue.push(endFunc);
   }
 
-  query(func: Function): QueryManager {
+  query(func: () => Promise<any>): QueryManager {
     if (this.queriesQueue.length === 0) {
       this.connect();
     }
