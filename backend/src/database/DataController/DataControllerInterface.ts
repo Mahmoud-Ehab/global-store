@@ -1,18 +1,14 @@
 import { QueryResult } from "pg";
 
-export type ErrorResponse = {
-  error: string;
-}
-
 interface DataController<T> {
-  get(id: number): Promise<T | ErrorResponse>;
-  getAll(): Promise<Array<T> | ErrorResponse>;
-  getLimit(limit: number): Promise<Array<T> | ErrorResponse>;
-  getFiltered(data: Partial<T>): Promise<Array<T> | ErrorResponse>;
+  get(id: number): Promise<T>;
+  getAll(): Promise<Array<T>>;
+  getLimit(limit: number): Promise<Array<T>>;
+  getFiltered(data: Partial<T>): Promise<Array<T>>;
 
-  insert(data: Partial<T>): Promise<QueryResult | ErrorResponse>;
-  update(id: number, data: Partial<T>): Promise<QueryResult | ErrorResponse>;
-  delete(id: number): Promise<QueryResult | ErrorResponse>;
+  insert(data: Partial<T>): Promise<object>;
+  update(id: number, data: Partial<T>): Promise<QueryResult>;
+  delete(id: number): Promise<QueryResult>;
 }
 
 export default DataController;

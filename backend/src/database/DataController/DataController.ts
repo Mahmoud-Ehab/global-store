@@ -1,5 +1,5 @@
 import { Client, QueryResult } from 'pg'
-import DataControllerInterface, { ErrorResponse } from './DataControllerInterface'
+import DataControllerInterface from './DataControllerInterface'
 import QueriesInterface from '../Queries/QueriesInterface'
 
 
@@ -12,19 +12,23 @@ abstract class DataController<T> implements DataControllerInterface<T> {
     this.queries = queries;
   }
 
-  async get(id: number): Promise<T | ErrorResponse> {
+  async get(id: number): Promise<T> {
     try {
       const query = this.queries.getById(id);
       const res = await this.client.query(query);
+
+      if (res.rows.length === 0)
+        return {} as T;
+
       const data = this.parseData(res.rows[0]);
       return data;
     }
     catch (e) {
-      return { error: e.message };
+      throw e;
     }
   }
 
-  async getAll(): Promise<T[] | ErrorResponse> {
+  async getAll(): Promise<T[]> {
     try {
       const query = this.queries.getAll();
       const res = await this.client.query(query);
@@ -34,11 +38,11 @@ abstract class DataController<T> implements DataControllerInterface<T> {
       return data;
     } 
     catch (e) {
-      return { error: e.message };
+      throw e;
     }
   }
 
-  async getLimit(limit: number): Promise<T[] | ErrorResponse> {
+  async getLimit(limit: number): Promise<T[]> {
     try {
       const query = this.queries.getLimit(limit);
       const res = await this.client.query(query);
@@ -48,11 +52,11 @@ abstract class DataController<T> implements DataControllerInterface<T> {
       return data;
     }
     catch (e) {
-      return { error: e.message };
+      throw e;
     }
   }
 
-  async getFiltered(filterOptions: Partial<T>): Promise<T[] | ErrorResponse> {
+  async getFiltered(filterOptions: Partial<T>): Promise<T[]> {
     try {
       const query = this.queries.getFiltered(filterOptions);
       const res = await this.client.query(query);
@@ -62,40 +66,40 @@ abstract class DataController<T> implements DataControllerInterface<T> {
       return data;
     }
     catch (e) {
-      return { error: e.message };
+      throw e;
     }
   }
 
-  async insert(data: Partial<T>): Promise<QueryResult | ErrorResponse> {
+  async insert(data: Partial<T>): Promise<QueryResult> {
     try {
       const query = this.queries.insert(data);
       const res = await this.client.query(query);
       return res;
     }
     catch (e) {
-      return { error: e.message };
+      throw e;
     }
   }
 
-  async update(id: number, data: Partial<T>): Promise<QueryResult | ErrorResponse> {
+  async update(id: number, data: Partial<T>): Promise<QueryResult> {
     try {
       const query = this.queries.update(id, data);
       const res = await this.client.query(query);
       return res;
     }
     catch (e) {
-      return { error: e.message };
+      throw e;
     }
   }
   
-  async delete(id: number): Promise<QueryResult | ErrorResponse> {
+  async delete(id: number): Promise<QueryResult> {
     try {  
       const query = this.queries.delete(id);
       const res = await this.client.query(query);
       return res;
     }
     catch (e) {
-      return { error: e.message };
+      throw e;
     }
   }
 
