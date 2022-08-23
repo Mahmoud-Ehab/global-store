@@ -1,11 +1,13 @@
-import DataController from "../DataController/DataControllerInterface";
+import PublicationsController from "../DataController/controllers/PublicationsController";
+import ReviewsController from "../DataController/controllers/ReviewsController";
+import UsersController from "../DataController/controllers/UsersController";
 
 interface QueryManager {
-  get users(): DataController<any>;
-  get publications(): DataController<any>;
-  get reviews(): DataController<any>;
+  get users(): UsersController;
+  get publications(): PublicationsController;
+  get reviews(): ReviewsController;
   query(func: Function): QueryManager;
-  execute(): Promise<boolean | Error>;
+  execute(): Promise<void>;
 }
 
 export default QueryManager;
