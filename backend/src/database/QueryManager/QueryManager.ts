@@ -62,14 +62,13 @@ class QueryManager implements QueryManagerInterface{
     return this;
   }
 
-  async execute(): Promise<boolean | Error> {
+  async execute(): Promise<void> {
     try {
       this.disconnect(); // push disconnect query
       while (this.queriesQueue.length > 0) {
         const queryFunc = this.queriesQueue.shift();
-        if (queryFunc) await queryFunc();
+        await queryFunc();
       }
-      return true;
     }
     catch (e) {
       throw e;
