@@ -15,7 +15,7 @@ class Queries implements QueriesInterface {
     });
   }
   
-  getById(id: string): QueryConfig<any[]> {
+  getById(id: string | number): QueryConfig<any[]> {
     return ({
       name: 'get-row-by-id',
       text: `SELECT * FROM ${this.tableName} WHERE id = $1`,
@@ -77,10 +77,10 @@ class Queries implements QueriesInterface {
     });
   }
 
-  update(id: number, data: Object): QueryConfig<any[]> {
+  update(id: string | number, data: Object): QueryConfig<any[]> {
     const text = `UPDATE ${this.tableName} 
-    SET ${Object.values(data).map((val, i) => `$${i+1}`).join()}
-    WHERE id=$${Object.values(data).length + 1}`;
+    SET ${Object.keys(data).map((key, i) => `${key}=$${i+1}`).join()}
+    WHERE id=$${Object.keys(data).length + 1}`;
 
     const values = [...Object.values(data), id];
     
@@ -91,7 +91,7 @@ class Queries implements QueriesInterface {
     });
   }
 
-  delete(id: number): QueryConfig<any[]> {
+  delete(id: string | number): QueryConfig<any[]> {
     return ({
       name: 'delete-data',
       text: `DELETE FROM ${this.tableName} WHERE id=$1`,
