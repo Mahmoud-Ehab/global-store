@@ -66,7 +66,8 @@ class UserRouterFactory extends RouterFactory {
       const reqBody = {
         username: req.body.username || next(BadRequest),
         password: req.body.password || next(BadRequest),
-        id: req.body.username ? this.generateId(req.body.username) : "",
+        //@TODO: remove this test once you finished testing
+        id: !req.body.id ? this.generateId(req.body.username) : req.body.id,
       };
 
       //@TODO: Encrypt the password in reqBody obj
@@ -83,6 +84,7 @@ class UserRouterFactory extends RouterFactory {
     this.delete('/delete', (req, res, next) => {
       const reqBody = {
         id: req.body.id || next(BadRequest), 
+        username: req.body.username || next(BadRequest),
         password: req.body.password || next(BadRequest)
       };
 
@@ -91,6 +93,7 @@ class UserRouterFactory extends RouterFactory {
       this.queryManager.query(async () => {
         const userResult = await this.queryManager.users.get(reqBody.id);
 
+        if (userResult.username === reqBody.username)
         if (userResult.password === reqBody.password) {
           await this.queryManager.users.delete(reqBody.id);
           res.json(Done());
@@ -105,14 +108,18 @@ class UserRouterFactory extends RouterFactory {
 
 
     this.patch('/update', (req, res, next) => {
-      const reqBody = req.body;
-      if (!reqBody.id) next(BadRequest);
+      const reqBody = {
+        id: req.body.id || next(BadRequest), 
+        username: req.body.username || next(BadRequest),
+        password: req.body.password || next(BadRequest)
+      };
 
       //@TODO: Encrypt the password in reqBody obj
 
       this.queryManager.query(async () => {
         const userResult = await this.queryManager.users.get(reqBody.id);
 
+        if (userResult.username === reqBody.username)
         if (userResult.password === reqBody.password) {
           await this.queryManager.users.update(reqBody.id, reqBody);
           res.json(Done());
