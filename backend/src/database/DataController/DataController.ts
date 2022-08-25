@@ -12,7 +12,7 @@ abstract class DataController<T> implements DataControllerInterface<T> {
     this.queries = queries;
   }
 
-  async get(id: string): Promise<T> {
+  async get(id: string | number): Promise<T> {
     try {
       const query = this.queries.getById(id);
       const res = await this.client.query(query);
@@ -81,7 +81,7 @@ abstract class DataController<T> implements DataControllerInterface<T> {
     }
   }
 
-  async update(id: number, data: Partial<T>): Promise<QueryResult> {
+  async update(id: string | number, data: Partial<T>): Promise<QueryResult> {
     try {
       const query = this.queries.update(id, data);
       const res = await this.client.query(query);
@@ -92,7 +92,7 @@ abstract class DataController<T> implements DataControllerInterface<T> {
     }
   }
   
-  async delete(id: number): Promise<QueryResult> {
+  async delete(id: string | number): Promise<QueryResult> {
     try {  
       const query = this.queries.delete(id);
       const res = await this.client.query(query);
