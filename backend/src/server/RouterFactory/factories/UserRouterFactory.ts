@@ -18,6 +18,11 @@ class UserRouterFactory extends RouterFactory {
 
       this.queryManager.query(async () => {
         const result = await this.queryManager.users.get(userid);
+        if (!result.id) {
+          res.json(NotFound);
+          return;
+        }
+        
         if (!result.id) res.json(NotFound);
         else res.json(Done({data: result}));
       })
@@ -50,6 +55,10 @@ class UserRouterFactory extends RouterFactory {
         const result = await this.queryManager.users.getFiltered({
           username: reqBody.username,
         })
+        if (!result[0]) {
+          res.json(NotFound);
+          return;
+        }
 
         if (result.length === 0) 
           res.json(NotFound);
@@ -92,6 +101,10 @@ class UserRouterFactory extends RouterFactory {
 
       this.queryManager.query(async () => {
         const userResult = await this.queryManager.users.get(reqBody.id);
+        if (!userResult.id) {
+          res.json(NotFound);
+          return;
+        }
 
         if (userResult.username === reqBody.username)
         if (userResult.password === reqBody.password) {
@@ -111,17 +124,22 @@ class UserRouterFactory extends RouterFactory {
       const reqBody = {
         id: req.body.id || next(BadRequest), 
         username: req.body.username || next(BadRequest),
-        password: req.body.password || next(BadRequest)
+        password: req.body.password || next(BadRequest),
+        data: req.body.data || next(BadRequest)
       };
 
       //@TODO: Encrypt the password in reqBody obj
 
       this.queryManager.query(async () => {
         const userResult = await this.queryManager.users.get(reqBody.id);
+        if (!userResult.id) {
+          res.json(NotFound);
+          return;
+        }
 
         if (userResult.username === reqBody.username)
         if (userResult.password === reqBody.password) {
-          await this.queryManager.users.update(reqBody.id, reqBody);
+          await this.queryManager.users.update(reqBody.id, reqBody.data);
           res.json(Done());
           return;
         }
