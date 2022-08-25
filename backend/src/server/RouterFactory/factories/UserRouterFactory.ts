@@ -1,5 +1,3 @@
-import e = require("express");
-import { DatabaseError } from "pg";
 import { 
   Authenticated,
   AuthenticationFailed, 
@@ -10,7 +8,7 @@ import {
 } from "../Responses";
 import RouterFactory from "../RouterFactory";
 
-/* 
+/*
   @TODO: Test the code by using Postman
   @TODO: GenereId in registering
 */
@@ -71,6 +69,7 @@ class UserRouterFactory extends RouterFactory {
 
     this.post('/register', (req, res, next) => {
       const reqBody = {
+        id: this.generateId(req.body.username),
         username: req.body.username || next(BadRequest),
         password: req.body.password || next(BadRequest),
       };
@@ -130,6 +129,11 @@ class UserRouterFactory extends RouterFactory {
       .execute()
       .catch(e => next(DBError(e.code)));
     });
+  }
+
+  private generateId = (username: string): string => {
+    const randnum = Math.floor(Math.random() * 10000);
+    return username.slice(0, 2) + randnum;
   }
 }
 
