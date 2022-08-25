@@ -2,7 +2,7 @@ import { QueryConfig } from "pg";
 
 interface Queries {
   getAll(): QueryConfig;
-  getById(id: number): QueryConfig;
+  getById(id: string): QueryConfig;
   getLimit(limit: number): QueryConfig;
   getFiltered(filter: Object): QueryConfig;
   getRegEx(filter: Object): QueryConfig;

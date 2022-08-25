@@ -14,8 +14,7 @@ class UserRouterFactory extends RouterFactory {
 
   init() {
     this.get('/:userid', (req, res, next) => {
-      const userid = parseInt(req.params.userid);
-      if (isNaN(userid)) next(BadRequest);
+      const userid = req.params.userid;
 
       this.queryManager.query(async () => {
         const result = await this.queryManager.users.get(userid);

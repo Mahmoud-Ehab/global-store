@@ -12,7 +12,7 @@ abstract class DataController<T> implements DataControllerInterface<T> {
     this.queries = queries;
   }
 
-  async get(id: number): Promise<T> {
+  async get(id: string): Promise<T> {
     try {
       const query = this.queries.getById(id);
       const res = await this.client.query(query);

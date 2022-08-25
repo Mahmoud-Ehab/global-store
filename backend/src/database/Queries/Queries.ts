@@ -15,7 +15,7 @@ class Queries implements QueriesInterface {
     });
   }
   
-  getById(id: number): QueryConfig<any[]> {
+  getById(id: string): QueryConfig<any[]> {
     return ({
       name: 'get-row-by-id',
       text: `SELECT * FROM ${this.tableName} WHERE id = $1`,
