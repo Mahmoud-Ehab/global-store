@@ -8,10 +8,6 @@ import {
 } from "../Responses";
 import RouterFactory from "../RouterFactory";
 
-/*
-  @TODO: Test the code by using Postman
-  @TODO: GenereId in registering
-*/
 
 class UserRouterFactory extends RouterFactory {
   _routerName = "user";
@@ -69,9 +65,9 @@ class UserRouterFactory extends RouterFactory {
 
     this.post('/register', (req, res, next) => {
       const reqBody = {
-        id: this.generateId(req.body.username),
         username: req.body.username || next(BadRequest),
         password: req.body.password || next(BadRequest),
+        id: req.body.username ? this.generateId(req.body.username) : "",
       };
 
       //@TODO: Encrypt the password in reqBody obj
