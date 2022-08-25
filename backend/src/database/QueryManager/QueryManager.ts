@@ -72,7 +72,7 @@ class QueryManager implements QueryManagerInterface{
     }
     catch (e) {
       // disconnect before throwing the error
-      const disconnectFunc = this.queriesQueue.pop()();
+      const disconnectFunc = this.queriesQueue.pop();
       await disconnectFunc();
       throw e;
     }
