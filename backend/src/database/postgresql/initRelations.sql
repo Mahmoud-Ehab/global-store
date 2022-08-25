@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS users (
-  id serial NOT NULL PRIMARY KEY,
+  id varchar(6) NOT NULL PRIMARY KEY,
   username varchar(20) NOT NULL UNIQUE,
   password varchar(256) NOT NULL,
   nickname varchar(20),
@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS publications (
   id serial NOT NULL PRIMARY KEY,
-  user_id int NOT NULL REFERENCES users(id),
+  user_id varchar(6) NOT NULL REFERENCES users(id),
   title varchar(45) NOT NULL,
   description varchar(512),
   price int NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS publications (
 
 CREATE TABLE IF NOT EXISTS reviews (
   id serial NOT NULL PRIMARY KEY,
-  user_id int NOT NULL REFERENCES users(id),
+  user_id varchar(6) NOT NULL REFERENCES users(id),
   pub_id int NOT NULL REFERENCES publications(id),
   title varchar(45) NOT NULL,
   body varchar(512) NOT NULL
