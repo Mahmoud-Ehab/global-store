@@ -8,7 +8,7 @@ class PublicationsController extends DataController<Publication> {
       user_id: data.user_id,
       title: data.title,
       description: data.description,
-      cost: data.cost,
+      price: data.price,
       currency: data.currency,
       phone: data.phone
     }    

@@ -3,7 +3,7 @@ type Publication = {
   user_id: number,
   title: string,
   description: string,
-  cost: number,
+  price: number,
   currency: string,
   phone: string,
 }

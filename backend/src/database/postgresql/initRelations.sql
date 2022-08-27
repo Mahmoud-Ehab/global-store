@@ -19,9 +19,8 @@ CREATE TABLE IF NOT EXISTS publications (
 );
 
 CREATE TABLE IF NOT EXISTS reviews (
-  id serial NOT NULL PRIMARY KEY,
-  user_id varchar(6) NOT NULL REFERENCES users(id),
-  pub_id int NOT NULL REFERENCES publications(id),
+  user_id varchar(6) NOT NULL REFERENCES users(id) PRIMARY KEY,
+  pub_id int NOT NULL REFERENCES publications(id) PRIMARY KEY,
   title varchar(45) NOT NULL,
   body varchar(512) NOT NULL
 );
