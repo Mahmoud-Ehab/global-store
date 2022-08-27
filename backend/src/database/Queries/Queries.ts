@@ -10,14 +10,14 @@ class Queries implements QueriesInterface {
 
   getAll(): QueryConfig<any[]> {
     return ({
-      name: 'get-all-rows',
+      name: `${this.tableName}-get-all-rows`,
       text: `SELECT * FROM ${this.tableName}`,
     });
   }
   
   getById(id: string | number): QueryConfig<any[]> {
     return ({
-      name: 'get-row-by-id',
+      name: `${this.tableName}-get-row-by-id`,
       text: `SELECT * FROM ${this.tableName} WHERE id = $1`,
       values: [id],
     });
@@ -25,7 +25,7 @@ class Queries implements QueriesInterface {
 
   getLimit(limit: number): QueryConfig<any[]> {
     return ({
-      name: 'get-all-with-limit',
+      name: `${this.tableName}-get-all-with-limit`,
       text: `SELECT * FROM ${this.tableName} LIMIT $1`,
       values: [limit]
     });
@@ -41,7 +41,7 @@ class Queries implements QueriesInterface {
     values.push(...Object.values(filter));
   
     return ({
-      name: 'get-filtered-data',
+      name: `${this.tableName}-get-filtered-data`,
       text,
       values,
     });
@@ -57,7 +57,7 @@ class Queries implements QueriesInterface {
     values.push(...Object.values(filter));
   
     return ({
-      name: 'get-filtered-data-with-regex',
+      name: `${this.tableName}-get-filtered-data-with-regex`,
       text,
       values,
     });
@@ -71,7 +71,7 @@ class Queries implements QueriesInterface {
     const values = [...Object.values(data)];
     
     return ({
-      name: 'insert-data',
+      name: `${this.tableName}-insert-data`,
       text,
       values,
     });
@@ -85,7 +85,7 @@ class Queries implements QueriesInterface {
     const values = [...Object.values(data), id];
     
     return ({
-      name: 'update-data',
+      name: `${this.tableName}-update-data`,
       text,
       values,
     });
@@ -93,7 +93,7 @@ class Queries implements QueriesInterface {
 
   delete(id: string | number): QueryConfig<any[]> {
     return ({
-      name: 'delete-data',
+      name: `${this.tableName}-delete-data`,
       text: `DELETE FROM ${this.tableName} WHERE id=$1`,
       values: [id],
     });
