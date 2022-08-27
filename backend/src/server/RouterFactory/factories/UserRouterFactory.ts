@@ -22,9 +22,8 @@ class UserRouterFactory extends RouterFactory {
           res.json(NotFound);
           return;
         }
-        
-        if (!result.id) res.json(NotFound);
-        else res.json(Done({data: result}));
+        result.password = undefined;
+        res.json(Done({data: result}));
       })
       .execute()
       .catch(e =>next(DBError(e.code)));
@@ -36,6 +35,8 @@ class UserRouterFactory extends RouterFactory {
 
       this.queryManager.query(async () => {
         const result = await this.queryManager.users.getLimit(limit);
+        for (const user of result)
+          user.password = undefined;
         res.json(Done({data: result}));
       })
       .execute()
