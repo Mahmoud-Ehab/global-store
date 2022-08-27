@@ -21,7 +21,7 @@ export const Authenticated: Response = {
 
 export const BadRequest: Response = {
   code: 400,
-  message: "The request cannot be fulfilled, the request data is insufficient.", 
+  message: "The request cannot be fulfilled, the request data is insufficient or wrong.", 
 }
 
 export const AuthenticationFailed: Response = {
