@@ -17,8 +17,10 @@ class UserRouterFactory extends RouterFactory {
 
       this.queryManager.query(async () => {
         const result = await this.queryManager.users.get(userid);
-        if (!result.id) 
+        if (!result.id) {
           next(NotFound);
+          return;
+        }
           
         result.password = undefined;
         res.json(Done({data: result}));
@@ -29,7 +31,10 @@ class UserRouterFactory extends RouterFactory {
 
     this.get('/limit/:limit', (req, res, next) => {
       const limit = parseInt(req.params.limit);
-      if (isNaN(limit)) next(BadRequest);
+      if (isNaN(limit)) { 
+        next(BadRequest)
+        return; 
+      }
 
       this.queryManager.query(async () => {
         const result = await this.queryManager.users.getLimit(limit);
@@ -46,9 +51,13 @@ class UserRouterFactory extends RouterFactory {
 
     this.post('/login', (req, res, next) => {
       const reqBody = {
-        username: req.body.username || next(BadRequest),
-        password: req.body.password || next(BadRequest),
+        username: req.body.username,
+        password: req.body.password,
       };
+      if (this.hasUndefined(reqBody)) {
+        next(BadRequest);
+        return;
+      }
 
       //@TODO: Encrypt the password in reqBody obj
 
@@ -56,25 +65,31 @@ class UserRouterFactory extends RouterFactory {
         const result = await this.queryManager.users.getFiltered({
           username: reqBody.username,
         })
-        if (!result[0]) 
+        if (!result[0]) {
           next(NotFound);
-
-        if (result[0].password !== reqBody.password)
+          return;
+        }
+        if (result[0].password !== reqBody.password) {
           next(AuthenticationFailed);
-
+          return;
+        }
         res.json(Authenticated);
       })
       .execute()
-      .catch(e =>next(DBError(e.code)));
+      .catch(e => next(DBError(e.code)));
     });
 
     this.post('/register', (req, res, next) => {
       const reqBody = {
-        username: req.body.username || next(BadRequest),
-        password: req.body.password || next(BadRequest),
+        username: req.body.username,
+        password: req.body.password,
         //@TODO: remove this test once you finished testing
         id: !req.body.id ? this.generateId(req.body.username) : req.body.id,
       };
+      if (this.hasUndefined(reqBody)) {
+        next(BadRequest);
+        return;
+      }
 
       //@TODO: Encrypt the password in reqBody obj
 
@@ -89,23 +104,29 @@ class UserRouterFactory extends RouterFactory {
 
     this.delete('/delete', (req, res, next) => {
       const reqBody = {
-        id: req.body.id || next(BadRequest), 
-        username: req.body.username || next(BadRequest),
-        password: req.body.password || next(BadRequest)
+        id: req.body.id, 
+        username: req.body.username,
+        password: req.body.password
       };
+      if (this.hasUndefined(reqBody)) {
+        next(BadRequest);
+        return;
+      }
 
       //@TODO: Encrypt the password in reqBody obj
 
       this.queryManager.query(async () => {
         const userResult = await this.queryManager.users.get(reqBody.id);
-        if (!userResult.id)
+        if (!userResult.id) {
           next(NotFound);
-
-        if (!this.auth(userResult, reqBody))
+          return;
+        }
+        if (!this.auth(userResult, reqBody)) {
           next(AuthenticationFailed);
-
+          return;
+        }
         await this.queryManager.users.delete(reqBody.id);
-        res.json(Done());   
+        res.json(Done());
       })
       .execute()
       .catch(e => next(DBError(e.code)));
@@ -121,17 +142,23 @@ class UserRouterFactory extends RouterFactory {
         username: req.body.username || next(BadRequest),
         password: req.body.password || next(BadRequest)
       };
+      if (this.hasUndefined(reqBody, credentials)) {
+        next(BadRequest);
+        return;
+      }
 
       //@TODO: Encrypt the password in reqBody obj
 
       this.queryManager.query(async () => {
         const userResult = await this.queryManager.users.get(reqBody.id);
-        if (!userResult.id)
+        if (!userResult.id) {
           next(NotFound);
-
-        if (!this.auth(userResult, credentials))
+          return;
+        }
+        if (!this.auth(userResult, credentials)) {
           next(AuthenticationFailed);
-
+          return;
+        }
         await this.queryManager.users.update(reqBody.id, reqBody.data);
         res.json(Done());
       })
