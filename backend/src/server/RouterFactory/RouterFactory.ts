@@ -25,7 +25,7 @@ abstract class RouterFactory implements RouterFactoryInterface {
   }
 
   get endpoints(): Array<Endpoint> {
-    return this.clone(this._endpoints);
+    return this.cloneEndpoints(this._endpoints);
   }
 
   init(): void {
@@ -52,7 +52,15 @@ abstract class RouterFactory implements RouterFactoryInterface {
     this._router.patch(path, ...handlers);
   }
 
-  private clone(_endpoints: Array<Endpoint>): Array<Endpoint> {
+  protected auth(data: any, credentials: any) {
+    for (const key of Object.keys(credentials)) {
+      if (credentials[key] !== data[key])
+        return false;
+    }
+    return true;
+  }
+
+  private cloneEndpoints(_endpoints: Array<Endpoint>): Array<Endpoint> {
     const clonned: Array<Endpoint> = [];
     _endpoints.forEach(ep => clonned.push({...ep}));
     return clonned;
