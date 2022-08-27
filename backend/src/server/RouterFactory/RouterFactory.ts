@@ -53,11 +53,20 @@ abstract class RouterFactory implements RouterFactoryInterface {
   }
 
   protected auth(data: any, credentials: any) {
-    for (const key of Object.keys(credentials)) {
+    for (const key in credentials) {
       if (credentials[key] !== data[key])
         return false;
     }
     return true;
+  }
+
+  protected hasUndefined(...objs: any) {
+    for (const obj of objs) {
+      for (const key in obj)
+        if (obj[key] === undefined)
+          return true;
+    }
+    return false;
   }
 
   private cloneEndpoints(_endpoints: Array<Endpoint>): Array<Endpoint> {
