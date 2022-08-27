@@ -31,7 +31,7 @@ class Server {
 
     // error-handling middlewares
     this.expressApp.use((err: any, req: any, res: any, next: any) => {
-      res.status(err.code).send(err);
+      res.status(err.code).json(err);
     });
 
     // start the server
