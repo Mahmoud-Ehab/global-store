@@ -8,7 +8,6 @@ import {
 } from "../Responses";
 import RouterFactory from "../RouterFactory";
 
-
 class UserRouterFactory extends RouterFactory {
   _routerName = "user";
 
@@ -18,10 +17,9 @@ class UserRouterFactory extends RouterFactory {
 
       this.queryManager.query(async () => {
         const result = await this.queryManager.users.get(userid);
-        if (!result.id) {
-          res.json(NotFound);
-          return;
-        }
+        if (!result.id) 
+          next(NotFound);
+          
         result.password = undefined;
         res.json(Done({data: result}));
       })
@@ -35,8 +33,10 @@ class UserRouterFactory extends RouterFactory {
 
       this.queryManager.query(async () => {
         const result = await this.queryManager.users.getLimit(limit);
+
         for (const user of result)
           user.password = undefined;
+
         res.json(Done({data: result}));
       })
       .execute()
@@ -56,17 +56,13 @@ class UserRouterFactory extends RouterFactory {
         const result = await this.queryManager.users.getFiltered({
           username: reqBody.username,
         })
-        if (!result[0]) {
-          res.json(NotFound);
-          return;
-        }
+        if (!result[0]) 
+          next(NotFound);
 
-        if (result.length === 0) 
-          res.json(NotFound);
-        else if (result[0].password === reqBody.password)
-          res.json(Authenticated);
-        else
-          res.json(AuthenticationFailed);
+        if (result[0].password !== reqBody.password)
+          next(AuthenticationFailed);
+
+        res.json(Authenticated);
       })
       .execute()
       .catch(e =>next(DBError(e.code)));
@@ -102,19 +98,14 @@ class UserRouterFactory extends RouterFactory {
 
       this.queryManager.query(async () => {
         const userResult = await this.queryManager.users.get(reqBody.id);
-        if (!userResult.id) {
-          res.json(NotFound);
-          return;
-        }
+        if (!userResult.id)
+          next(NotFound);
 
-        if (userResult.username === reqBody.username)
-        if (userResult.password === reqBody.password) {
-          await this.queryManager.users.delete(reqBody.id);
-          res.json(Done());
-          return;
-        }
+        if (!this.auth(userResult, reqBody))
+          next(AuthenticationFailed);
 
-        res.json(AuthenticationFailed);
+        await this.queryManager.users.delete(reqBody.id);
+        res.json(Done());   
       })
       .execute()
       .catch(e => next(DBError(e.code)));
@@ -124,28 +115,25 @@ class UserRouterFactory extends RouterFactory {
     this.patch('/update', (req, res, next) => {
       const reqBody = {
         id: req.body.id || next(BadRequest), 
-        username: req.body.username || next(BadRequest),
-        password: req.body.password || next(BadRequest),
         data: req.body.data || next(BadRequest)
+      };
+      const credentials = {
+        username: req.body.username || next(BadRequest),
+        password: req.body.password || next(BadRequest)
       };
 
       //@TODO: Encrypt the password in reqBody obj
 
       this.queryManager.query(async () => {
         const userResult = await this.queryManager.users.get(reqBody.id);
-        if (!userResult.id) {
-          res.json(NotFound);
-          return;
-        }
+        if (!userResult.id)
+          next(NotFound);
 
-        if (userResult.username === reqBody.username)
-        if (userResult.password === reqBody.password) {
-          await this.queryManager.users.update(reqBody.id, reqBody.data);
-          res.json(Done());
-          return;
-        }
+        if (!this.auth(userResult, credentials))
+          next(AuthenticationFailed);
 
-        res.json(AuthenticationFailed);
+        await this.queryManager.users.update(reqBody.id, reqBody.data);
+        res.json(Done());
       })
       .execute()
       .catch(e => next(DBError(e.code)));
