@@ -9,12 +9,12 @@ class Queries implements QueriesInterface {
   }
 
   get(filter: Object): QueryConfig<any[]> { 
-    let text = `SELECT * FROM ${this.tableName} WHERE`;
+    const filterKeys = Object.keys(filter);
+    const text = `
+      SELECT * FROM ${this.tableName} 
+      WHERE ${filterKeys.map((key,i) => `${key}=$${i+1}`).join(' AND ')}
+    `
     const values = [...Object.values(filter)]
-  
-    Object.keys(filter).forEach((key, i) => {
-      text += ` ${key}=$${i+1}`;
-    });
   
     return ({
       name: `${this.tableName}-get-data`,
@@ -38,14 +38,13 @@ class Queries implements QueriesInterface {
     });
   }
 
-  getRegEx(filter: Object): QueryConfig<any[]> { 
-    let text = `SELECT * FROM ${this.tableName} WHERE`;
-    const values: Array<any> = [];
-  
-    Object.keys(filter).forEach((key, i) => {
-      text += ` ${key} LIKE $${i+1}`;
-    });
-    values.push(...Object.values(filter));
+  getRegEx(filter: Object): QueryConfig<any[]> {
+    const filterKeys = Object.keys(filter);
+    const text = `
+      SELECT * FROM ${this.tableName} 
+      WHERE ${filterKeys.map((key,i) => `${key}=$${i+1}`).join(' AND ')}
+    `
+    const values = [...Object.values(filter)];
   
     return ({
       name: `${this.tableName}-get-filtered-data-with-regex`,
@@ -60,7 +59,6 @@ class Queries implements QueriesInterface {
       ${this.tableName}(${Object.keys(data).join()})
       VALUES(${Object.values(data).map((_, i) => `$${i+1}`).join()})
     `
-
     const values = [...Object.values(data)];
     
     return ({
@@ -79,7 +77,7 @@ class Queries implements QueriesInterface {
     `
       UPDATE ${this.tableName} 
       SET ${dataKeys.map((key, i) => `${key}=$${i+1}`).join()}
-      WHERE ${filterKeys.map((key, i) => `${key}=$${whereIndex + i}`).join()}
+      WHERE ${filterKeys.map((key, i) => `${key}=$${whereIndex + i}`).join(' AND ')}
     `
 
     const values = [
@@ -95,12 +93,12 @@ class Queries implements QueriesInterface {
   }
 
   delete(filter: object): QueryConfig<any[]> {
-    let text = `DELETE FROM ${this.tableName} WHERE`
+    const filterKeys = Object.keys(filter);
+    const text = `
+      DELETE FROM ${this.tableName} 
+      WHERE ${filterKeys.map((key,i) => `${key}=$${i+1}`).join(' AND ')}
+    `
     const values = [...Object.values(filter)]
-  
-    Object.keys(filter).forEach((key, i) => {
-      text += ` ${key}=$${i+1}`;
-    });
     
     return ({
       name: `${this.tableName}-delete-data`,
