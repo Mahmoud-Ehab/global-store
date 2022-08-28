@@ -118,7 +118,7 @@ class PublicationRouterFactory extends RouterFactory {
           next(NotFound);
           return;
         }
-        await this.queryManager.publications.delete(publication.id);
+        await this.queryManager.publications.delete({id: publication.id});
         res.json(Done());
       })
       .execute()
