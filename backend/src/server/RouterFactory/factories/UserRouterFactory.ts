@@ -108,7 +108,7 @@ class UserRouterFactory extends RouterFactory {
 
 
     /* Delete user with its id, and  after auth succeeds */
-    this.delete(UserEndpoints.deleteUser, (req, res, next) => {
+    this.delete(UserEndpoints.remove, (req, res, next) => {
       const reqBody = {
         id: req.body.id, 
         username: req.body.username,
@@ -140,7 +140,7 @@ class UserRouterFactory extends RouterFactory {
 
 
     /* Update certain user info */
-    this.patch(UserEndpoints.updateUser, (req, res, next) => {
+    this.patch(UserEndpoints.update, (req, res, next) => {
       const reqBody = {
         id: req.body.id || next(BadRequest), 
         data: req.body.data || next(BadRequest)

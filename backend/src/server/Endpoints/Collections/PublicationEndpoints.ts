@@ -7,7 +7,7 @@ export const getPublication: Endpoint = {
 }
 
 export const getPublicationsOfUser: Endpoint = {
-  path: (userid: number) => `/publication/of/user/${userid}`,
+  path: (userid) => `/publication/of/user/${userid}`,
   expressPath: '/of/user/:userid',
   type: 'GET',
 }
@@ -18,7 +18,7 @@ export const create: Endpoint = {
   type: 'POST',
 }
 
-export const deletePublicaiton: Endpoint = {
+export const remove: Endpoint = {
   path: () => '/publication/delete',
   expressPath: '/delete',
   type: 'DELETE',

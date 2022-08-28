@@ -91,7 +91,7 @@ class PublicationRouterFactory extends RouterFactory {
     })
 
     /* delete a publication from the database */
-    this.delete(PublicationEndpoints.deletePublicaiton, (req, res, next) => {
+    this.delete(PublicationEndpoints.remove, (req, res, next) => {
       const reqBody = {
         id: req.body.id,
         user_id: req.body.user_id

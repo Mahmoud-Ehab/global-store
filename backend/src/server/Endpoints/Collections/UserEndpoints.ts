@@ -1,7 +1,7 @@
 import { Endpoint } from "../type";
 
 export const getUser: Endpoint = {
-  path: (id: number) => `/user/${id}`,
+  path: (id) => `/user/${id}`,
   expressPath: '/:userid',
   type: 'GET'
 }
@@ -24,14 +24,14 @@ export const register: Endpoint = {
   type: 'POST'
 }
 
-export const deleteUser: Endpoint = {
-  path: () => `/user/delete`,
-  expressPath: '/delete',
-  type: 'DELETE'
-}
-
-export const updateUser: Endpoint = {
+export const update: Endpoint = {
   path: (limit: number) => `/user/update`,
   expressPath: '/update',
   type: 'PATCH'
+}
+
+export const remove: Endpoint = {
+  path: () => `/user/delete`,
+  expressPath: '/delete',
+  type: 'DELETE'
 }
