@@ -1,3 +1,4 @@
+import { UserEndpoints } from "../../Endpoints";
 import { 
   Authenticated,
   AuthenticationFailed, 
@@ -12,7 +13,8 @@ class UserRouterFactory extends RouterFactory {
   _routerName = "user";
 
   init() {
-    this.get('/:userid', (req, res, next) => {
+    /* Get User with a specific id */
+    this.get(UserEndpoints.getUser, (req, res, next) => {
       const userid = req.params.userid;
 
       this.queryManager.query(async () => {
@@ -29,7 +31,8 @@ class UserRouterFactory extends RouterFactory {
       .catch(e =>next(DBError(e.code)));
     });
 
-    this.get('/limit/:limit', (req, res, next) => {
+    /* Get list of a limited number of users */
+    this.get(UserEndpoints.getUsersLimit, (req, res, next) => {
       const limit = parseInt(req.params.limit);
       if (isNaN(limit)) { 
         next(BadRequest)
@@ -49,7 +52,8 @@ class UserRouterFactory extends RouterFactory {
     });
 
 
-    this.post('/login', (req, res, next) => {
+    /* Login Endpoint */
+    this.post(UserEndpoints.login, (req, res, next) => {
       const reqBody = {
         username: req.body.username,
         password: req.body.password,
@@ -79,7 +83,8 @@ class UserRouterFactory extends RouterFactory {
       .catch(e => next(DBError(e.code)));
     });
 
-    this.post('/register', (req, res, next) => {
+    /* Register new user Endpoint */
+    this.post(UserEndpoints.register, (req, res, next) => {
       const reqBody = {
         username: req.body.username,
         password: req.body.password,
@@ -102,7 +107,8 @@ class UserRouterFactory extends RouterFactory {
     });
 
 
-    this.delete('/delete', (req, res, next) => {
+    /* Delete user with its id, and  after auth succeeds */
+    this.delete(UserEndpoints.deleteUser, (req, res, next) => {
       const reqBody = {
         id: req.body.id, 
         username: req.body.username,
@@ -133,7 +139,8 @@ class UserRouterFactory extends RouterFactory {
     });
 
 
-    this.patch('/update', (req, res, next) => {
+    /* Update certain user info */
+    this.patch(UserEndpoints.updateUser, (req, res, next) => {
       const reqBody = {
         id: req.body.id || next(BadRequest), 
         data: req.body.data || next(BadRequest)

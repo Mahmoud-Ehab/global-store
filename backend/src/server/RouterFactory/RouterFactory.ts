@@ -1,11 +1,10 @@
 import express = require("express");
 import RouterFactoryInterface from "./RouterFactoryInterface";
-import Endpoint from "../Endpoints/EndpointType";
+import { Endpoint } from "../Endpoints/type";
 import QueryManagerInterface from "../../database/QueryManager/QueryManagerInterface";
 
 abstract class RouterFactory implements RouterFactoryInterface {
   private _router: express.Router;
-  private _endpoints: Array<Endpoint>;
 
   protected queryManager: QueryManagerInterface;
   protected _routerName: string;
@@ -13,7 +12,6 @@ abstract class RouterFactory implements RouterFactoryInterface {
   constructor(qm: QueryManagerInterface) {
     this._router = express.Router();
     this.queryManager = qm;
-    this._endpoints = [];
   }
 
   get router(): express.Router {
@@ -24,32 +22,24 @@ abstract class RouterFactory implements RouterFactoryInterface {
     return this._routerName;
   }
 
-  get endpoints(): Array<Endpoint> {
-    return this.cloneEndpoints(this._endpoints);
-  }
-
   init(): void {
     throw new Error("Method not implemented.");
   }
 
-  get(path: string, ...handlers: Array<express.Handler>) {
-    this._endpoints.push({text: path, type: 'GET'});
-    this._router.get(path, ...handlers);
+  get(endpoint: Endpoint, ...handlers: Array<express.Handler>) {
+    this._router.get(endpoint.expressPath, ...handlers);
   }
 
-  post(path: string, ...handlers: Array<express.Handler>) {
-    this._endpoints.push({text: path, type: 'POST'});
-    this._router.post(path, ...handlers);
+  post(endpoint: Endpoint, ...handlers: Array<express.Handler>) {
+    this._router.post(endpoint.expressPath, ...handlers);
   }
 
-  delete(path: string, ...handlers: express.Handler[]): void {
-    this._endpoints.push({text: path, type: 'DELETE'});
-    this._router.delete(path, ...handlers);
+  delete(endpoint: Endpoint, ...handlers: express.Handler[]): void {
+    this._router.delete(endpoint.expressPath, ...handlers);
   }
 
-  patch(path: string, ...handlers: express.Handler[]): void {
-    this._endpoints.push({text: path, type: 'PATCH'});
-    this._router.patch(path, ...handlers);
+  patch(endpoint: Endpoint, ...handlers: express.Handler[]): void {
+    this._router.patch(endpoint.expressPath, ...handlers);
   }
 
   protected auth(data: any, credentials: any) {

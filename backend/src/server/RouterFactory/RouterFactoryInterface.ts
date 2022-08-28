@@ -1,15 +1,15 @@
 import express = require("express");
-import Endpoint from "../Endpoints/EndpointType";
+import { Endpoint } from "../Endpoints/type";
 
 interface RouterFactory {
   get router(): express.Router;
   get routerName(): string;
-  get endpoints(): Array<Endpoint>;
+
   init(): void;
-  get(path: string, ...handlers: Array<express.Handler>): void;
-  post(path: string, ...handlers: Array<express.Handler>): void;
-  delete(path: string, ...handlers: Array<express.Handler>): void;
-  patch(path: string, ...handlers: Array<express.Handler>): void;
+  get(endpoint: Endpoint, ...handlers: Array<express.Handler>): void;
+  post(endpoint: Endpoint, ...handlers: Array<express.Handler>): void;
+  delete(endpoint: Endpoint, ...handlers: Array<express.Handler>): void;
+  patch(endpoint: Endpoint, ...handlers: Array<express.Handler>): void;
 }
 
 export default RouterFactory;

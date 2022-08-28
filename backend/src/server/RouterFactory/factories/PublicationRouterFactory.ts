@@ -1,11 +1,19 @@
-import { AuthenticationFailed, BadRequest, DBError, Done, NotFound } from "../Responses";
+import { PublicationEndpoints } from "../../Endpoints";
+import { 
+  AuthenticationFailed, 
+  BadRequest, 
+  DBError, 
+  Done, 
+  NotFound 
+} from "../Responses";
 import RouterFactory from "../RouterFactory";
 
 class PublicationRouterFactory extends RouterFactory {
   _routerName = "publication";
 
   init() {
-    this.get("/:pubid", (req, res, next) => {
+    /* get publication with a specific id */
+    this.get(PublicationEndpoints.getPublication, (req, res, next) => {
       const pubid = parseInt(req.params.pubid);
       if (isNaN(pubid)) {
         next(BadRequest);
@@ -23,7 +31,8 @@ class PublicationRouterFactory extends RouterFactory {
       .catch(e => next(DBError(e.code)))
     });
     
-    this.get("/of/user/:userid", (req, res, next) => {
+    /* get publications of a certain user */
+    this.get(PublicationEndpoints.getPublicationsOfUser, (req, res, next) => {
       const userid = parseInt(req.params.userid);
       if (isNaN(userid)) {
         next(BadRequest);
@@ -39,8 +48,8 @@ class PublicationRouterFactory extends RouterFactory {
       .catch(e => next(DBError(e.code)));
     });
 
-
-    this.post("/create", (req, res, next) => {
+    /* create a new publication in the database */
+    this.post(PublicationEndpoints.create, (req, res, next) => {
       const required = {
         //@TODO: remove id attribute
         id: req.body.id,
@@ -81,8 +90,8 @@ class PublicationRouterFactory extends RouterFactory {
       .catch(e => next(DBError(e.code)));
     })
 
-    
-    this.delete("/delete", (req, res, next) => {
+    /* delete a publication from the database */
+    this.delete(PublicationEndpoints.deletePublicaiton, (req, res, next) => {
       const reqBody = {
         id: req.body.id,
         user_id: req.body.user_id
