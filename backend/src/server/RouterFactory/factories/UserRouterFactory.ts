@@ -106,6 +106,39 @@ class UserRouterFactory extends RouterFactory {
       .catch(e => next(DBError(e.code)));
     });
 
+    /* Update certain user info */
+    this.patch(UserEndpoints.update, (req, res, next) => {
+      const reqBody = {
+        id: req.body.id, 
+        data: req.body.data
+      };
+      const credentials = {
+        username: req.body.username,
+        password: req.body.password
+      };
+      if (this.hasUndefined(reqBody, credentials)) {
+        next(BadRequest);
+        return;
+      }
+
+      //@TODO: Encrypt the password in reqBody obj
+
+      this.queryManager.query(async () => {
+        const userResult = await this.queryManager.users.get(reqBody.id);
+        if (!userResult.id) {
+          next(NotFound);
+          return;
+        }
+        if (!this.auth(userResult, credentials)) {
+          next(AuthenticationFailed);
+          return;
+        }
+        await this.queryManager.users.update(reqBody.data, {id: reqBody.id});
+        res.json(Done());
+      })
+      .execute()
+      .catch(e => next(DBError(e.code)));
+    });
 
     /* Delete user with its id, and  after auth succeeds */
     this.delete(UserEndpoints.remove, (req, res, next) => {
@@ -131,42 +164,7 @@ class UserRouterFactory extends RouterFactory {
           next(AuthenticationFailed);
           return;
         }
-        await this.queryManager.users.delete(reqBody.id);
-        res.json(Done());
-      })
-      .execute()
-      .catch(e => next(DBError(e.code)));
-    });
-
-
-    /* Update certain user info */
-    this.patch(UserEndpoints.update, (req, res, next) => {
-      const reqBody = {
-        id: req.body.id || next(BadRequest), 
-        data: req.body.data || next(BadRequest)
-      };
-      const credentials = {
-        username: req.body.username || next(BadRequest),
-        password: req.body.password || next(BadRequest)
-      };
-      if (this.hasUndefined(reqBody, credentials)) {
-        next(BadRequest);
-        return;
-      }
-
-      //@TODO: Encrypt the password in reqBody obj
-
-      this.queryManager.query(async () => {
-        const userResult = await this.queryManager.users.get(reqBody.id);
-        if (!userResult.id) {
-          next(NotFound);
-          return;
-        }
-        if (!this.auth(userResult, credentials)) {
-          next(AuthenticationFailed);
-          return;
-        }
-        await this.queryManager.users.update(reqBody.id, reqBody.data);
+        await this.queryManager.users.delete({id: reqBody.id});
         res.json(Done());
       })
       .execute()
