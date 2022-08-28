@@ -20,8 +20,8 @@ CREATE TABLE IF NOT EXISTS publications (
 
 CREATE TABLE IF NOT EXISTS reviews (
   user_id varchar(6) NOT NULL REFERENCES users(id),
-  pub_id int NOT NULL REFERENCES publications(id),
+  publication_id int NOT NULL REFERENCES publications(id),
   title varchar(45) NOT NULL,
   body varchar(512) NOT NULL,
-  PRIMARY KEY(user_id, pub_id)
+  PRIMARY KEY(user_id, publication_id)
 );
