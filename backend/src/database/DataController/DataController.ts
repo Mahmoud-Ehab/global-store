@@ -4,7 +4,7 @@ import QueriesInterface from '../Queries/QueriesInterface'
 
 
 abstract class DataController<T> implements DataControllerInterface<T> {
-  private client: Client;
+  protected client: Client;
   protected queries: QueriesInterface;
 
   constructor(client: Client, queries: QueriesInterface) {
@@ -12,8 +12,9 @@ abstract class DataController<T> implements DataControllerInterface<T> {
     this.queries = queries;
   }
 
-  async get(id: string | number): Promise<T> {
+  async get(...ids: any): Promise<T> {
     try {
+      const id = ids[0];
       const query = this.queries.getById(id);
       const res = await this.client.query(query);
 

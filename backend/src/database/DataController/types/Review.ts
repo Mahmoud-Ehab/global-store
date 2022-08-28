@@ -1,6 +1,5 @@
 type Review = {
-  id: number,
-  user_id: number,
+  user_id: string,
   publication_id: number,
   title: string,
   body: string,
