@@ -12,10 +12,9 @@ abstract class DataController<T> implements DataControllerInterface<T> {
     this.queries = queries;
   }
 
-  async get(...ids: any): Promise<T> {
+  async get(id: string | number): Promise<T> {
     try {
-      const id = ids[0];
-      const query = this.queries.getById(id);
+      const query = this.queries.get({id});
       const res = await this.client.query(query);
 
       if (res.rows.length === 0)
@@ -59,7 +58,7 @@ abstract class DataController<T> implements DataControllerInterface<T> {
 
   async getFiltered(filterOptions: Partial<T>): Promise<T[]> {
     try {
-      const query = this.queries.getFiltered(filterOptions);
+      const query = this.queries.get(filterOptions);
       const res = await this.client.query(query);
       
       const data: Array<T> = [];
@@ -82,9 +81,9 @@ abstract class DataController<T> implements DataControllerInterface<T> {
     }
   }
 
-  async update(id: string | number, data: Partial<T>): Promise<QueryResult> {
+  async update(data: Partial<T>, filter: object): Promise<QueryResult> {
     try {
-      const query = this.queries.update(id, data);
+      const query = this.queries.update(data, filter);
       const res = await this.client.query(query);
       return res;
     }
@@ -93,9 +92,9 @@ abstract class DataController<T> implements DataControllerInterface<T> {
     }
   }
   
-  async delete(id: string | number): Promise<QueryResult> {
+  async delete(filter: object): Promise<QueryResult> {
     try {  
-      const query = this.queries.delete(id);
+      const query = this.queries.delete(filter);
       const res = await this.client.query(query);
       return res;
     }

@@ -8,18 +8,25 @@ class Queries implements QueriesInterface {
     this.tableName = tableName;
   }
 
+  get(filter: Object): QueryConfig<any[]> { 
+    let text = `SELECT * FROM ${this.tableName} WHERE`;
+    const values = [...Object.values(filter)]
+  
+    Object.keys(filter).forEach((key, i) => {
+      text += ` ${key}=$${i+1}`;
+    });
+  
+    return ({
+      name: `${this.tableName}-get-data`,
+      text,
+      values,
+    });
+  }
+
   getAll(): QueryConfig<any[]> {
     return ({
       name: `${this.tableName}-get-all-rows`,
       text: `SELECT * FROM ${this.tableName}`,
-    });
-  }
-  
-  getById(id: string | number): QueryConfig<any[]> {
-    return ({
-      name: `${this.tableName}-get-row-by-id`,
-      text: `SELECT * FROM ${this.tableName} WHERE id = $1`,
-      values: [id],
     });
   }
 
@@ -28,22 +35,6 @@ class Queries implements QueriesInterface {
       name: `${this.tableName}-get-all-with-limit`,
       text: `SELECT * FROM ${this.tableName} LIMIT $1`,
       values: [limit]
-    });
-  }
-
-  getFiltered(filter: Object): QueryConfig<any[]> { 
-    let text = `SELECT * FROM ${this.tableName} WHERE`;
-    const values: Array<any> = [];
-  
-    Object.keys(filter).forEach((key, i) => {
-      text += ` ${key}=$${i+1}`;
-    });
-    values.push(...Object.values(filter));
-  
-    return ({
-      name: `${this.tableName}-get-filtered-data`,
-      text,
-      values,
     });
   }
 
@@ -64,9 +55,11 @@ class Queries implements QueriesInterface {
   }
 
   insert(data: Object): QueryConfig<any[]> {
-    const text = `INSERT INTO 
-    ${this.tableName}(${Object.keys(data).join()})
-    VALUES(${Object.values(data).map((val, i) => `$${i+1}`).join()})`;
+    const text = `
+      INSERT INTO 
+      ${this.tableName}(${Object.keys(data).join()})
+      VALUES(${Object.values(data).map((_, i) => `$${i+1}`).join()})
+    `
 
     const values = [...Object.values(data)];
     
@@ -77,12 +70,22 @@ class Queries implements QueriesInterface {
     });
   }
 
-  update(id: string | number, data: Object): QueryConfig<any[]> {
-    const text = `UPDATE ${this.tableName} 
-    SET ${Object.keys(data).map((key, i) => `${key}=$${i+1}`).join()}
-    WHERE id=$${Object.keys(data).length + 1}`;
+  update(data: Object, filter: object): QueryConfig<any[]> {
+    const whereIndex = Object.keys(data).length + 1;
+    const dataKeys = Object.keys(data);
+    const filterKeys = Object.keys(filter);
 
-    const values = [...Object.values(data), id];
+    const text = 
+    `
+      UPDATE ${this.tableName} 
+      SET ${dataKeys.map((key, i) => `${key}=$${i+1}`).join()}
+      WHERE ${filterKeys.map((key, i) => `${key}=$${whereIndex + i}`).join()}
+    `
+
+    const values = [
+      ...Object.values(data), 
+      ...Object.values(filter)
+    ];
     
     return ({
       name: `${this.tableName}-update-data`,
@@ -91,11 +94,18 @@ class Queries implements QueriesInterface {
     });
   }
 
-  delete(id: string | number): QueryConfig<any[]> {
+  delete(filter: object): QueryConfig<any[]> {
+    let text = `DELETE FROM ${this.tableName} WHERE`
+    const values = [...Object.values(filter)]
+  
+    Object.keys(filter).forEach((key, i) => {
+      text += ` ${key}=$${i+1}`;
+    });
+    
     return ({
       name: `${this.tableName}-delete-data`,
-      text: `DELETE FROM ${this.tableName} WHERE id=$1`,
-      values: [id],
+      text,
+      values
     });
   }
 }
