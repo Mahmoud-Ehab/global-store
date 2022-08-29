@@ -6,13 +6,13 @@ import {
   Done, 
   NotFound 
 } from "../Responses";
-import RouterFactory from "../RouterFactory";
+import RouterFactoryImp from "../RouterFactoryImp";
 
-class PublicationRouterFactory extends RouterFactory {
+class PublicationRouterFactory extends RouterFactoryImp {
   _routerName = "publication";
 
   init() {
-    /* get publication with a specific id */
+    /*** get publication with a specific id ***/
     this.get(PublicationEndpoints.getPublication, (req, res, next) => {
       const pubid = parseInt(req.params.pubid);
       if (isNaN(pubid)) {
@@ -31,7 +31,9 @@ class PublicationRouterFactory extends RouterFactory {
       .catch(e => next(DBError(e.code)))
     });
     
-    /* get publications of a certain user */
+
+
+    /*** get publications of a certain user ***/
     this.get(PublicationEndpoints.getPublicationsOfUser, (req, res, next) => {
       const userid = parseInt(req.params.userid);
       if (isNaN(userid)) {
@@ -48,7 +50,9 @@ class PublicationRouterFactory extends RouterFactory {
       .catch(e => next(DBError(e.code)));
     });
 
-    /* create a new publication in the database */
+
+
+    /*** create a new publication in the database ***/
     this.post(PublicationEndpoints.create, (req, res, next) => {
       const required = {
         //@TODO: remove id attribute
@@ -90,7 +94,9 @@ class PublicationRouterFactory extends RouterFactory {
       .catch(e => next(DBError(e.code)));
     })
 
-    /* delete a publication from the database */
+
+
+    /*** delete a publication from the database ***/
     this.delete(PublicationEndpoints.remove, (req, res, next) => {
       const reqBody = {
         id: req.body.id,

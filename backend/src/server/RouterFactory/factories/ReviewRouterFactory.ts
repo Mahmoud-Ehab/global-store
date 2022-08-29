@@ -1,8 +1,8 @@
 import { ReviewEndpoints } from "../../Endpoints";
 import { AuthenticationFailed, BadRequest, DBError, Done, NotFound } from "../Responses";
-import RouterFactory from "../RouterFactory";
+import RouterFactoryImp from "../RouterFactoryImp";
 
-class ReviewRouterFactory extends RouterFactory {
+class ReviewRouterFactory extends RouterFactoryImp {
   _routerName = "review";
 
   init() {

@@ -7,13 +7,13 @@ import {
   Done,
   NotFound, 
 } from "../Responses";
-import RouterFactory from "../RouterFactory";
+import RouterFactoryImp from "../RouterFactoryImp";
 
-class UserRouterFactory extends RouterFactory {
+class UserRouterFactory extends RouterFactoryImp {
   _routerName = "user";
 
   init() {
-    /* Get User with a specific id */
+    /*** Get User with a specific id ***/
     this.get(UserEndpoints.getUser, (req, res, next) => {
       const userid = req.params.userid;
 
@@ -31,7 +31,9 @@ class UserRouterFactory extends RouterFactory {
       .catch(e =>next(DBError(e.code)));
     });
 
-    /* Get list of a limited number of users */
+
+
+    /*** Get list of a limited number of users ***/
     this.get(UserEndpoints.getUsersLimit, (req, res, next) => {
       const limit = parseInt(req.params.limit);
       if (isNaN(limit)) { 
@@ -52,7 +54,8 @@ class UserRouterFactory extends RouterFactory {
     });
 
 
-    /* Login Endpoint */
+
+    /*** Login Endpoint ***/
     this.post(UserEndpoints.login, (req, res, next) => {
       const reqBody = {
         username: req.body.username,
@@ -83,7 +86,9 @@ class UserRouterFactory extends RouterFactory {
       .catch(e => next(DBError(e.code)));
     });
 
-    /* Register new user Endpoint */
+
+
+    /*** Register new user Endpoint ***/
     this.post(UserEndpoints.register, (req, res, next) => {
       const reqBody = {
         username: req.body.username,
@@ -106,7 +111,9 @@ class UserRouterFactory extends RouterFactory {
       .catch(e => next(DBError(e.code)));
     });
 
-    /* Update certain user info */
+
+
+    /*** Update certain user info ***/
     this.patch(UserEndpoints.update, (req, res, next) => {
       const reqBody = {
         id: req.body.id, 
@@ -140,7 +147,9 @@ class UserRouterFactory extends RouterFactory {
       .catch(e => next(DBError(e.code)));
     });
 
-    /* Delete user with its id, and  after auth succeeds */
+
+    
+    /*** Delete user with its id, and  after auth succeeds ***/
     this.delete(UserEndpoints.remove, (req, res, next) => {
       const reqBody = {
         id: req.body.id, 

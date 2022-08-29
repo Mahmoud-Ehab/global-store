@@ -1,10 +1,10 @@
 import express = require("express");
 import bodyParser = require("body-parser");
-import RouterFactoryInterface from "./RouterFactory/RouterFactoryInterface";
+import RouterFactory from "./RouterFactory/RouterFactory";
 
 class Server {
   private expressApp: express.Application;
-  private routersFactories: Array<RouterFactoryInterface>;
+  private routersFactories: Array<RouterFactory>;
   private appListener: any;
 
   private host: string;
@@ -45,7 +45,7 @@ class Server {
       this.appListener.close(callback);
   }
 
-  addRouter(router: RouterFactoryInterface) {
+  addRouter(router: RouterFactory) {
     this.routersFactories.push(router);
   }
 
