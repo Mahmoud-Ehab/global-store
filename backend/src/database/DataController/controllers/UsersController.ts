@@ -1,4 +1,4 @@
-import DataController from '../DataController'
+import DataControllerImp from '../DataControllerImp'
 
 type User = {
   id: string,
@@ -9,7 +9,7 @@ type User = {
   trw: number,
 }
 
-class UsersController extends DataController<User> {  
+class UsersController extends DataControllerImp<User> {  
   protected parseData(data: User): User {
     const user: User = {
       id: data.id,

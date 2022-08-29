@@ -1,4 +1,4 @@
-import DataController from '../DataController'
+import DataControllerImp from '../DataControllerImp'
 
 type Review = {
   user_id: string,
@@ -7,7 +7,7 @@ type Review = {
   body: string,
 }
 
-class ReviewsController extends DataController<Review> {
+class ReviewsController extends DataControllerImp<Review> {
   protected parseData(data: Review): Review {
     const review: Review = {
       user_id: data.user_id,

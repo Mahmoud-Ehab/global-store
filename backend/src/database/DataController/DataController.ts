@@ -1,111 +1,14 @@
-import { Client, QueryResult } from 'pg'
-import DataControllerInterface from './DataControllerInterface'
-import QueriesInterface from '../Queries/QueriesInterface'
+import { QueryResult } from "pg";
 
+interface DataController<T> {
+  get(id: string | number): Promise<T>;
+  getAll(): Promise<Array<T>>;
+  getLimit(limit: number): Promise<Array<T>>;
+  getFiltered(data: Partial<T>): Promise<Array<T>>;
 
-abstract class DataController<T> implements DataControllerInterface<T> {
-  protected client: Client;
-  protected queries: QueriesInterface;
-
-  constructor(client: Client, queries: QueriesInterface) {
-    this.client = client;
-    this.queries = queries;
-  }
-
-  async get(id: string | number): Promise<T> {
-    try {
-      const query = this.queries.get({id});
-      const res = await this.client.query(query);
-
-      if (res.rows.length === 0)
-        return {} as T;
-
-      const data = this.parseData(res.rows[0]);
-      return data;
-    }
-    catch (e) {
-      throw e;
-    }
-  }
-
-  async getAll(): Promise<T[]> {
-    try {
-      const query = this.queries.getAll();
-      const res = await this.client.query(query);
-
-      const data: Array<T> = [];
-      res.rows.forEach(row => data.push(this.parseData(row)));
-      return data;
-    } 
-    catch (e) {
-      throw e;
-    }
-  }
-
-  async getLimit(limit: number): Promise<T[]> {
-    try {
-      const query = this.queries.getLimit(limit);
-      const res = await this.client.query(query);
-      
-      const data: Array<T> = [];
-      res.rows.forEach(row => data.push(this.parseData(row)));
-      return data;
-    }
-    catch (e) {
-      throw e;
-    }
-  }
-
-  async getFiltered(filterOptions: Partial<T>): Promise<T[]> {
-    try {
-      const query = this.queries.get(filterOptions);
-      const res = await this.client.query(query);
-      
-      const data: Array<T> = [];
-      res.rows.forEach(row => data.push(this.parseData(row)));
-      return data;
-    }
-    catch (e) {
-      throw e;
-    }
-  }
-
-  async insert(data: Partial<T>): Promise<QueryResult> {
-    try {
-      const query = this.queries.insert(data);
-      const res = await this.client.query(query);
-      return res;
-    }
-    catch (e) {
-      throw e;
-    }
-  }
-
-  async update(data: Partial<T>, filter: object): Promise<QueryResult> {
-    try {
-      const query = this.queries.update(data, filter);
-      const res = await this.client.query(query);
-      return res;
-    }
-    catch (e) {
-      throw e;
-    }
-  }
-  
-  async delete(filter: object): Promise<QueryResult> {
-    try {  
-      const query = this.queries.delete(filter);
-      const res = await this.client.query(query);
-      return res;
-    }
-    catch (e) {
-      throw e;
-    }
-  }
-
-  protected parseData(data: Object): T {
-    return data as T;
-  }
+  insert(data: Partial<T>): Promise<object>;
+  update(data: Partial<T>, filter: object): Promise<QueryResult>;
+  delete(filter: object): Promise<QueryResult>;
 }
 
 export default DataController;
