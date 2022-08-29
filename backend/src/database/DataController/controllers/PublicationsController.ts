@@ -1,5 +1,14 @@
 import DataController from '../DataController'
-import Publication from '../types/Publication'
+
+type Publication = {
+  id: number,
+  user_id: number,
+  title: string,
+  description: string,
+  price: number,
+  currency: string,
+  phone: string,
+}
 
 class PublicationsController extends DataController<Publication> {
   protected parseData(data: Publication): Publication {

@@ -1,5 +1,13 @@
 import DataController from '../DataController'
-import User from '../types/User'
+
+type User = {
+  id: string,
+  username: string,
+  password: string,
+  nickname: string, 
+  cr: number,
+  trw: number,
+}
 
 class UsersController extends DataController<User> {  
   protected parseData(data: User): User {

@@ -1,5 +1,11 @@
 import DataController from '../DataController'
-import Review from '../types/Review'
+
+type Review = {
+  user_id: string,
+  publication_id: number,
+  title: string,
+  body: string,
+}
 
 class ReviewsController extends DataController<Review> {
   protected parseData(data: Review): Review {
