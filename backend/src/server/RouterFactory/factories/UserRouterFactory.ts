@@ -93,8 +93,7 @@ class UserRouterFactory extends RouterFactoryImp {
       const reqBody = {
         username: req.body.username,
         password: req.body.password,
-        //@TODO: remove this test once you finished testing
-        id: !req.body.id ? this.generateId(req.body.username) : req.body.id,
+        id: req.body.username ? this.generateId(req.body.username) : undefined,
       };
       if (this.hasUndefined(reqBody)) {
         next(BadRequest);
@@ -105,7 +104,7 @@ class UserRouterFactory extends RouterFactoryImp {
 
       this.queryManager.query(async () => {
           await this.queryManager.users.insert(reqBody);
-          res.json(Done());
+          res.json(Done({id: reqBody.id}));
       })
       .execute()
       .catch(e => next(DBError(e.code)));
@@ -118,12 +117,16 @@ class UserRouterFactory extends RouterFactoryImp {
       const reqBody = {
         id: req.body.id, 
         data: req.body.data
-      };
+      }
       const credentials = {
         username: req.body.username,
         password: req.body.password
-      };
+      }
       if (this.hasUndefined(reqBody, credentials)) {
+        next(BadRequest);
+        return;
+      }
+      if (reqBody.data.id !== undefined) {
         next(BadRequest);
         return;
       }
