@@ -13,11 +13,18 @@ npm run build
 ```
 
 ## NPM run start
-This command could only be used right after building. It executes `app.js` from `dist` directory via node.
+This command could only be used right after building. 
+It executes `app.js` from `dist` directory via node.
 ```
 npm run start
 ```
 
+## NPM run test
+This command could only be used right after building and installing dev dependencies. 
+It tests server routers components by using mocha framework and axios.
+```
+npm run test
+```
 
 # Overview of The Structure
 
