@@ -118,9 +118,10 @@ class UserRouterFactory extends RouterFactoryImp {
         id: req.body.id, 
         data: req.body.data
       }
+      const cred = req.body.credentials;
       const credentials = {
-        username: req.body.credentials.username,
-        password: req.body.credentials.password
+        username: cred ? cred.username : undefined,
+        password: cred ? cred.password : undefined,
       }
       if (this.hasUndefined(reqBody, credentials)) {
         next(BadRequest);
@@ -157,11 +158,12 @@ class UserRouterFactory extends RouterFactoryImp {
       const reqBody = {
         id: req.body.id,
       }
+      const cred = req.body.credentials;
       const credentials = {
-        username: req.body.credentials.username,
-        password: req.body.credentials.password,
+        username: cred ? cred.username : undefined,
+        password: cred ? cred.password : undefined,
       }
-      if (this.hasUndefined(reqBody)) {
+      if (this.hasUndefined(reqBody, credentials)) {
         next(BadRequest);
         return;
       }
