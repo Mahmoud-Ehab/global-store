@@ -119,8 +119,8 @@ class UserRouterFactory extends RouterFactoryImp {
         data: req.body.data
       }
       const credentials = {
-        username: req.body.username,
-        password: req.body.password
+        username: req.body.credentials.username,
+        password: req.body.credentials.password
       }
       if (this.hasUndefined(reqBody, credentials)) {
         next(BadRequest);
@@ -155,10 +155,12 @@ class UserRouterFactory extends RouterFactoryImp {
     /*** Delete user with its id, and  after auth succeeds ***/
     this.delete(UserEndpoints.remove, (req, res, next) => {
       const reqBody = {
-        id: req.body.id, 
-        username: req.body.username,
-        password: req.body.password
-      };
+        id: req.body.id,
+      }
+      const credentials = {
+        username: req.body.credentials.username,
+        password: req.body.credentials.password,
+      }
       if (this.hasUndefined(reqBody)) {
         next(BadRequest);
         return;
@@ -172,7 +174,7 @@ class UserRouterFactory extends RouterFactoryImp {
           next(NotFound);
           return;
         }
-        if (!this.auth(userResult, reqBody)) {
+        if (!this.auth(userResult, credentials)) {
           next(AuthenticationFailed);
           return;
         }

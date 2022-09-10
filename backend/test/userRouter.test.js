@@ -178,8 +178,10 @@ describe("Testing UserRouter Endpoints", function () {
                 url: '/user/update',
                 data: {
                     id: registeredIds[1],
-                    username: "user 2",
-                    password: "654321",
+                    credentials: {
+                        username: "user 2",
+                        password: "654321",
+                    },
                     data: {
                         username: "user 3"
                     }
@@ -196,8 +198,10 @@ describe("Testing UserRouter Endpoints", function () {
                 url: '/user/update',
                 data: {
                     id: registeredIds[0],
-                    username: "user 1",
-                    password: "654321",
+                    credentials: {
+                        username: "user 1",
+                        password: "654321",
+                    },
                     data: {
                         username: "user 2"
                     }
@@ -214,8 +218,10 @@ describe("Testing UserRouter Endpoints", function () {
                 url: '/user/update',
                 data: {
                     id: registeredIds[0],
-                    username: "user 1",
-                    password: "654321",
+                    credentials: {
+                        username: "user 1",
+                        password: "654321",
+                    },
                     data: {
                         id: "newid",
                     }
@@ -235,8 +241,10 @@ describe("Testing UserRouter Endpoints", function () {
                 url: '/user/delete',
                 data: {
                     id: registeredIds[0],
-                    username: "user 1",
-                    password: "123321"
+                    credentials: {
+                        username: "user 1",
+                        password: "123321"
+                    }
                 }
             });
             const res = axiosResponse.data;
@@ -250,8 +258,10 @@ describe("Testing UserRouter Endpoints", function () {
                 url: '/user/delete',
                 data: {
                     id: "non-existing",
-                    username: "user 1",
-                    password: "123456"
+                    credentials: {
+                        username: "user 1",
+                        password: "123456"
+                    }
                 }
             });
             const res = axiosResponse.data;
@@ -265,8 +275,10 @@ describe("Testing UserRouter Endpoints", function () {
                 url: '/user/delete',
                 data: {
                     id: registeredIds[0],
-                    username: "user 1",
-                    password: "123456"
+                    credentials: {
+                        username: "user 1",
+                        password: "123456"
+                    }
                 }
             });
             const res = axiosResponse.data;
@@ -280,8 +292,10 @@ describe("Testing UserRouter Endpoints", function () {
                 url: '/user/delete',
                 data: {
                     id: registeredIds[1],
-                    username: "user 3",
-                    password: "654321"
+                    credentials: {
+                        username: "user 3",
+                        password: "654321"
+                    }
                 }
             });
             const res = axiosResponse.data;
