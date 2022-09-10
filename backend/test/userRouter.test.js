@@ -2,8 +2,8 @@ const expect = require('expect.js');
 const axios = require("axios").default;
 const config = require("./axios.config.js").default;
 
-describe("Testing UserRouter Endpoints", function () {
-    const registeredIds = [];
+describe("#UserRouter", function () {
+    const registeredUsers = [];
 
     describe("POST: /user/register", function () {
         it("should successfully register user 1", async function () {
@@ -17,11 +17,7 @@ describe("Testing UserRouter Endpoints", function () {
                 },
             });
             const res = axiosResponse.data;
-    
             expect(res.code).to.equal(200);
-            expect(res).to.have.property("metadata");
-            expect(res.metadata).to.have.property("id");
-            registeredIds.push(res.metadata.id);
         });
     
         it("should successfully register user 2", async function () {
@@ -35,11 +31,7 @@ describe("Testing UserRouter Endpoints", function () {
                 }
             });
             const res = axiosResponse.data;
-    
             expect(res.code).to.equal(200);
-            expect(res).to.have.property("metadata");
-            expect(res.metadata).to.have.property("id");
-            registeredIds.push(res.metadata.id);
         });
     
         it("should fail registering an existing username", async function () {
@@ -53,7 +45,6 @@ describe("Testing UserRouter Endpoints", function () {
                 }
             });
             const res = axiosResponse.data;
-
             expect(res.code).to.equal(409);
         });
     
@@ -67,7 +58,6 @@ describe("Testing UserRouter Endpoints", function () {
                 }
             });
             const res = axiosResponse.data;
-    
             expect(res.code).to.equal(400);
         });
     
@@ -81,27 +71,12 @@ describe("Testing UserRouter Endpoints", function () {
                 }
             });
             const res = axiosResponse.data;
-    
             expect(res.code).to.equal(400);
         });
     });
 
 
     describe("GET: /user/...", function() {
-        it("should GET user 1 information, with the password unrevealed", async function () {
-            const axiosResponse = await axios({
-                ...config,
-                method: 'GET',
-                url: `/user/${registeredIds[0]}`,
-            });
-            const res = axiosResponse.data;
-    
-            expect(res.code).to.equal(200);
-            expect(res).to.have.property("metadata");
-            expect(res.metadata.data.username).to.equal("user 1");
-            expect(res.metadata.data.password).to.be.undefined;
-        });
-    
         it("should GET limited list of users, with the passwords unrevealed", async function () {
             const axiosResponse = await axios({
                 ...config,
@@ -112,11 +87,27 @@ describe("Testing UserRouter Endpoints", function () {
             const users = res.metadata.data;
     
             expect(res.code).to.equal(200);
-            expect(users.length).to.equal(2);
+            expect(users).to.be.an("array");
+            expect(users).to.have.length(2);
             expect(users[0].username).to.equal("user 1");
             expect(users[0].password).to.be.undefined;
             expect(users[1].username).to.equal("user 2");
             expect(users[1].password).to.be.undefined;
+            registeredUsers.push(...users);
+        });
+
+        it("should GET user 1 information, with the password unrevealed", async function () {
+            const axiosResponse = await axios({
+                ...config,
+                method: 'GET',
+                url: `/user/${registeredUsers[0].id}`,
+            });
+            const res = axiosResponse.data;
+    
+            expect(res.code).to.equal(200);
+            expect(res).to.have.property("metadata");
+            expect(res.metadata.data.username).to.equal("user 1");
+            expect(res.metadata.data.password).to.be.undefined;
         });
     });
 
@@ -177,7 +168,7 @@ describe("Testing UserRouter Endpoints", function () {
                 method: 'PATCH',
                 url: '/user/update',
                 data: {
-                    id: registeredIds[1],
+                    id: registeredUsers[1].id,
                     credentials: {
                         username: "user 2",
                         password: "654321",
@@ -197,7 +188,7 @@ describe("Testing UserRouter Endpoints", function () {
                 method: 'PATCH',
                 url: '/user/update',
                 data: {
-                    id: registeredIds[0],
+                    id: registeredUsers[0].id,
                     credentials: {
                         username: "user 1",
                         password: "654321",
@@ -217,7 +208,7 @@ describe("Testing UserRouter Endpoints", function () {
                 method: 'PATCH',
                 url: '/user/update',
                 data: {
-                    id: registeredIds[0],
+                    id: registeredUsers[0].id,
                     credentials: {
                         username: "user 1",
                         password: "654321",
@@ -240,7 +231,7 @@ describe("Testing UserRouter Endpoints", function () {
                 method: 'DELETE',
                 url: '/user/delete',
                 data: {
-                    id: registeredIds[0],
+                    id: registeredUsers[0].id,
                     credentials: {
                         username: "user 1",
                         password: "123321"
@@ -274,7 +265,7 @@ describe("Testing UserRouter Endpoints", function () {
                 method: 'DELETE',
                 url: '/user/delete',
                 data: {
-                    id: registeredIds[0],
+                    id: registeredUsers[0].id,
                     credentials: {
                         username: "user 1",
                         password: "123456"
@@ -291,7 +282,7 @@ describe("Testing UserRouter Endpoints", function () {
                 method: 'DELETE',
                 url: '/user/delete',
                 data: {
-                    id: registeredIds[1],
+                    id: registeredUsers[1].id,
                     credentials: {
                         username: "user 3",
                         password: "654321"
