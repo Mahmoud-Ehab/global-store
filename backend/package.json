@@ -9,7 +9,7 @@
     "start-dev": "nodemon dist/app.js",
     "build": "tsc",
     "build-dev": "tsc -w",
-    "test": "mocha --require test/mocha.fixtures.cjs"
+    "test": "mocha --require test/mocha.fixtures.cjs --bail"
   },
   "repository": {
     "type": "git",
