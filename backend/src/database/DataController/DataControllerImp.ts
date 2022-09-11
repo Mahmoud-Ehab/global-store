@@ -56,6 +56,20 @@ abstract class DataController<T> implements DataControllerInterface<T> {
     }
   }
 
+  async getLimitWithOffset(limit: number, offset: number): Promise<Array<T>> {
+    try {
+      const query = this.queries.getLimitWithOffset(limit, offset);
+      const res = await this.client.query(query);
+      
+      const data: Array<T> = [];
+      res.rows.forEach(row => data.push(this.parseData(row)));
+      return data;
+    }
+    catch (e) {
+      throw e;
+    }
+  }
+
   async getFiltered(filterOptions: Partial<T>): Promise<T[]> {
     try {
       const query = this.queries.get(filterOptions);

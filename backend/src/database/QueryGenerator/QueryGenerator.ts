@@ -4,6 +4,7 @@ interface Queries {
   get(filter: Object): QueryConfig;
   getAll(): QueryConfig;
   getLimit(limit: number): QueryConfig;
+  getLimitWithOffset(limit: number, offset: number): QueryConfig<any[]>;
   getRegEx(filter: Object): QueryConfig;
 
   insert(data: Object): QueryConfig;

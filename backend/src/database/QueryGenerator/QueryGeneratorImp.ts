@@ -32,11 +32,19 @@ class Queries implements QueriesInterface {
 
   getLimit(limit: number): QueryConfig<any[]> {
     return ({
-      name: `${this.tableName}-get-all-with-limit`,
+      name: `${this.tableName}-get-limit`,
       text: `SELECT * FROM ${this.tableName} LIMIT $1`,
       values: [limit]
     });
   }
+
+  getLimitWithOffset(limit: number, offset: number): QueryConfig<any[]> {
+    return ({
+      name: `${this.tableName}-get-limit-with-offset`,
+      text: `SELECT * FROM ${this.tableName} LIMIT $1 OFFSET $2`,
+      values: [limit, offset]
+    });
+  } 
 
   getRegEx(filter: Object): QueryConfig<any[]> {
     const filterKeys = Object.keys(filter);
