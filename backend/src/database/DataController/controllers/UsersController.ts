@@ -9,16 +9,43 @@ type User = {
   trw: number,
 }
 
-class UsersController extends DataControllerImp<User> {  
+type Credentials = {
+  username: string,
+  password: string
+}
+
+class UsersController extends DataControllerImp<User> { 
+  async auth(id: string, credentials: Credentials): Promise<boolean> {
+    try {
+      const query = this.queries.get(id);
+      const res = await this.client.query(query);
+      if (!res.rows[0])
+        return false;
+      return this.authenticate(res.rows[0], credentials);
+    }
+    catch (e) {
+      throw e;
+    }
+  }
+
+  protected authenticate(data: User, credentials: Credentials) {
+    for (const key in credentials) {
+      if ((credentials as any)[key] !== (data as any)[key])
+        return false;
+    }
+    return true;
+  }
+
   protected parseData(data: User): User {
     const user: User = {
       id: data.id,
       username: data.username,
-      password: data.password,
+      password: undefined,
       nickname: data.nickname,
       cr: data.cr,
       trw: data.trw,
     }    
+    delete user.password;
     return user;
   }
 }
