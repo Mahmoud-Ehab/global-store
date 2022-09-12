@@ -5,6 +5,12 @@ const config = require("./axios.config.js").default;
 describe("#PublicationRouter", function () {
     let userid = ""; // defined in before hook
     let publicationId = 0; // defined in GET suite
+
+    const mockUser = {
+        username: "PubTempUser",
+        password: "123456"
+    }
+
     const mockPublication = {
         title: "My First Publication",
         description: "Just a test.",
@@ -13,16 +19,14 @@ describe("#PublicationRouter", function () {
         phone: "32134231"
     }
 
+
     before(async function() {
         // Create User in the database
         const axiosResponse = await axios({
             ...config,
             method: 'POST',
             url: '/user/register',
-            data: {
-                username: "TempUser",
-                password: "123456"
-            },
+            data: {...mockUser},
         });
         userid = axiosResponse.data.metadata.id;
     });
@@ -35,10 +39,7 @@ describe("#PublicationRouter", function () {
             url: '/user/delete',
             data: {
                 id: userid,
-                credentials: {
-                    username: "TempUser",
-                    password: "123456"
-                }
+                credentials: {...mockUser}
             },
         });
     });
@@ -53,10 +54,7 @@ describe("#PublicationRouter", function () {
                 data: {
                     user_id: userid,
                     ...mockPublication,
-                    credentials: {
-                        username: "TempUser",
-                        password: "123456",
-                    }
+                    credentials: {...mockUser}
                 },
             });
             const res = axiosResponse.data;
@@ -71,10 +69,7 @@ describe("#PublicationRouter", function () {
                 data: {
                     user_id: userid,
                     ...mockPublication,
-                    credentials: {
-                        username: "TempUser",
-                        password: "1234321",
-                    }
+                    credentials: {...mockUser, password: ""}
                 },
             });
             const res = axiosResponse.data;
@@ -89,14 +84,11 @@ describe("#PublicationRouter", function () {
                 data: {
                     user_id: "SomeId",
                     ...mockPublication,
-                    credentials: {
-                        username: "TempUser",
-                        password: "123456"
-                    }
+                    credentials: {...mockUser}
                 },
             });
             const res = axiosResponse.data;
-            expect(res.code).to.equal(404);
+            expect(res.code).to.equal(401);
         });
 
         it("should NOT create publicaiton with no credentails", async function() {
@@ -205,10 +197,7 @@ describe("#PublicationRouter", function () {
                     data: {
                         title: "New Title"
                     },
-                    credentials: {
-                        username: "TempUser",
-                        password: "123456"
-                    }
+                    credentials: {...mockUser}
                 }
             });
             const res = axiosResponse.data;
@@ -226,10 +215,7 @@ describe("#PublicationRouter", function () {
                     data: {
                         title: "New Title"
                     },
-                    credentials: {
-                        username: "TempUser",
-                        password: "123456"
-                    }
+                    credentials: {...mockUser}
                 }
             });
             const res = axiosResponse.data;
@@ -246,10 +232,7 @@ describe("#PublicationRouter", function () {
                     data: {
                         title: "New Title"
                     },
-                    credentials: {
-                        username: "TempUser",
-                        password: "123456"
-                    }
+                    credentials: {...mockUser}
                 }
             });
             const res = axiosResponse.data;
@@ -266,10 +249,7 @@ describe("#PublicationRouter", function () {
                     data: {
                         title: "New Title"
                     },
-                    credentials: {
-                        username: "TempUser",
-                        password: "123456"
-                    }
+                    credentials: {...mockUser}
                 }
             });
             const res = axiosResponse.data;
@@ -287,10 +267,7 @@ describe("#PublicationRouter", function () {
                 data: {
                     id: publicationId,
                     user_id: userid,
-                    credentials: {
-                        username: "TempUser",
-                        password: "1234321"
-                    }
+                    credentials: {...mockUser, password: ""}
                 }
             });
             const res = axiosResponse.data;
@@ -305,10 +282,7 @@ describe("#PublicationRouter", function () {
                 data: {
                     id: 100,
                     user_id: userid,
-                    credentials: {
-                        username: "TempUser",
-                        password: "123456"
-                    }
+                    credentials: {...mockUser}
                 }
             });
             const res = axiosResponse.data;
@@ -322,10 +296,7 @@ describe("#PublicationRouter", function () {
                 url: '/publication/delete',
                 data: {
                     id: publicationId,
-                    credentials: {
-                        username: "TempUser",
-                        password: "123456"
-                    }
+                    credentials: {...mockUser}
                 }
             });
             const res = axiosResponse.data;
@@ -340,10 +311,7 @@ describe("#PublicationRouter", function () {
                 data: {
                     id: publicationId,
                     user_id: userid,
-                    credentials: {
-                        username: "TempUser",
-                        password: "123456"
-                    }
+                    credentials: {...mockUser}
                 }
             });
             const res = axiosResponse.data;
