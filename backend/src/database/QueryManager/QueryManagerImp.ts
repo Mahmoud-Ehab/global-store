@@ -11,6 +11,7 @@ import ReviewsController from '../DataController/controllers/ReviewsController'
 class QueryManager implements QueryManagerInterface{
   private client: Client;
   private queriesQueue: Array<Function> = [];
+  private inExecution: boolean = false;
 
   private usersController: UsersController;
   private publicationsController: PublicationsController;
@@ -49,9 +50,11 @@ class QueryManager implements QueryManagerInterface{
     return this.client.connect();
   }
 
-  private disconnect(): void {
-    const endFunc = async () => await this.client.end();
-    this.queriesQueue.push(endFunc);
+  private async disconnect(): Promise<void> {
+    if (this.queriesQueue.length === 0) {
+      this.inExecution = false;
+      await this.client.end();
+    }
   }
 
   query(func: () => Promise<any>): QueryManager {
@@ -64,16 +67,17 @@ class QueryManager implements QueryManagerInterface{
 
   async execute(): Promise<void> {
     try {
-      this.disconnect(); // push disconnect query
+      if (this.inExecution) return;
+      this.inExecution = true;
       while (this.queriesQueue.length > 0) {
         const queryFunc = this.queriesQueue.shift();
         await queryFunc();
       }
+      await this.disconnect();
     }
     catch (e) {
-      // disconnect before throwing the error
-      const disconnectFunc = this.queriesQueue.pop();
-      await disconnectFunc();
+      this.queriesQueue.length = 0;
+      await this.disconnect();
       throw e;
     }
   }
