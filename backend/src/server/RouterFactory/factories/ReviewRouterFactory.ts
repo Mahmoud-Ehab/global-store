@@ -45,13 +45,7 @@ class ReviewRouterFactory extends RouterFactoryImp {
         const result = await this.queryManager.reviews.getFiltered({
           publication_id: pubid
         });
-
-        const resjson = {data: new Array()}
-        for (const review of result) {
-          const user = await this.queryManager.users.get(review.user_id);
-          resjson.data.push({...review, user});
-        }
-        res.json(Done(resjson));
+        res.json(Done({data: result}));
       })
       .execute()
       .catch(e => next(DBError(e.code)));
@@ -70,13 +64,7 @@ class ReviewRouterFactory extends RouterFactoryImp {
         const result = await this.queryManager.reviews.getFiltered({
           user_id: userid
         });
-        const user = await this.queryManager.users.get(userid);
-
-        const resjson = {data: new Array()}
-        for (const review of result) {
-          resjson.data.push({...review, user});
-        }
-        res.json(Done(resjson));
+        res.json(Done({data: result}));
       })
       .execute()
       .catch(e => next(DBError(e.code)));
@@ -92,9 +80,10 @@ class ReviewRouterFactory extends RouterFactoryImp {
         title: req.body.title,
         body: req.body.body
       }
+      const cred = req.body.credentials;
       const credentials = {
-        username: req.body.username,
-        password: req.body.password
+        username: cred ? cred.username : undefined,
+        password: cred ? cred.password : undefined
       }
       if (this.hasUndefined(reqBody, credentials)) {
         next(BadRequest);
@@ -102,9 +91,14 @@ class ReviewRouterFactory extends RouterFactoryImp {
       }
       //@TODO: encrypt password
       this.queryManager.query(async () => {
-        const user = await this.queryManager.users.get(reqBody.user_id);
-        if (!this.auth(user, credentials)) {
+        const auth = await this.queryManager.users.auth(reqBody.user_id, credentials);
+        if (!auth) {
           next(AuthenticationFailed);
+          return;
+        }
+        const publication = await this.queryManager.publications.get(reqBody.publication_id);
+        if (!publication.id) {
+          next(NotFound);
           return;
         }
         await this.queryManager.reviews.insert(reqBody);
@@ -133,8 +127,8 @@ class ReviewRouterFactory extends RouterFactoryImp {
       }
       //@TODO: encrypt password
       this.queryManager.query(async () => {
-        const user = await this.queryManager.users.get(reqBody.user_id);
-        if (!this.auth(user, credentials)) {
+        const auth = await this.queryManager.users.auth(reqBody.user_id, credentials);
+        if (!auth) {
           next(AuthenticationFailed);
           return;
         }
@@ -164,9 +158,10 @@ class ReviewRouterFactory extends RouterFactoryImp {
         user_id: req.body.user_id,
         publication_id: req.body.publication_id,
       }
+      const cred = req.body.credentials;
       const credentials = {
-        username: req.body.username,
-        password: req.body.password
+        username: cred ? cred.username : undefined,
+        password: cred ? cred.password : undefined
       }
       if (this.hasUndefined(reqBody, credentials)) {
         next(BadRequest);
@@ -174,9 +169,14 @@ class ReviewRouterFactory extends RouterFactoryImp {
       }
       //@TODO: encrypt password
       this.queryManager.query(async () => {
-        const user = await this.queryManager.users.get(reqBody.user_id);
-        if (!this.auth(user, credentials)) {
+        const auth = await this.queryManager.users.auth(reqBody.user_id, credentials);
+        if (!auth) {
           next(AuthenticationFailed);
+          return;
+        }
+        const publication = await this.queryManager.publications.get(reqBody.publication_id);
+        if (!publication.id) {
+          next(NotFound);
           return;
         }
         const review = (await this.queryManager.reviews.getFiltered({

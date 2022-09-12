@@ -69,14 +69,15 @@ class UserRouterFactory extends RouterFactoryImp {
       //@TODO: Encrypt the password in reqBody obj
 
       this.queryManager.query(async () => {
-        const result = await this.queryManager.users.getFiltered({
-          username: reqBody.username,
-        })
-        if (!result[0]) {
+        const userQuery = await this.queryManager.users.getFiltered({
+          username: reqBody.username
+        });
+        if (!userQuery[0]) {
           next(NotFound);
           return;
         }
-        if (result[0].password !== reqBody.password) {
+        const auth = await this.queryManager.users.auth(userQuery[0].id, reqBody);
+        if (!auth) {
           next(AuthenticationFailed);
           return;
         }
@@ -135,12 +136,8 @@ class UserRouterFactory extends RouterFactoryImp {
       //@TODO: Encrypt the password in reqBody obj
 
       this.queryManager.query(async () => {
-        const userResult = await this.queryManager.users.get(reqBody.id);
-        if (!userResult.id) {
-          next(NotFound);
-          return;
-        }
-        if (!this.auth(userResult, credentials)) {
+        const auth = await this.queryManager.users.auth(reqBody.id, credentials);
+        if (!auth) {
           next(AuthenticationFailed);
           return;
         }
@@ -171,12 +168,13 @@ class UserRouterFactory extends RouterFactoryImp {
       //@TODO: Encrypt the password in reqBody obj
 
       this.queryManager.query(async () => {
-        const userResult = await this.queryManager.users.get(reqBody.id);
-        if (!userResult.id) {
+        const user = await this.queryManager.users.get(reqBody.id);
+        if (!user.id) {
           next(NotFound);
           return;
         }
-        if (!this.auth(userResult, credentials)) {
+        const auth = await this.queryManager.users.auth(reqBody.id, credentials);
+        if (!auth) {
           next(AuthenticationFailed);
           return;
         }

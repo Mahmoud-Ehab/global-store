@@ -80,7 +80,7 @@ class PublicationRouterFactory extends RouterFactoryImp {
         res.json(Done({data: pubs}));
       })
       .execute()
-      .catch(e => next(DBError(e.code)));
+      .catch(e => {console.log(e); next(DBError(e.code))});
     });
 
 
@@ -98,7 +98,7 @@ class PublicationRouterFactory extends RouterFactoryImp {
       }
       const sub = {
         description: body.description,
-        phone: body.phone
+        phone: body.phone,
       }
       const credentials = {
         username: cred ? cred.username : undefined,
@@ -114,21 +114,16 @@ class PublicationRouterFactory extends RouterFactoryImp {
       //@TODO: encrypt password
 
       this.queryManager.query(async () => {
-        const user = await this.queryManager.users.get(pubBody.user_id);
-        if (!user.id) {
-          next(NotFound);
-          return;
-        }
-        if (!this.auth(user, credentials)) {
+        const auth = await this.queryManager.users.auth(pubBody.user_id, credentials);
+        if (!auth) {
           next(AuthenticationFailed);
           return;
         }
-
         await this.queryManager.publications.insert(pubBody);
         res.json(Done());
       })
       .execute()
-      .catch(e => next(DBError(e.code)));
+      .catch(e => {console.log(e); next(DBError(e.code))});
     })
 
 
@@ -157,12 +152,8 @@ class PublicationRouterFactory extends RouterFactoryImp {
       //@TODO: encrypt password
 
       this.queryManager.query(async () => {
-        const user = await this.queryManager.users.get(required.user_id);
-        if (!user.id) {
-          next(NotFound);
-          return;
-        }
-        if (!this.auth(user, credentials)) {
+        const auth = await this.queryManager.users.auth(required.user_id, credentials);
+        if (!auth) {
           next(AuthenticationFailed);
           return;
         }
@@ -197,12 +188,8 @@ class PublicationRouterFactory extends RouterFactoryImp {
       //@TODO: encrypt password
 
       this.queryManager.query(async () => {
-        const user = await this.queryManager.users.get(reqBody.user_id);
-        if (!user.id) {
-          next(NotFound);
-          return;
-        }
-        if (!this.auth(user, credentials)) {
+        const auth = await this.queryManager.users.auth(reqBody.user_id, credentials);
+        if (!auth) {
           next(AuthenticationFailed);
           return;
         }
