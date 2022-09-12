@@ -14,7 +14,7 @@ abstract class DataController<T> implements DataControllerInterface<T> {
 
   async get(id: string | number): Promise<T> {
     try {
-      const query = this.queries.get({id});
+      const query = this.queries.get(id);
       const res = await this.client.query(query);
 
       if (res.rows.length === 0)
@@ -72,7 +72,7 @@ abstract class DataController<T> implements DataControllerInterface<T> {
 
   async getFiltered(filterOptions: Partial<T>): Promise<T[]> {
     try {
-      const query = this.queries.get(filterOptions);
+      const query = this.queries.getWhere(filterOptions);
       const res = await this.client.query(query);
       
       const data: Array<T> = [];

@@ -8,7 +8,21 @@ class Queries implements QueriesInterface {
     this.tableName = tableName;
   }
 
-  get(filter: Object): QueryConfig<any[]> { 
+  get(id: any): QueryConfig<any[]> { 
+    const text = `
+      SELECT * FROM ${this.tableName} 
+      WHERE id = $1
+    `
+    const values = [id]
+  
+    return ({
+      name: `${this.tableName}-get-id`,
+      text,
+      values,
+    });
+  }
+
+  getWhere(filter: Object): QueryConfig<any[]> { 
     const filterKeys = Object.keys(filter);
     const text = `
       SELECT * FROM ${this.tableName} 
@@ -17,7 +31,7 @@ class Queries implements QueriesInterface {
     const values = [...Object.values(filter)]
   
     return ({
-      name: `${this.tableName}-get-data`,
+      name: `${this.tableName}-get-where`,
       text,
       values,
     });
