@@ -42,14 +42,6 @@ abstract class RouterFactory implements RouterFactoryInterface {
     this._router.patch(endpoint.expressPath, ...handlers);
   }
 
-  protected auth(data: any, credentials: any) {
-    for (const key in credentials) {
-      if (credentials[key] !== data[key])
-        return false;
-    }
-    return true;
-  }
-
   protected hasUndefined(...objs: any) {
     for (const obj of objs) {
       for (const key in obj)
@@ -57,12 +49,6 @@ abstract class RouterFactory implements RouterFactoryInterface {
           return true;
     }
     return false;
-  }
-
-  private cloneEndpoints(_endpoints: Array<Endpoint>): Array<Endpoint> {
-    const clonned: Array<Endpoint> = [];
-    _endpoints.forEach(ep => clonned.push({...ep}));
-    return clonned;
   }
 }
 
