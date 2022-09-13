@@ -1,16 +1,16 @@
 import QueryManagerImp from './database/QueryManager/QueryManagerImp'
 import Server from './server/Server';
 
-import UserRouterFactory from './server/RouterInitializer/factories/UserRouterFactory';
-import PublicationRouterFactory from './server/RouterInitializer/factories/PublicationRouterFactory';
-import ReviewRouterFactory from './server/RouterInitializer/factories/ReviewRouterFactory';
+import { UserRouterInitializer } from './server/RouterInitializer/Initializers/UserRouterInitializer';
+import { PublicationRouterInitializer } from './server/RouterInitializer/Initializers/PublicationRouterInitializer';
+import { ReviewRouterInitializer } from './server/RouterInitializer/Initializers/ReviewRouterInitializer';
 
 const server = new Server("localhost", 5000);
 const queryManager = new QueryManagerImp();
 
-const userRF = new UserRouterFactory(queryManager);
-const pubRF = new PublicationRouterFactory(queryManager);
-const reviewRF = new ReviewRouterFactory(queryManager);
+const userRF = new UserRouterInitializer(queryManager);
+const pubRF = new PublicationRouterInitializer(queryManager);
+const reviewRF = new ReviewRouterInitializer(queryManager);
 
 server.addRouter(userRF);
 server.addRouter(pubRF);

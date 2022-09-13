@@ -2,7 +2,7 @@ import { ReviewEndpoints } from "../../Endpoints";
 import { AuthenticationFailed, BadRequest, Done, NotFound } from "../../Responses";
 import { RouterInitializerImp } from "../RouterInitializerImp";
 
-class ReviewRouterFactory extends RouterInitializerImp {
+export class ReviewRouterInitializer extends RouterInitializerImp {
   _routerName = "review";
 
   init() {
@@ -198,5 +198,3 @@ class ReviewRouterFactory extends RouterInitializerImp {
     });
   }
 }
-
-export default ReviewRouterFactory;

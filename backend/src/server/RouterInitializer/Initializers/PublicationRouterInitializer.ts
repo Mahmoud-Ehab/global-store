@@ -7,7 +7,7 @@ import {
 } from "../../Responses";
 import { RouterInitializerImp } from "../RouterInitializerImp";
 
-class PublicationRouterFactory extends RouterInitializerImp {
+export class PublicationRouterInitializer extends RouterInitializerImp {
   _routerName = "publication";
 
   init() {
@@ -205,5 +205,3 @@ class PublicationRouterFactory extends RouterInitializerImp {
     })
   }
 }
-
-export default PublicationRouterFactory;

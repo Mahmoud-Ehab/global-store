@@ -7,7 +7,7 @@ import {
 } from "../../Responses";
 import { RouterInitializerImp } from "../RouterInitializerImp";
 
-class UserRouterFactory extends RouterInitializerImp {
+export class UserRouterInitializer extends RouterInitializerImp {
   _routerName = "user";
 
   init() {
@@ -157,5 +157,3 @@ class UserRouterFactory extends RouterInitializerImp {
     return username.slice(0, 2) + randnum;
   }
 }
-
-export default UserRouterFactory;
