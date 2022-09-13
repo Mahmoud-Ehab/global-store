@@ -5,9 +5,9 @@ import {
   BadRequest, 
   Done,
 } from "../../Responses";
-import RouterFactoryImp from "../RouterFactoryImp";
+import { RouterInitializerImp } from "../RouterInitializerImp";
 
-class UserRouterFactory extends RouterFactoryImp {
+class UserRouterFactory extends RouterInitializerImp {
   _routerName = "user";
 
   init() {

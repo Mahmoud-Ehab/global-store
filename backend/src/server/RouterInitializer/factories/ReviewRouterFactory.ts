@@ -1,8 +1,8 @@
 import { ReviewEndpoints } from "../../Endpoints";
-import { AuthenticationFailed, BadRequest, DBError, Done, NotFound } from "../Responses";
-import RouterFactoryImp from "../RouterFactoryImp";
+import { AuthenticationFailed, BadRequest, Done, NotFound } from "../../Responses";
+import { RouterInitializerImp } from "../RouterInitializerImp";
 
-class ReviewRouterFactory extends RouterFactoryImp {
+class ReviewRouterFactory extends RouterInitializerImp {
   _routerName = "review";
 
   init() {
@@ -29,7 +29,7 @@ class ReviewRouterFactory extends RouterFactoryImp {
         res.json(Done({data: {...result[0], user}}));
       })
       .execute()
-      .catch(e => next(DBError(e.code)));
+      .catch(e => next(e));
     });
 
 
@@ -48,7 +48,7 @@ class ReviewRouterFactory extends RouterFactoryImp {
         res.json(Done({data: result}));
       })
       .execute()
-      .catch(e => next(DBError(e.code)));
+      .catch(e => next(e));
     });
 
 
@@ -67,7 +67,7 @@ class ReviewRouterFactory extends RouterFactoryImp {
         res.json(Done({data: result}));
       })
       .execute()
-      .catch(e => next(DBError(e.code)));
+      .catch(e => next(e));
     });
 
 
@@ -105,7 +105,7 @@ class ReviewRouterFactory extends RouterFactoryImp {
         res.json(Done());
       })
       .execute()
-      .catch(e => next(DBError(e.code)));
+      .catch(e => next(e));
     });
 
 
@@ -147,7 +147,7 @@ class ReviewRouterFactory extends RouterFactoryImp {
         res.json(Done());
       })
       .execute()
-      .catch(e => next(DBError(e.code)));
+      .catch(e => next(e));
     });
 
 
@@ -194,7 +194,7 @@ class ReviewRouterFactory extends RouterFactoryImp {
         res.json(Done());
       })
       .execute()
-      .catch(e => next(DBError(e.code)));
+      .catch(e => next(e));
     });
   }
 }

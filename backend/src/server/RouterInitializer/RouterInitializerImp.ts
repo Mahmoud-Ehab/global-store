@@ -1,9 +1,9 @@
 import express = require("express");
-import RouterFactoryInterface from "./RouterFactory";
+import { RouterInitializer } from "./RouterInitializer";
 import { Endpoint } from "../Endpoints/type";
 import QueryManager from "../../database/QueryManager/QueryManager";
 
-abstract class RouterFactory implements RouterFactoryInterface {
+export abstract class RouterInitializerImp implements RouterInitializer {
   private _router: express.Router;
 
   protected queryManager: QueryManager;
@@ -26,19 +26,19 @@ abstract class RouterFactory implements RouterFactoryInterface {
     throw new Error("Method not implemented.");
   }
 
-  get(endpoint: Endpoint, ...handlers: Array<express.Handler>) {
+  protected get(endpoint: Endpoint, ...handlers: Array<express.Handler>) {
     this._router.get(endpoint.expressPath, ...handlers);
   }
 
-  post(endpoint: Endpoint, ...handlers: Array<express.Handler>) {
+  protected post(endpoint: Endpoint, ...handlers: Array<express.Handler>) {
     this._router.post(endpoint.expressPath, ...handlers);
   }
 
-  delete(endpoint: Endpoint, ...handlers: express.Handler[]): void {
+  protected delete(endpoint: Endpoint, ...handlers: express.Handler[]): void {
     this._router.delete(endpoint.expressPath, ...handlers);
   }
 
-  patch(endpoint: Endpoint, ...handlers: express.Handler[]): void {
+  protected patch(endpoint: Endpoint, ...handlers: express.Handler[]): void {
     this._router.patch(endpoint.expressPath, ...handlers);
   }
 
@@ -51,5 +51,3 @@ abstract class RouterFactory implements RouterFactoryInterface {
     return false;
   }
 }
-
-export default RouterFactory;

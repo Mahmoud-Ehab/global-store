@@ -1,10 +1,10 @@
 import express = require("express");
 import bodyParser = require("body-parser");
-import RouterFactory from "./RouterFactory/RouterFactory";
+import { RouterInitializer } from "./RouterInitializer/RouterInitializer";
 
 class Server {
   private expressApp: express.Application;
-  private routersFactories: Array<RouterFactory>;
+  private routersFactories: Array<RouterInitializer>;
   private appListener: any;
 
   private host: string;
@@ -45,7 +45,7 @@ class Server {
       this.appListener.close(callback);
   }
 
-  addRouter(router: RouterFactory) {
+  addRouter(router: RouterInitializer) {
     this.routersFactories.push(router);
   }
 

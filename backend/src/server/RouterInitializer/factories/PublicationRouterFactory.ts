@@ -2,13 +2,12 @@ import { PublicationEndpoints } from "../../Endpoints";
 import { 
   AuthenticationFailed, 
   BadRequest, 
-  DBError, 
   Done, 
   NotFound 
-} from "../Responses";
-import RouterFactoryImp from "../RouterFactoryImp";
+} from "../../Responses";
+import { RouterInitializerImp } from "../RouterInitializerImp";
 
-class PublicationRouterFactory extends RouterFactoryImp {
+class PublicationRouterFactory extends RouterInitializerImp {
   _routerName = "publication";
 
   init() {
@@ -28,7 +27,7 @@ class PublicationRouterFactory extends RouterFactoryImp {
         res.json(Done({data: publication}));
       })
       .execute()
-      .catch(e => next(DBError(e.code)))
+      .catch(e => next(e))
     });
     
 
@@ -44,7 +43,7 @@ class PublicationRouterFactory extends RouterFactoryImp {
         res.json(Done({data: publications}));
       })
       .execute()
-      .catch(e => next(DBError(e.code)))
+      .catch(e => next(e))
     });
 
 
@@ -61,7 +60,7 @@ class PublicationRouterFactory extends RouterFactoryImp {
         res.json(Done({data: publications}));
       })
       .execute()
-      .catch(e => next(DBError(e.code)))
+      .catch(e => next(e))
     });
 
 
@@ -80,7 +79,7 @@ class PublicationRouterFactory extends RouterFactoryImp {
         res.json(Done({data: pubs}));
       })
       .execute()
-      .catch(e => {console.log(e); next(DBError(e.code))});
+      .catch(e => {console.log(e); next(e)});
     });
 
 
@@ -123,7 +122,7 @@ class PublicationRouterFactory extends RouterFactoryImp {
         res.json(Done());
       })
       .execute()
-      .catch(e => {console.log(e); next(DBError(e.code))});
+      .catch(e => {console.log(e); next(e)});
     })
 
 
@@ -165,7 +164,7 @@ class PublicationRouterFactory extends RouterFactoryImp {
         await this.queryManager.publications.update(required.data, {id: required.id});
         next(Done());
       }).execute()
-      .catch(e => next(DBError(e.code)));
+      .catch(e => next(e));
     })
 
 
@@ -202,7 +201,7 @@ class PublicationRouterFactory extends RouterFactoryImp {
         res.json(Done());
       })
       .execute()
-      .catch(e => next(DBError(e.code)));
+      .catch(e => next(e));
     })
   }
 }
