@@ -1,5 +1,5 @@
 import { UserEndpoints } from "../../Endpoints";
-import { UserStrategies } from "../../QueriesStrategy/strategies/UserStrategies";
+import { UserStrategy } from "../../QueriesStrategy/strategies/UserStrategy";
 import { 
   Authenticated,
   BadRequest, 
@@ -11,16 +11,16 @@ export class UserRouterInitializer extends RouterInitializerImp {
   _routerName = "user";
 
   init() {
-    const qs = new UserStrategies(this.queryManager, "users");
+    const user = new UserStrategy(this.queryManager, "users");
 
     /*** Get User with a specific id ***/
     this.get(UserEndpoints.getUser, (req, res, next) => {
       const userid = req.params.userid;
 
       this.queryManager
-      .query(qs.getById(userid))
-      .query(qs.ifExists())
-      .query(qs.send(res))
+      .query(user.getById(userid))
+      .query(user.ifExists())
+      .query(user.send(res))
       .execute()
       .catch(e => next(e));
     });
@@ -32,11 +32,11 @@ export class UserRouterInitializer extends RouterInitializerImp {
       const limit = parseInt(req.params.limit);
       if (isNaN(limit)) { 
         next(BadRequest)
-        return; 
+        return;
       }
       this.queryManager
-      .query(qs.getLimit(limit))
-      .query(qs.send(res))
+      .query(user.getLimit(limit))
+      .query(user.send(res))
       .execute()
       .catch(e => next(e));
     });
@@ -57,9 +57,9 @@ export class UserRouterInitializer extends RouterInitializerImp {
       //@TODO: Encrypt the password in reqBody obj
 
       this.queryManager
-      .query(qs.getFilteredList({username: reqBody.username}))
-      .query(qs.ifExists())
-      .query(qs.authUser(reqBody))
+      .query(user.getFilteredList({username: reqBody.username}))
+      .query(user.ifExists())
+      .query(user.auth(reqBody))
       .query(async () => res.json(Authenticated))
       .execute()
       .catch(e => next(e));
@@ -82,9 +82,9 @@ export class UserRouterInitializer extends RouterInitializerImp {
       //@TODO: Encrypt the password in reqBody obj
 
       this.queryManager
-      .query(qs.getFilteredList({username: reqBody.username}))
-      .query(qs.ifNotExists())
-      .query(qs.insert(reqBody))
+      .query(user.getFilteredList({username: reqBody.username}))
+      .query(user.ifNotExists())
+      .query(user.insert(reqBody))
       .query(async () => res.json(Done({id: reqBody.id})))
       .execute()
       .catch(e => next(e));
@@ -114,10 +114,10 @@ export class UserRouterInitializer extends RouterInitializerImp {
 
       //@TODO: Encrypt the password in reqBody obj
       this.queryManager
-      .query(qs.getById(reqBody.id))
-      .query(qs.ifExists())
-      .query(qs.authUser(credentials))
-      .query(qs.update(reqBody.data, {id: reqBody.id}))
+      .query(user.getById(reqBody.id))
+      .query(user.ifExists())
+      .query(user.auth(credentials))
+      .query(user.update(reqBody.data, {id: reqBody.id}))
       .query(async () => res.json(Done()))
       .execute()
       .catch(e => next(e));
@@ -142,10 +142,10 @@ export class UserRouterInitializer extends RouterInitializerImp {
 
       //@TODO: Encrypt the password in reqBody obj
       this.queryManager
-      .query(qs.getById(reqBody.id))
-      .query(qs.ifExists())
-      .query(qs.authUser(credentials))
-      .query(qs.delete({id: reqBody.id}))
+      .query(user.getById(reqBody.id))
+      .query(user.ifExists())
+      .query(user.auth(credentials))
+      .query(user.delete({id: reqBody.id}))
       .query(async () => res.json(Done()))
       .execute()
       .catch(e => next(e));
