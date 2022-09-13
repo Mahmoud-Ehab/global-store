@@ -1,3 +1,4 @@
+import DataController from "../../database/DataController/DataController";
 import QueryManager, { Controllers } from "../../database/QueryManager/QueryManager";
 import { 
   AlreadyExists,
@@ -36,6 +37,12 @@ export abstract class QueriesStrategyImp<T> implements QueriesStrategy<T> {
       return await controller.getLimit(limit)
     }
   }
+  getLimitWithOffset(limit: number, offset: number) {
+    return async () => {
+      const controller = this.qm.getController(this.type) as any;
+      return await controller.getLimitWithOffset(limit, offset);
+    }
+  }
 
   insert(data: Partial<T>) {
     return async () => {
@@ -56,19 +63,6 @@ export abstract class QueriesStrategyImp<T> implements QueriesStrategy<T> {
     }
   }
 
-  authUser(credentials: any) {
-    return (async function() {
-      let k = -1; while (!this.carrier[++k]);
-
-      const userid = this.carrier[k].id || this.carrier[k][0].id;
-      if (!userid) throw InteranlError;
-
-      const auth = await this.users.auth(userid, credentials);
-      if (!auth) throw AuthenticationFailed;
-
-      return auth;
-    }).bind(this.qm)
-  }
   ifNotExists(i?: number) {
     return (async function() {
       let k = -1; while (!this.carrier[++k]);
