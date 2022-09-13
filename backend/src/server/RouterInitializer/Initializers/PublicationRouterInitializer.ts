@@ -1,4 +1,6 @@
 import { PublicationEndpoints } from "../../Endpoints";
+import { PublicationStrategy } from "../../QueriesStrategy/strategies/PublicationStrategy";
+import { UserStrategy } from "../../QueriesStrategy/strategies/UserStrategy";
 import { 
   AuthenticationFailed, 
   BadRequest, 
@@ -11,6 +13,9 @@ export class PublicationRouterInitializer extends RouterInitializerImp {
   _routerName = "publication";
 
   init() {
+    const user = new UserStrategy(this.queryManager, "users");
+    const publication = new PublicationStrategy(this.queryManager, "publications");
+
     /*** get publication with a specific id ***/
     this.get(PublicationEndpoints.getPublication, (req, res, next) => {
       const pubid = parseInt(req.params.pubid);
@@ -18,14 +23,10 @@ export class PublicationRouterInitializer extends RouterInitializerImp {
         next(BadRequest);
         return;
       }
-      this.queryManager.query(async () => {
-        const publication = await this.queryManager.publications.get(pubid);
-        if (!publication.id) {
-          next(NotFound);
-          return;
-        }
-        res.json(Done({data: publication}));
-      })
+      this.queryManager
+      .query(publication.getById(pubid))
+      .query(publication.ifExists())
+      .query(publication.send(res))
       .execute()
       .catch(e => next(e))
     });
@@ -38,10 +39,9 @@ export class PublicationRouterInitializer extends RouterInitializerImp {
         next(BadRequest);
         return;
       }
-      this.queryManager.query(async () => {
-        const publications = await this.queryManager.publications.getLimit(limit);
-        res.json(Done({data: publications}));
-      })
+      this.queryManager
+      .query(publication.getLimit(limit))
+      .query(publication.send(res))
       .execute()
       .catch(e => next(e))
     });
@@ -55,10 +55,9 @@ export class PublicationRouterInitializer extends RouterInitializerImp {
         next(BadRequest);
         return;
       }
-      this.queryManager.query(async () => {
-        const publications = await this.queryManager.publications.getLimitWithOffset(limit, offset);
-        res.json(Done({data: publications}));
-      })
+      this.queryManager
+      .query(publication.getLimitWithOffset(limit, offset))
+      .query(publication.send(res))
       .execute()
       .catch(e => next(e))
     });
@@ -71,15 +70,12 @@ export class PublicationRouterInitializer extends RouterInitializerImp {
         next(BadRequest);
         return;
       }
-
-      this.queryManager.query(async () => {
-        const pubs = await this.queryManager.publications.getFiltered({
-          user_id: userid
-        });
-        res.json(Done({data: pubs}));
-      })
+      this.queryManager
+      .query(publication.getFilteredList({user_id: userid}))
+      .query(publication.ifExists())
+      .query(publication.send(res))
       .execute()
-      .catch(e => {console.log(e); next(e)});
+      .catch(e => next(e));
     });
 
 
@@ -112,17 +108,14 @@ export class PublicationRouterInitializer extends RouterInitializerImp {
 
       //@TODO: encrypt password
 
-      this.queryManager.query(async () => {
-        const auth = await this.queryManager.users.auth(pubBody.user_id, credentials);
-        if (!auth) {
-          next(AuthenticationFailed);
-          return;
-        }
-        await this.queryManager.publications.insert(pubBody);
-        res.json(Done());
-      })
+      this.queryManager
+      .query(user.getById(pubBody.user_id))
+      .query(user.ifExists())
+      .query(user.auth(credentials))
+      .query(publication.insert(pubBody))
+      .query(async () => res.json(Done()))
       .execute()
-      .catch(e => {console.log(e); next(e)});
+      .catch(e => next(e));
     })
 
 
@@ -150,20 +143,15 @@ export class PublicationRouterInitializer extends RouterInitializerImp {
 
       //@TODO: encrypt password
 
-      this.queryManager.query(async () => {
-        const auth = await this.queryManager.users.auth(required.user_id, credentials);
-        if (!auth) {
-          next(AuthenticationFailed);
-          return;
-        }
-        const publication = await this.queryManager.publications.get(required.id);
-        if (!publication.id) {
-          next(NotFound);
-          return;
-        }
-        await this.queryManager.publications.update(required.data, {id: required.id});
-        next(Done());
-      }).execute()
+      this.queryManager
+      .query(user.getById(required.user_id))
+      .query(user.ifExists())
+      .query(user.auth(credentials))
+      .query(publication.getById(required.id))
+      .query(publication.ifExists())
+      .query(publication.update(required.data, {id: required.id}))
+      .query(async () =>res.json(Done()))
+      .execute()
       .catch(e => next(e));
     })
 
@@ -186,20 +174,14 @@ export class PublicationRouterInitializer extends RouterInitializerImp {
 
       //@TODO: encrypt password
 
-      this.queryManager.query(async () => {
-        const auth = await this.queryManager.users.auth(reqBody.user_id, credentials);
-        if (!auth) {
-          next(AuthenticationFailed);
-          return;
-        }
-        const publication = await this.queryManager.publications.get(reqBody.id);
-        if (!publication.id) {
-          next(NotFound);
-          return;
-        }
-        await this.queryManager.publications.delete({id: publication.id});
-        res.json(Done());
-      })
+      this.queryManager
+      .query(user.getById(reqBody.user_id))
+      .query(user.ifExists())
+      .query(user.auth(credentials))
+      .query(publication.getById(reqBody.id))
+      .query(publication.ifExists())
+      .query(publication.delete({id: reqBody.id}))
+      .query(async () => res.json(Done()))
       .execute()
       .catch(e => next(e));
     })
