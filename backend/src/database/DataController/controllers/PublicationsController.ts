@@ -1,6 +1,6 @@
 import DataControllerImp from '../DataControllerImp'
 
-type Publication = {
+export type Publication = {
   id: number,
   user_id: string,
   title: string,

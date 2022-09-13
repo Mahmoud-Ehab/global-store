@@ -1,6 +1,6 @@
 import DataControllerImp from '../DataControllerImp'
 
-type User = {
+export type User = {
   id: string,
   username: string,
   password: string,

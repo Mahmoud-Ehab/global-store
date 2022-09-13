@@ -1,6 +1,6 @@
 import DataControllerImp from '../DataControllerImp'
 
-type Review = {
+export type Review = {
   user_id: string,
   publication_id: number,
   title: string,
