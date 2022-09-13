@@ -2,16 +2,16 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var QueryManagerImp_1 = require("../dist/database/QueryManager/QueryManagerImp");
 var Server_1 = require("../dist/server/Server");
-var UserRouterFactory_1 = require("../dist/server/RouterFactory/factories/UserRouterFactory");
-var PublicationRouterFactory_1 = require("../dist/server/RouterFactory/factories/PublicationRouterFactory");
-var ReviewRouterFactory_1 = require("../dist/server/RouterFactory/factories/ReviewRouterFactory");
+var UserRouterInitializer_1 = require("../dist/server/RouterInitializer/Initializers/UserRouterInitializer");
+var PublicationRouterInitializer_1 = require("../dist/server/RouterInitializer/Initializers/PublicationRouterInitializer");
+var ReviewRouterInitializer_1 = require("../dist/server/RouterInitializer/Initializers/ReviewRouterInitializer");
 
 var server = new Server_1.default("localhost", 5000);
 var queryManager = new QueryManagerImp_1.default();
 
-var userRF = new UserRouterFactory_1.default(queryManager);
-var pubRF = new PublicationRouterFactory_1.default(queryManager);
-var reviewRF = new ReviewRouterFactory_1.default(queryManager);
+var userRF = new UserRouterInitializer_1.UserRouterInitializer(queryManager);
+var pubRF = new PublicationRouterInitializer_1.PublicationRouterInitializer(queryManager);
+var reviewRF = new ReviewRouterInitializer_1.ReviewRouterInitializer(queryManager);
 
 server.addRouter(userRF);
 server.addRouter(pubRF);
