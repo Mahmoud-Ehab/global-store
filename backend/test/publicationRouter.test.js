@@ -88,7 +88,7 @@ describe("#PublicationRouter", function () {
                 },
             });
             const res = axiosResponse.data;
-            expect(res.code).to.equal(401);
+            expect(res.code).to.equal(404);
         });
 
         it("should NOT create publicaiton with no credentails", async function() {
