@@ -1,30 +1,37 @@
-import { Client } from "pg";
+import { Client } from "pg"
 
-import QueryManagerInterface from "./QueryManager";
+import QueryManagerInterface, { Controllers } from "./QueryManager"
 
-import QueryGeneratorImp from "../QueryGenerator/QueryGeneratorImp";
-import UsersController from '../DataController/controllers/UsersController'
-import PublicationsController from '../DataController/controllers/PublicationsController'
-import ReviewsController from '../DataController/controllers/ReviewsController'
+import QueryGeneratorImp from "../QueryGenerator/QueryGeneratorImp"
+import UsersController, { User } from '../DataController/controllers/UsersController'
+import PublicationsController, { Publication } from '../DataController/controllers/PublicationsController'
+import ReviewsController, { Review } from '../DataController/controllers/ReviewsController'
 
 
 class QueryManager implements QueryManagerInterface{
   private client: Client;
   private queriesQueue: Array<Function> = [];
   private inExecution: boolean = false;
+  private carrier: Array<any> = []; // carries the prev queries results
 
-  private usersController: UsersController;
-  private publicationsController: PublicationsController;
-  private reviewsController: ReviewsController;
+  private controllers: Controllers = {
+    users: null,
+    publications: null,
+    reviews: null
+  };
 
   get users() {
-    return this.usersController;
+    return this.controllers.users;
   }
   get publications() {
-    return this.publicationsController;
+    return this.controllers.publications;
   }
   get reviews() {
-    return this.reviewsController;
+    return this.controllers.reviews;
+  }
+
+  getController(type: keyof Controllers) {
+    return this.controllers[type];
   }
 
   private connect(): Promise<void> {
@@ -34,25 +41,25 @@ class QueryManager implements QueryManagerInterface{
       password: 'admin',
       database: 'globalstore',
     });
-    this.usersController = new UsersController(
+    this.controllers.users = new UsersController(
       this.client, 
       new QueryGeneratorImp('users')
     );
-    this.publicationsController = new PublicationsController(
+    this.controllers.publications = new PublicationsController(
       this.client, 
       new QueryGeneratorImp('publications')
     );
-    this.reviewsController = new ReviewsController(
+    this.controllers.reviews = new ReviewsController(
       this.client, 
       new QueryGeneratorImp('reviews')
     );
-
     return this.client.connect();
   }
 
   private async disconnect(): Promise<void> {
     if (this.queriesQueue.length === 0) {
       this.inExecution = false;
+      this.carrier.length = 0;
       await this.client.end();
     }
   }
@@ -71,7 +78,8 @@ class QueryManager implements QueryManagerInterface{
       this.inExecution = true;
       while (this.queriesQueue.length > 0) {
         const queryFunc = this.queriesQueue.shift();
-        await queryFunc();
+        const result = await queryFunc();
+        this.carrier.splice(0, 0, result);
       }
       await this.disconnect();
     }
