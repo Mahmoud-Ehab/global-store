@@ -1,4 +1,7 @@
 import { ReviewEndpoints } from "../../Endpoints";
+import { PublicationStrategy } from "../../QueriesStrategy/strategies/PublicationStrategy";
+import { ReviewStrategy } from "../../QueriesStrategy/strategies/ReviewStrategy";
+import { UserStrategy } from "../../QueriesStrategy/strategies/UserStrategy";
 import { AuthenticationFailed, BadRequest, Done, NotFound } from "../../Responses";
 import { RouterInitializerImp } from "../RouterInitializerImp";
 
@@ -6,6 +9,10 @@ export class ReviewRouterInitializer extends RouterInitializerImp {
   _routerName = "review";
 
   init() {
+    const user = new UserStrategy(this.queryManager, "users");
+    const publication = new PublicationStrategy(this.queryManager, "publications");
+    const review = new ReviewStrategy(this.queryManager, "reviews");
+
     /*** get a specific review with its publication_id and user_id ***/
     this.get(ReviewEndpoints.getReview, (req, res, next) => {
       const reqparams = {
@@ -16,18 +23,17 @@ export class ReviewRouterInitializer extends RouterInitializerImp {
         next(BadRequest);
         return;
       }
-      this.queryManager.query(async () => {
-        const user = await this.queryManager.users.get(reqparams.userid);
-        const result = await this.queryManager.reviews.getFiltered({
-          publication_id: reqparams.pubid, 
-          user_id: reqparams.userid
-        });
-        if (!result[0].title) {
-          next(NotFound);
-          return;
-        }
-        res.json(Done({data: {...result[0], user}}));
-      })
+      this.queryManager
+      .query(user.getById(reqparams.userid))
+      .query(user.ifExists())
+      .query(review.getFilteredList({
+        publication_id: reqparams.pubid, 
+        user_id: reqparams.userid
+      }))
+      .query(review.ifExists())
+      .query(review.builder().getListItem(0))
+      .query(review.builder().define("user", 4))
+      .query(review.send(res))
       .execute()
       .catch(e => next(e));
     });
@@ -41,12 +47,9 @@ export class ReviewRouterInitializer extends RouterInitializerImp {
         next(BadRequest);
         return;
       }
-      this.queryManager.query(async () => {
-        const result = await this.queryManager.reviews.getFiltered({
-          publication_id: pubid
-        });
-        res.json(Done({data: result}));
-      })
+      this.queryManager
+      .query(review.getFilteredList({publication_id: pubid}))
+      .query(review.send(res))
       .execute()
       .catch(e => next(e));
     });
@@ -60,12 +63,9 @@ export class ReviewRouterInitializer extends RouterInitializerImp {
         next(BadRequest);
         return;
       }
-      this.queryManager.query(async () => {
-        const result = await this.queryManager.reviews.getFiltered({
-          user_id: userid
-        });
-        res.json(Done({data: result}));
-      })
+      this.queryManager
+      .query(review.getFilteredList({user_id: userid}))
+      .query(review.send(res))
       .execute()
       .catch(e => next(e));
     });
@@ -90,20 +90,14 @@ export class ReviewRouterInitializer extends RouterInitializerImp {
         return;
       }
       //@TODO: encrypt password
-      this.queryManager.query(async () => {
-        const auth = await this.queryManager.users.auth(reqBody.user_id, credentials);
-        if (!auth) {
-          next(AuthenticationFailed);
-          return;
-        }
-        const publication = await this.queryManager.publications.get(reqBody.publication_id);
-        if (!publication.id) {
-          next(NotFound);
-          return;
-        }
-        await this.queryManager.reviews.insert(reqBody);
-        res.json(Done());
-      })
+      this.queryManager
+      .query(user.getById(reqBody.user_id))
+      .query(user.ifExists())
+      .query(user.auth(credentials))
+      .query(publication.getById(reqBody.publication_id))
+      .query(publication.ifExists())
+      .query(review.insert(reqBody))
+      .query(async () => res.json(Done()))
       .execute()
       .catch(e => next(e));
     });
@@ -126,26 +120,22 @@ export class ReviewRouterInitializer extends RouterInitializerImp {
         return;
       }
       //@TODO: encrypt password
-      this.queryManager.query(async () => {
-        const auth = await this.queryManager.users.auth(reqBody.user_id, credentials);
-        if (!auth) {
-          next(AuthenticationFailed);
-          return;
-        }
-        const review = (await this.queryManager.reviews.getFiltered({
-          user_id: reqBody.user_id,
-          publication_id: reqBody.publication_id
-        }))[0];
-        if (!review.title) {
-          next(NotFound);
-          return;
-        }
-        await this.queryManager.reviews.update(reqBody.data, {
-          user_id: reqBody.user_id,
-          publication_id: reqBody.publication_id
-        });
-        res.json(Done());
-      })
+      this.queryManager
+      .query(user.getById(reqBody.user_id))
+      .query(user.ifExists())
+      .query(user.auth(credentials))
+      .query(publication.getById(reqBody.publication_id))
+      .query(publication.ifExists())
+      .query(review.getFilteredList({
+        user_id: reqBody.user_id,
+        publication_id: reqBody.publication_id
+      }))
+      .query(review.ifExists())
+      .query(review.update(reqBody.data, {
+        user_id: reqBody.user_id,
+        publication_id: reqBody.publication_id
+      }))
+      .query(async () => res.json(Done()))
       .execute()
       .catch(e => next(e));
     });
@@ -167,32 +157,25 @@ export class ReviewRouterInitializer extends RouterInitializerImp {
         next(BadRequest);
         return;
       }
+      
       //@TODO: encrypt password
-      this.queryManager.query(async () => {
-        const auth = await this.queryManager.users.auth(reqBody.user_id, credentials);
-        if (!auth) {
-          next(AuthenticationFailed);
-          return;
-        }
-        const publication = await this.queryManager.publications.get(reqBody.publication_id);
-        if (!publication.id) {
-          next(NotFound);
-          return;
-        }
-        const review = (await this.queryManager.reviews.getFiltered({
-          user_id: reqBody.user_id,
-          publication_id: reqBody.publication_id
-        }))[0];
-        if (!review.title) {
-          next(NotFound);
-          return;
-        }
-        await this.queryManager.reviews.delete({
-          publication_id: reqBody.publication_id, 
-          user_id: reqBody.user_id
-        });
-        res.json(Done());
-      })
+
+      this.queryManager
+      .query(user.getById(reqBody.user_id))
+      .query(user.ifExists())
+      .query(user.auth(credentials))
+      .query(publication.getById(reqBody.publication_id))
+      .query(publication.ifExists())
+      .query(review.getFilteredList({
+        user_id: reqBody.user_id,
+        publication_id: reqBody.publication_id
+      }))
+      .query(review.ifExists())
+      .query(review.delete({
+        publication_id: reqBody.publication_id, 
+        user_id: reqBody.user_id
+      }))
+      .query(async () => res.json(Done()))
       .execute()
       .catch(e => next(e));
     });
