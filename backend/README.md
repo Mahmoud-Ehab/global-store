@@ -1,3 +1,5 @@
+> last update on September 14, 2022
+
 # Get Started
 
 ## NPM install
@@ -32,7 +34,7 @@ There are only two major components of the backend side: _Database_ & _Server_, 
 
 The _Database_ considered to possess the business rules of the system, that represent the overall concept behind the system: _DataContollers_ and _QueryGenerator_. The former is used to encapsulate the operations of sending queries to the Database Client. However, the latter is to avoid hard-coding the SQL queries. In addition, the component provides a full-organized and managed facility to use and access its all operations via _QueryManager_.
 
-On the other hand, the _Server_ is a detail. It tightly coupled to Express architecture and has dependency on the _Database_, however, it has RouterFactory design that aquires the component some flexibility. Loosely speaking, if some other framework is intended to be used rather than Express, minor modifications in a few functions of _RouterFactory Abstract Class_ are supposed to be the only repercussions.
+On the other hand, the _Server_ is a detail. It tightly coupled to Express architecture and has dependency on the _Database_, however, it has RouterInitializer design that aquires the component some flexibility. Loosely speaking, if some other framework is intended to be used rather than Express, minor modifications in a few functions of _RouterInitializer Abstract Class_ are supposed to be the only repercussions.
 
 ## Database Component
 The _Dababase_ component is composed of three objects/collections of objects (building blocks). Each object/collection is distinguished by its level of abstraction and stability. They might be listed according to the levels, descentantly, as follows:
@@ -50,9 +52,11 @@ Finally, _QueryManager_, the most instable object, whose only purpose is to prov
 ![database diagram](./docs/diagrams/database-diagram.svg)
 
 ## Server Component
-The _Server_ component is much more simple compared to the _Database_. It consists of just one major element and another two for the external environment. 
+The _Server_ component is much more simple compared to the _Database_. It consists of just two major elements and another two for the external environment. 
 
-The _RouterFactory_, as mentioned previously, is coupled to Express Architecture. However, it should be trivial to port it to another architecture, by few changes in the Abstract implementation. The _RouterFactoryImp_ has dependency on the _QueryManager_ of the _Database_, in order to be able to handle users requests which certainlly requires access to the database.
+The _RouterInitializer_, as mentioned previously, is coupled to Express Architecture. However, it should be trivial to port it to another architecture, by few changes in the Abstract implementation. The _RouterInitializerImp_ has dependency on the _QueryManager_ of the _Database_, in order to be able to handle users requests which certainlly requires access to the database.
+
+For sake of flexibility, maintainability, and most probably readability; the _RouterInitializerImp_ does not use the controllers of _QueryManager_ directly, rather it pass the _QueryManager_ to a third element (_QueriesStrategy_) that encapsulates some general combinations of different DataControllers methods which are probably used very often by all routers. Briefly, _QueriesStrategy_ just encapsulates a redundantly reusable algorithms; like getById(id), ifExists() "that one throws error 404 if not",... etc.
 
 The _Server_ element is used by the external environment as a container for Express Application. The user of it shall be able to start a server with custom `host` and `port`, and load it with Routers. It encapsulates the necessary initialization for express application in `start` method (using different middlewares).
 
@@ -97,13 +101,13 @@ the structure of "src" directory may be visualized as follow:
     │   │   └── UserEndpoints.ts
     │   ├── index.ts
     │   └── type.ts
-    ├── RouterFactory
+    ├── RouterInitializer
     │   ├── factories
-    │   │   ├── PublicationRouterFactory.ts
-    │   │   ├── ReviewRouterFactory.ts
-    │   │   └── UserRouterFactory.ts
+    │   │   ├── PublicationRouterInitializer.ts
+    │   │   ├── ReviewRouterInitializer.ts
+    │   │   └── UserRouterInitializer.ts
     │   ├── Responses.ts
-    │   ├── RouterFactoryImp.ts
-    │   └── RouterFactory.ts
+    │   ├── RouterInitializerImp.ts
+    │   └── RouterInitializer.ts
     └── Server.ts
 ```
