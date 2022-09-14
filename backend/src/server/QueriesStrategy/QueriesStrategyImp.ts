@@ -80,6 +80,31 @@ export abstract class QueriesStrategyImp<T> implements QueriesStrategy<T> {
     }).bind(this.qm)
   }
 
+  builder() {
+    return {
+      getListItem: (i: number) => (async function() {
+        let k = -1; while (!this.carrier[++k]);
+        if (this.carrier[k][i])
+          return this.carrier[k][i]
+        else
+          return this.carrier[k]
+      }).bind(this.qm),
+
+      define: (key: string, i: number) => (async function() {
+        let k = -1; while (!this.carrier[++k]);
+        let obj: any = {...this.carrier[k]};
+        if (key)
+          obj[key] = this.carrier[i || k];
+        else
+          obj = {
+            ...obj,
+            ...this.carrier[i || k]
+          }
+        return obj;
+      }).bind(this.qm)
+    }
+  }
+  
   send(res: any, i?: number) {
     return (async function() {
       let k = -1; while (!this.carrier[++k]);

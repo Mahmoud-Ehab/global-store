@@ -11,5 +11,9 @@ export interface QueriesStrategy<T> {
   ifNotExists: (i?: number) => () => Promise<void>;
   ifExists: (i?: number) => () => Promise<void>;
 
+  builder(): {
+    getListItem: (i: number) => any;
+    define: (key: string, i: number) => any;
+  }
   send: (res: any, i?: number) => () => Promise<void>;
 }
