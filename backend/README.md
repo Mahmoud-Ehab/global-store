@@ -69,7 +69,7 @@ Finally, the _Endpoint_ purpose is to share the implemented endpoints by the rou
 
 the structure of "src" directory may be visualized as follow:
 ```
-./src
+src
 ├── app.ts
 ├── database
 │   ├── DataController
@@ -101,12 +101,19 @@ the structure of "src" directory may be visualized as follow:
     │   │   └── UserEndpoints.ts
     │   ├── index.ts
     │   └── type.ts
+    ├── QueriesStrategy
+    │   ├── QueriesStrategyImp.ts
+    │   ├── QueriesStrategy.ts
+    │   └── strategies
+    │       ├── PublicationStrategy.ts
+    │       ├── ReviewStrategy.ts
+    │       └── UserStrategy.ts
+    ├── Responses.ts
     ├── RouterInitializer
-    │   ├── factories
+    │   ├── Initializers
     │   │   ├── PublicationRouterInitializer.ts
     │   │   ├── ReviewRouterInitializer.ts
     │   │   └── UserRouterInitializer.ts
-    │   ├── Responses.ts
     │   ├── RouterInitializerImp.ts
     │   └── RouterInitializer.ts
     └── Server.ts
