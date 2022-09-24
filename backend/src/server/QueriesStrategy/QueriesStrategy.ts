@@ -15,5 +15,5 @@ export interface QueriesStrategy<T> {
     getListItem: (i: number) => any;
     define: (key: string, i: number) => any;
   }
-  send: (res: any, i?: number) => () => Promise<void>;
+  send: (res: Function, i?: number) => () => Promise<void>;
 }

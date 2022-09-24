@@ -26,7 +26,7 @@ export class PublicationRouterInitializer extends RouterInitializerImp {
       this.queryManager
       .query(publication.getById(pubid))
       .query(publication.ifExists())
-      .query(publication.send(res))
+      .query(publication.send(res.json))
       .execute()
       .catch(e => next(e))
     });
@@ -41,7 +41,7 @@ export class PublicationRouterInitializer extends RouterInitializerImp {
       }
       this.queryManager
       .query(publication.getLimit(limit))
-      .query(publication.send(res))
+      .query(publication.send(res.json))
       .execute()
       .catch(e => next(e))
     });
@@ -57,7 +57,7 @@ export class PublicationRouterInitializer extends RouterInitializerImp {
       }
       this.queryManager
       .query(publication.getLimitWithOffset(limit, offset))
-      .query(publication.send(res))
+      .query(publication.send(res.json))
       .execute()
       .catch(e => next(e))
     });
@@ -73,7 +73,7 @@ export class PublicationRouterInitializer extends RouterInitializerImp {
       this.queryManager
       .query(publication.getFilteredList({user_id: userid}))
       .query(publication.ifExists())
-      .query(publication.send(res))
+      .query(publication.send(res.json))
       .execute()
       .catch(e => next(e));
     });

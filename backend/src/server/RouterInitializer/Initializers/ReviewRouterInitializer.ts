@@ -33,7 +33,7 @@ export class ReviewRouterInitializer extends RouterInitializerImp {
       .query(review.ifExists())
       .query(review.builder().getListItem(0))
       .query(review.builder().define("user", 4))
-      .query(review.send(res))
+      .query(review.send(res.json))
       .execute()
       .catch(e => next(e));
     });
@@ -49,7 +49,7 @@ export class ReviewRouterInitializer extends RouterInitializerImp {
       }
       this.queryManager
       .query(review.getFilteredList({publication_id: pubid}))
-      .query(review.send(res))
+      .query(review.send(res.json))
       .execute()
       .catch(e => next(e));
     });
@@ -65,7 +65,7 @@ export class ReviewRouterInitializer extends RouterInitializerImp {
       }
       this.queryManager
       .query(review.getFilteredList({user_id: userid}))
-      .query(review.send(res))
+      .query(review.send(res.json))
       .execute()
       .catch(e => next(e));
     });

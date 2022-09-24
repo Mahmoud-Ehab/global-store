@@ -105,10 +105,10 @@ export abstract class QueriesStrategyImp<T> implements QueriesStrategy<T> {
     }
   }
   
-  send(res: any, i?: number) {
+  send(callback: Function, i?: number) {
     return (async function() {
       let k = -1; while (!this.carrier[++k]);
-      res.json(Done({data: this.carrier[i || k]}))
+      callback(Done({data: this.carrier[i || k]}))
     }).bind(this.qm)
   }
 }

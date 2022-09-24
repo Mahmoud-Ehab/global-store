@@ -20,7 +20,7 @@ export class UserRouterInitializer extends RouterInitializerImp {
       this.queryManager
       .query(user.getById(userid))
       .query(user.ifExists())
-      .query(user.send(res))
+      .query(user.send(res.json))
       .execute()
       .catch(e => next(e));
     });
@@ -36,7 +36,7 @@ export class UserRouterInitializer extends RouterInitializerImp {
       }
       this.queryManager
       .query(user.getLimit(limit))
-      .query(user.send(res))
+      .query(user.send(res.json))
       .execute()
       .catch(e => next(e));
     });
