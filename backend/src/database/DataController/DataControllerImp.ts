@@ -84,6 +84,20 @@ abstract class DataController<T> implements DataControllerInterface<T> {
     }
   }
 
+  async getJoin(join: { table: string; key1: string; key2: string; }, filter: Partial<T>): Promise<T[]> {
+    try {
+      const query = this.queries.getJoin(join, filter);
+      const res = await this.client.query(query);
+      
+      const data: Array<T> = [];
+      res.rows.forEach(row => data.push(row));
+      return data;
+    }
+    catch (e) {
+      throw e;
+    }
+  }
+
   async insert(data: Partial<T>): Promise<QueryResult> {
     try {
       const query = this.queries.insert(data);

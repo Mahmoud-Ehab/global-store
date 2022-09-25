@@ -75,6 +75,26 @@ class Queries implements QueriesInterface {
     });
   }
 
+  getJoin(join: {
+    table: string,
+    key1: string,
+    key2: string
+  }, filter: Object) {
+    const filterKeys = Object.keys(filter);
+    const text = `
+      SELECT * FROM ${this.tableName} 
+      JOIN ${join.table} ON ${join.key1} = ${join.key2}
+      WHERE ${filterKeys.map((key,i) => `${key}=$${i+1}`).join(' AND ')}
+    `
+    const values = [...Object.values(filter)]
+  
+    return ({
+      name: `${this.tableName}-get-join`,
+      text,
+      values,
+    });
+  }
+
   insert(data: Object): QueryConfig<any[]> {
     const text = `
       INSERT INTO 
