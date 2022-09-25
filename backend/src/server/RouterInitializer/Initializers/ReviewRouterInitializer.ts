@@ -49,7 +49,7 @@ export class ReviewRouterInitializer extends RouterInitializerImp {
         return;
       }
       this.queryManager
-      .query(review.getFilteredList({publication_id: pubid}))
+      .query(review.getJoinUsers({publication_id: pubid}))
       .query(review.send(jsonOf(res)))
       .execute()
       .catch(e => next(e));
