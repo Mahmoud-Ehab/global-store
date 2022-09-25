@@ -11,8 +11,8 @@ export type Publication = {
 }
 
 class PublicationsController extends DataControllerImp<Publication> {
-  protected parseData(data: Publication): Publication {
-    const publication: Publication = {
+  protected parseData(data: Publication, all?: boolean): Publication {
+    const publication: Publication = !all ? {
       id: data.id,
       user_id: data.user_id,
       title: data.title,
@@ -20,8 +20,8 @@ class PublicationsController extends DataControllerImp<Publication> {
       price: data.price,
       currency: data.currency,
       phone: data.phone
-    }    
-    return publication;
+    } : {...data}
+    return super.parseData(publication);
   }
 }
 

@@ -36,17 +36,16 @@ class UsersController extends DataControllerImp<User> {
     return true;
   }
 
-  protected parseData(data: User): User {
-    const user: User = {
+  protected parseData(data: User, all?: boolean): User {
+    const user: User = !all ? {
       id: data.id,
       username: data.username,
       password: undefined,
       nickname: data.nickname,
       cr: data.cr,
       trw: data.trw,
-    }    
-    delete user.password;
-    return user;
+    } : {...data}
+    return super.parseData(user);
   }
 }
 

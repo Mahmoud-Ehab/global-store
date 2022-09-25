@@ -90,7 +90,7 @@ abstract class DataController<T> implements DataControllerInterface<T> {
       const res = await this.client.query(query);
       
       const data: Array<T> = [];
-      res.rows.forEach(row => data.push(row));
+      res.rows.forEach(row => data.push(this.parseData(row, true)));
       return data;
     }
     catch (e) {
@@ -131,7 +131,8 @@ abstract class DataController<T> implements DataControllerInterface<T> {
     }
   }
 
-  protected parseData(data: Object): T {
+  protected parseData(data: any, all?: boolean): T {
+    delete data.password;
     return data as T;
   }
 }

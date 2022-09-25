@@ -8,14 +8,14 @@ export type Review = {
 }
 
 class ReviewsController extends DataControllerImp<Review> {
-  protected parseData(data: Review): Review {
-    const review: Review = {
+  protected parseData(data: any, all?: boolean): Review {
+    const review: Review = !all ? {
       user_id: data.user_id,
       publication_id: data.publication_id,
       title: data.title,
       body: data.body
-    }
-    return review;
+    } : {...data}
+    return super.parseData(review);
   }
 }
 
