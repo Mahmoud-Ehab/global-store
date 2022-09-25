@@ -169,11 +169,14 @@ describe('#ReviewRouter', function() {
       const reviews = res.metadata.data;
       expect(res.code).to.equal(200);
       expect(reviews).to.be.an('array');
-      expect(reviews[0]).to.eql({
-        user_id: userid,
-        publication_id: pubid,
-        ...mockReview,
-      });
+      for (const review of reviews) {
+        expect(review.user_id).to.equal(userid);
+        expect(review.publication_id).to.be.ok();
+        expect(review.title).to.be.ok();
+        expect(review.body).to.be.ok();
+        expect(review.user).to.be.ok();
+        expect(review.user.username).to.be.ok();
+      }
     })
 
     it("should get list of reviews on a specific publication", async function() {
@@ -185,11 +188,14 @@ describe('#ReviewRouter', function() {
       const reviews = res.metadata.data;
       expect(res.code).to.equal(200);
       expect(reviews).to.be.an('array');
-      expect(reviews[0]).to.eql({
-        user_id: userid,
-        publication_id: pubid,
-        ...mockReview,
-      });
+      for (const review of reviews) {
+        expect(review.user_id).to.be.ok();
+        expect(review.publication_id).to.equal(pubid);
+        expect(review.title).to.be.ok();
+        expect(review.body).to.be.ok();
+        expect(review.user).to.be.ok();
+        expect(review.user.username).to.be.ok();
+      }
     })
   })
 
