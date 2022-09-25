@@ -64,10 +64,68 @@ Finally, the _Endpoint_ purpose is to share the implemented endpoints by the rou
 
 ![server diagram](./docs/diagrams/server-diagram.svg)
 
+### QueriesStrategy.builder()
+
+Despite the fact that, no much has been said about various objects of this component, the implementation of builder method cannot be overlooked and worth elaborating.
+
+Typically, using QueriesStrategy along with QueryManager in RouterInitializer shall be in the following code style:
+
+```
+QueryManager
+    .query(QueriesStrategy.retrieveQuery())
+    .query(QueriesStrategy.checkQuery())
+    .query(QueriesStrategy.send(callback))
+    .execute()
+```
+
+QueriesStrategy generates some often used composition of (DataController) statements withing function block, then pass it to QueryManager which is responsible for executing them in some systematic manner. However, this is not all what QueriesStrategy does; as you may have noticed in the last query call, it's also responsible for creating the response payload object for server endpoints. And invoking the callback with the payload as its first parameter value.
+
+QueriesStrategy.send method stores the last query result, returned from the other strategy methods, in the payload object - in 'data' attribute. In addition, send method provides another parameter in order to give more liberaty for users to choose which query returned value would be loaded in the response object (any returned result before the last one). `QueryManager.send(callback, index)`
+
+Example:
+```
+QueryManager
+    .query(userStrategy.getById("us1234"))
+    .query(userStrategy.ifExists())
+    .query(userStrategy.send(res.json))
+    .execute()
+```
+```
+Payload: {
+    code: 200,
+    message: "query fulfilled."
+    data: {
+        id: "us1234",
+        username: "user1",
+        ...
+    }
+}
+```
+
+In some cases, more complex payload structure may be required; and here the role of builder method comes in.
+For instance, if you want get a specific review data with the user (reviewer) info attached to it in the response object, you shall use the builder to build up the response object. This senario could be implemented as follow:
+
+```
+QueryManager
+//4 .query(user.getById(reqparams.userid))
+//3 .query(user.ifExists())
+//2 .query(review.getFilteredList({
+        publication_id: reqparams.pubid, 
+        user_id: reqparams.userid 
+    }))
+//1 .query(review.ifExists())
+//0 .query(review.builder().getListItem(0))
+    .query(review.builder().define("user", 4))
+    .query(review.send(res.json))
+    .execute()
+    .catch(e => next(e));
+```
+
+`builer().getListItem(index)` just re-return the last returned value or the first element of the last returned list, from a strategy-query-method. While `builder().define(string, index)` defines a new attribute in the last created (returned) object from the builder, and assigns a specified strategy-query-method returned value to it using an index (its second parameter).
 
 ## Directory Structure
 
-the structure of "src" directory may be visualized as follow:
+The structure of "src" directory may be visualized as follow:
 ```
 src
 ├── app.ts
