@@ -174,8 +174,6 @@ describe('#ReviewRouter', function() {
         expect(review.publication_id).to.be.ok();
         expect(review.title).to.be.ok();
         expect(review.body).to.be.ok();
-        expect(review.user).to.be.ok();
-        expect(review.user.username).to.be.ok();
       }
     })
 
@@ -193,8 +191,7 @@ describe('#ReviewRouter', function() {
         expect(review.publication_id).to.equal(pubid);
         expect(review.title).to.be.ok();
         expect(review.body).to.be.ok();
-        expect(review.user).to.be.ok();
-        expect(review.user.username).to.be.ok();
+        expect(review.username).to.be.ok();
       }
     })
   })
