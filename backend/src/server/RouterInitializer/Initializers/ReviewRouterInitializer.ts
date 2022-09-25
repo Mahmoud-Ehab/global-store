@@ -2,7 +2,7 @@ import { ReviewEndpoints } from "../../Endpoints";
 import { PublicationStrategy } from "../../QueriesStrategy/strategies/PublicationStrategy";
 import { ReviewStrategy } from "../../QueriesStrategy/strategies/ReviewStrategy";
 import { UserStrategy } from "../../QueriesStrategy/strategies/UserStrategy";
-import { AuthenticationFailed, BadRequest, Done, NotFound } from "../../Responses";
+import { BadRequest, Done } from "../../Responses";
 import { RouterInitializerImp } from "../RouterInitializerImp";
 
 export class ReviewRouterInitializer extends RouterInitializerImp {
@@ -12,6 +12,7 @@ export class ReviewRouterInitializer extends RouterInitializerImp {
     const user = new UserStrategy(this.queryManager, "users");
     const publication = new PublicationStrategy(this.queryManager, "publications");
     const review = new ReviewStrategy(this.queryManager, "reviews");
+    const jsonOf = (res: any) => (payload: any) => res.json(payload);
 
     /*** get a specific review with its publication_id and user_id ***/
     this.get(ReviewEndpoints.getReview, (req, res, next) => {
@@ -33,7 +34,7 @@ export class ReviewRouterInitializer extends RouterInitializerImp {
       .query(review.ifExists())
       .query(review.builder().getListItem(0))
       .query(review.builder().define("user", 4))
-      .query(review.send(res.json))
+      .query(review.send(jsonOf(res)))
       .execute()
       .catch(e => next(e));
     });
@@ -49,7 +50,7 @@ export class ReviewRouterInitializer extends RouterInitializerImp {
       }
       this.queryManager
       .query(review.getFilteredList({publication_id: pubid}))
-      .query(review.send(res.json))
+      .query(review.send(jsonOf(res)))
       .execute()
       .catch(e => next(e));
     });
@@ -65,7 +66,7 @@ export class ReviewRouterInitializer extends RouterInitializerImp {
       }
       this.queryManager
       .query(review.getFilteredList({user_id: userid}))
-      .query(review.send(res.json))
+      .query(review.send(jsonOf(res)))
       .execute()
       .catch(e => next(e));
     });

@@ -12,6 +12,7 @@ export class UserRouterInitializer extends RouterInitializerImp {
 
   init() {
     const user = new UserStrategy(this.queryManager, "users");
+    const jsonOf = (res: any) => (payload: any) => res.json(payload);
 
     /*** Get User with a specific id ***/
     this.get(UserEndpoints.getUser, (req, res, next) => {
@@ -20,7 +21,7 @@ export class UserRouterInitializer extends RouterInitializerImp {
       this.queryManager
       .query(user.getById(userid))
       .query(user.ifExists())
-      .query(user.send(res.json))
+      .query(user.send(jsonOf(res)))
       .execute()
       .catch(e => next(e));
     });
@@ -36,7 +37,7 @@ export class UserRouterInitializer extends RouterInitializerImp {
       }
       this.queryManager
       .query(user.getLimit(limit))
-      .query(user.send(res.json))
+      .query(user.send(jsonOf(res)))
       .execute()
       .catch(e => next(e));
     });

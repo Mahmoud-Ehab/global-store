@@ -2,10 +2,8 @@ import { PublicationEndpoints } from "../../Endpoints";
 import { PublicationStrategy } from "../../QueriesStrategy/strategies/PublicationStrategy";
 import { UserStrategy } from "../../QueriesStrategy/strategies/UserStrategy";
 import { 
-  AuthenticationFailed, 
   BadRequest, 
   Done, 
-  NotFound 
 } from "../../Responses";
 import { RouterInitializerImp } from "../RouterInitializerImp";
 
@@ -15,6 +13,7 @@ export class PublicationRouterInitializer extends RouterInitializerImp {
   init() {
     const user = new UserStrategy(this.queryManager, "users");
     const publication = new PublicationStrategy(this.queryManager, "publications");
+    const jsonOf = (res: any) => (payload: any) => res.json(payload);
 
     /*** get publication with a specific id ***/
     this.get(PublicationEndpoints.getPublication, (req, res, next) => {
@@ -26,7 +25,7 @@ export class PublicationRouterInitializer extends RouterInitializerImp {
       this.queryManager
       .query(publication.getById(pubid))
       .query(publication.ifExists())
-      .query(publication.send(res.json))
+      .query(publication.send(jsonOf(res)))
       .execute()
       .catch(e => next(e))
     });
@@ -41,7 +40,7 @@ export class PublicationRouterInitializer extends RouterInitializerImp {
       }
       this.queryManager
       .query(publication.getLimit(limit))
-      .query(publication.send(res.json))
+      .query(publication.send(jsonOf(res)))
       .execute()
       .catch(e => next(e))
     });
@@ -57,7 +56,7 @@ export class PublicationRouterInitializer extends RouterInitializerImp {
       }
       this.queryManager
       .query(publication.getLimitWithOffset(limit, offset))
-      .query(publication.send(res.json))
+      .query(publication.send(jsonOf(res)))
       .execute()
       .catch(e => next(e))
     });
@@ -73,7 +72,7 @@ export class PublicationRouterInitializer extends RouterInitializerImp {
       this.queryManager
       .query(publication.getFilteredList({user_id: userid}))
       .query(publication.ifExists())
-      .query(publication.send(res.json))
+      .query(publication.send(jsonOf(res)))
       .execute()
       .catch(e => next(e));
     });
