@@ -10,9 +10,8 @@ In default, all users have 1 CR (credibility). For each successful product/servi
 
 ## Back-End Development
 
-The backend is developed using [Express](https://expressjs.com/) and [PosrgreSQL](https://node-postgres.com/). However, the overall system could be implemented using any liberary/framework adhering the architecture illustrated in the [docs](/backend/README.md).
+The backend is developed using [Express](https://expressjs.com/) and [PosrgreSQL](https://node-postgres.com/). However, the overall system could be implemented using any liberary/framework adhering the architecture being illustrated in the [docs](/backend/README.md).
 
 ## Front-End Development
 
-The frontend...
-
+The frontend is only implemented with javascript/typescript, though React.js & JSX is extensively used in drawing the UI. In order to give the architecture more portability, so to speak, over using specific UI library, React is used through a specific component "UIBuilder" which is completely unknown to other components and can easly be adapted to any library rather than React. [frontend docs](/frontend/README.md)
