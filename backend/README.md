@@ -52,7 +52,7 @@ Finally, _QueryManager_, the most instable object, whose only purpose is to prov
 ![database diagram](./docs/diagrams/database-diagram.svg)
 
 ## Server Component
-The _Server_ component is much more simple compared to the _Database_. It consists of just two major elements and another two for the external environment. 
+The _Server_ component is much more simple, compared to the _Database_, in implementaion, however, it's more wordy to some extent. It consists of just two major elements, and another minor ones for the external environment. 
 
 The _RouterInitializer_, as mentioned previously, is coupled to Express Architecture. However, it should be trivial to port it to another architecture, by few changes in the Abstract implementation. The _RouterInitializerImp_ has dependency on the _QueryManager_ of the _Database_, in order to be able to handle users requests which certainlly requires access to the database.
 
