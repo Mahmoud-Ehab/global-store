@@ -87,7 +87,7 @@ Example:
 QueryManager
     .query(userStrategy.getById("us1234"))
     .query(userStrategy.ifExists())
-    .query(userStrategy.send(res.json))
+    .query(userStrategy.send(jsonOf(res)))
     .execute()
 ```
 ```
@@ -116,12 +116,15 @@ QueryManager
 //1 .query(review.ifExists())
 //0 .query(review.builder().getListItem(0))
     .query(review.builder().define("user", 4))
-    .query(review.send(res.json))
+    .query(review.send(jsonOf(res)))
     .execute()
     .catch(e => next(e));
 ```
 
 `builer().getListItem(index)` just re-return the last returned value or the first element of the last returned list, from a strategy-query-method. While `builder().define(string, index)` defines a new attribute in the last created (returned) object from the builder, and assigns a specified strategy-query-method returned value to it using an index (its second parameter).
+
+> jsonOf is just an alternative for `res.json` to reserve its context.\
+it's just a function that returns: `(payload: any) => res.json(payload)`.
 
 ## Directory Structure
 
