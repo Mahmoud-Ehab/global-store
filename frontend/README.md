@@ -5,6 +5,7 @@ A three straightforward issues ought to take all of our concern while developing
 In the following sections, we shall describe and specify these three design components: _UIPainter_, _StateManager_, and _RequestDispatcher_; which are going to solve the three issues mentioned above, respectively.
 
 
+
 # StateManager
 
 StateManager takes the full responsibility to store various application data, and to provide its access and update facilities. This component ought to be the most stable among the others, and as abstract as possible; it considered to carry out the business rules: it must NOT depend on other components and must define a general reusable design that can implement the business rules and cope to their future changes.
@@ -35,15 +36,23 @@ In addition, it should give the user a method to get the state (the set of entit
 
 ## Implemented Components
 
-From the abstract component StateManager, we can inherit and implement as many as our need of states requires for different aspects in the system. Mainly, we shall define a root state with the default implementations associated to it, after that, for the sake of global-store, we're going to drive three StateManagers from the root: UserSM, PublicationSM, and ReviewSM, and from each of these SMs (state manager), a various relative StateManagers would be drived. For instance, from UserSM we can inherit SignedInUser, UsersList,...etc. 
+From the abstract component StateManager, we can inherit and implement as many as our need of states requires for different aspects in the system. Mainly, we shall define a root state with the default implementations associated to it, after that, and for the sake of global-store, we're going to derive three StateManagers from the root: UserSM, PublicationSM, and ReviewSM, and from each of these SMs (state managers), a various relative StateManagers would be derived. For instance, from UserSM we can inherit SignedInUser, UsersList,...etc. 
 
 Any of the implemented components can be used by the external environment, however, the abstract one should not (usually the leaves will be the most used). So, different views will end up using different Managers with disparate sizes and different scopes of callbacks. Accordingly, callbacks invocation should propagate upwards, for instance, UserList callbacks invocation must invoke the parent (UserSM) callbacks afterwards, then the same happenes in UserSM, and so on until it reaches the root.
 
 ![StateManager - Implemented Components Diagram](./docs/StateManager-ImplementedComponentsDiagram.svg)
 
 
+
 # RequestDispatcher
 
+This is the bridge which leads to the backend. The frontend shall use it along with StateManager to retrieve the data from the Database, and save the frequent used data by using the StateManager. It's up to the frontend implementation to decide whether it's worth retrieving the data from the StateManager or updating it and get the up-to-date version by using RequestDispatcher.
+
+This component basically contains two elements: Dispatcher & RequestBuilder. Technically, the both objects contribute in constructing the (HTTP) request; the Dispatcher specifies requests proxy and headers, and the Builder specifies the url, the body and the method.
+
+Dispatcher uses [Axios](https://axios-http.com/docs/intro) to send HTTP requests with a configuration object initialized with the suitable proxy and HTTP-request-header once the Dispatcher constructor is invoked. It has only one method, that's used to dispatch different requests, with only one parameter of type Request (an object with url, body and method as its only properties). It may also contain funtions to return and replace configuration values. On the other hand, a RequestBuilder has dependency on [the Endpoint type of the Server component](../backend/README.md#server-component) to retrieve the right request url path associated with its method type, while the body is described in the implementations of the RequestBuilder for each non-GET-method request.
+
+![RequestDispatcher Diagram](./docs/RequestDispatcher-ClassDiagram.svg)
 
 
 # UIPainter
