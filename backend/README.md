@@ -34,7 +34,7 @@ There are only two major components of the backend side: _Database_ & _Server_, 
 
 The _Database_ considered to possess the business rules of the system, that represent the overall concept behind the system: _DataContollers_ and _QueryGenerator_. The former is used to encapsulate the operations of sending queries to the Database Client. However, the latter is to avoid hard-coding the SQL queries. In addition, the component provides a full-organized and managed facility to use and access its all operations via _QueryManager_.
 
-On the other hand, the _Server_ is a detail. It tightly coupled to Express architecture and has dependency on the _Database_, however, it has RouterInitializer design that aquires the component some flexibility. Loosely speaking, if some other framework is intended to be used rather than Express, minor modifications in a few functions of _RouterInitializer Abstract Class_ are supposed to be the only repercussions.
+On the other hand, the _Server_ is a detail. It tightly coupled to Express's architecture and has dependency on the _Database_, however, it has RouterInitializer design that aquires the component some flexibility. Loosely speaking, if some other framework is intended to be used rather than Express, minor modifications in a few functions of _RouterInitializer Abstract Class_ are supposed to be the only repercussions.
 
 ## Database Component
 The _Dababase_ component is composed of three objects/collections of objects (building blocks). Each object/collection is distinguished by its level of abstraction and stability. They might be listed according to the levels, descentantly, as follows:
