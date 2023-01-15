@@ -1,4 +1,4 @@
-# Inception
+# Introduction
 
 A three straightforward issues ought to take all of our concern while developing the frontend. The first is about the UI; we need to provide a well-organized and sophisticated tool that can deal, eligibly, with drawing different UI views for the user. The second is about state management; where the whole application data (user_info, products_list,...etc) is stored, and different data-related mechanisms are marshaled. The third is about Server Communications; the bridge that makes it possible for the frontend to communicate with the backend in a comprehensive and flexible manner. 
 
@@ -56,8 +56,36 @@ Dispatcher uses [Axios](https://axios-http.com/docs/intro) to send HTTP requests
 
 # UIPainter
 
+This component serves as a guide which leads any UI framework, a decision that can be taken throughout the project development lifecycle, to the way to be thoroughly integrated into the project. Maybe the best way to describe this component is to consider it as a generalized mold that reshapes any UI library, even the ones do not currently exist, to be more suitable and amenable to be plugged into the architecture.
 
+UIPainter defines a set of views, illustrates the relations between them, and, more importantly, regulates the use of, and interaction with, the external environment.
 
-## Integrating React
+The following sections discuss: the different types of views, how exactly they communicate with each other, and how views should interact with the external environment.
 
+## Views Types
 
+We may classify the views into three classes by which we can construct any UI system: constructive, interactive, and aesthetic. Each class has its own characteristics, however, they share some and even may intervene to produce a multi-purpose view.
+
+There may be some properties and/or methods in common like: id, dimensions, a method to draw the view, and a method to destruct it. Which will be consolidated by a general class "View". Nevertheless, each type has its own characteristics and purpose; the purpose of a constructive view is to make and construct a container that collects several views, of any class, together; which is more suitable in the real world UI problems. Whereas an interactive class purpose is to employ user inputs and/or different events into the UI of the application; it literally gives life to the UI! Last but not least, the aesthetic view purpose is to ornament the UI with, for instance, notifications, pop-ups, animations, images, etc.
+
+## Views Intercommunication
+
+In order to make the architecture amenable to design a vivid world of views, we ought to assign one more responsibility and make an object creation constraint. The constraint states that no view object can be constructed without being attached to a constructive view; meanly, there should exist a constuctive view, in advance, that's waiting for any other type of view to be attached to it. Whilst, the constructive view has one more responsibility which is the searching mechanism.
+
+The searching mechanism simply visits every view in the construction (including the constructive view itself) and compares its id to the required view id. If the required view is found, it gets returned by the function. Otherwise the process is iterated in the parent of the current construction; it keeps raising until the required view is found or it reaches the root construction (a constructive view hath no parent).
+
+What's remarkable and worth our concern, is the difference between the id checking in contructive views and in other types. Whereas, after checking the id of the constructive view, if it isn't what required, it shall invoke the inner search mechanism. Consequently, two problems are going to emerge: one about efficiency and the other about reliability. By doning the inner searching just alike to the normal (outer) one, the program is going to fall into an infinite loop and winds up unreliable. However, if this infinite loop has been avoided somehow, the code is still not efficient enough; as every time the search is raised to a parent, all inner searches (with no infinite loops) are reinvoked and so many checks are recomputed over and over again.
+
+The solution of the unreliability problem is to differentiate between inner search and normal search; in the inner search, if no raising occurs, then no infinite loops take place. On the other hand, to make the code more efficient we ought to exclude the current constructive view id from the parent search mechanism to which the current is raising searching; Let A, B and C be three different constructive views and A is the parent of both B and C, if the search mechanism of A is invoked, directly, it will check its id and the ids of B and C as well, however, when it gets invoked indirectly, from B for instance (the search mechanism of B is invoked and raised the searching to the parent), it will check its id and only the id of C.
+
+## Views and the Environment
+
+In order to fill views with dynamic data and further give it access to the back-end, It shall got dependency on both: _StateManager_ and _RequestDispatcher_. The both objects may be passed and associated to a view while constructing it, however, It's optional and some views might need to be constructed with neither correspondance to a StateManager nor access to a RequistDispatcher.
+
+In case a view is constructed with a StateManager associated to it, a RequestDispatcher must be passed along too, but not vice versa. The reason for this compulsory association is that the StateManager may indicate the need to update the data, thereby the view object ought to get access to the back-end in order to retrieve the up-to-date version and, in turn, reset the associated StateManager.
+
+## DrawStrategy
+
+As mentioned before, the main purpose of this component is to make the architecture independent of any UI framework, and so to be as portable as possible (it can be used for a web, desktop or mobile application). To further this purpose, we shall use the "Strategy Design Pattern" in order to delegate the draw function in View Objects to another dedicated object, which draws the UI by using a specific framework. In addition, a view object instance shall pass itself to the delegated strategy object, so it can access the required data of the view and/or invoke views event handlers. 
+
+This design is considered as a receptacle through which different frameworks can be plugged into the architecture; And so it extents the architecture to a wide variety of applications.
