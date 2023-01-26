@@ -74,6 +74,8 @@ In order to make the architecture amenable to design a vivid world of views, we 
 
 Consequently, any application should have at least one constructive view which, in implementation, we shall call it the "root". To get a specific view in the whole application we may use the search method in the root. The searching mechanism simply visits every view in the construction (including the constructive view itself) and compares its id to the required view id. If the required view is found, it gets returned by the function, otherwise it returns no object (NULL). However, the constructive view might delegate the whole process to the plugged framework.
 
+![View Diagram](./docs/UIPainter-ViewsDiagram.svg)
+
 ## Views and the Environment
 
 In order to fill views with dynamic data and further give it access to the back-end, It shall got dependency on both: _StateManager_ and _RequestDispatcher_. The both objects may be passed and associated to a view while constructing it, however, It's optional and some views might need to be constructed with neither correspondance to a StateManager nor access to a RequistDispatcher.
