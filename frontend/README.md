@@ -13,7 +13,7 @@ Generally, storing and manipulating any kind of data requires defining two objec
 
 Nevertheless, this pair is not adequate for defining a StateManager, they are lack of management. An additional object shall be described in order to manage this entity-controller environment; by giving the users (other components) the suitable facilities to create Entities and take controll over any ones features.
 
-![StateManager Diagram](./docs/StateManager-ClassDiagram.svg)
+![StateManager Diagram](./docs/diagrams/StateManager-ClassDiagram.svg)
 
 ## Entity
 
@@ -39,7 +39,7 @@ From the abstract component StateManager, we can inherit and implement as many a
 
 Any of the implemented components can be used by the external environment, however, the abstract one should not (usually the leaves will be the most used). So, different views will end up using different Managers with disparate sizes and different scopes of callbacks. Accordingly, callbacks invocation should propagate upwards, for instance, UserList callbacks invocation must invoke the parent (UserSM) callbacks afterwards, then the same happenes in UserSM, and so on until it reaches the root.
 
-![StateManager - Implemented Components Diagram](./docs/StateManager-ImplementedComponentsDiagram.svg)
+![StateManager - Implemented Components Diagram](./docs/diagrams/StateManager-ImplementedComponentsDiagram.svg)
 
 
 
@@ -51,7 +51,7 @@ This component basically contains two elements: Dispatcher & RequestBuilder. Tec
 
 Dispatcher uses [Axios](https://axios-http.com/docs/intro) to send HTTP requests with a configuration object initialized with the suitable proxy and HTTP-request-header once the Dispatcher constructor is invoked. It has only one method, that's used to dispatch different requests, with only one parameter of type Request (an object with url, body and method as its only properties). It may also contain funtions to return and replace configuration values. On the other hand, a RequestBuilder has dependency on [the Endpoint type of the Server component](../backend/README.md#server-component) to retrieve the right request url path associated with its method type, while the body is described in the implementations of the RequestBuilder for each non-GET-method request.
 
-![RequestDispatcher Diagram](./docs/RequestDispatcher-ClassDiagram.svg)
+![RequestDispatcher Diagram](./docs/diagrams/RequestDispatcher-ClassDiagram.svg)
 
 
 # UIPainter
@@ -74,7 +74,7 @@ In order to make the architecture amenable to design a vivid world of views, we 
 
 Consequently, any application should have at least one constructive view which, in implementation, we shall call it the "root". To get a specific view in the whole application we may use the search method in the root. The searching mechanism simply visits every view in the construction (including the constructive view itself) and compares its id to the required view id. If the required view is found, it gets returned by the function, otherwise it returns no object (NULL). However, the constructive view might delegate the whole process to the plugged framework.
 
-![View Diagram](./docs/UIPainter-ViewsDiagram.svg)
+![View Diagram](./docs/diagrams/UIPainter-ViewsDiagram.svg)
 
 ## Views and the Environment
 
@@ -82,7 +82,7 @@ In order to fill views with dynamic data and further give it access to the back-
 
 In case a view is constructed with a StateManager associated to it, a RequestDispatcher must be passed along too, but not vice versa. The reason for this compulsory association is that the StateManager may indicate the need to update the data, thereby the view object ought to get access to the back-end in order to retrieve the up-to-date version and, in turn, reset the associated StateManager.
 
-![View Diagram](./docs/UIPainter-ExternalDeps.svg)
+![View Diagram](./docs/diagrams/UIPainter-ExternalDeps.svg)
 
 ## DrawStrategy
 
@@ -90,4 +90,4 @@ As mentioned before, the main purpose of this component is to make the architect
 
 This design is considered as a receptacle through which different frameworks can be plugged into the architecture; And so it extents the architecture to a wide variety of applications.
 
-![View Diagram](./docs/UIPainter-ViewDrawer.svg)
+![View Diagram](./docs/diagrams/UIPainter-ViewDrawer.svg)
