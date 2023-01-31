@@ -82,8 +82,12 @@ In order to fill views with dynamic data and further give it access to the back-
 
 In case a view is constructed with a StateManager associated to it, a RequestDispatcher must be passed along too, but not vice versa. The reason for this compulsory association is that the StateManager may indicate the need to update the data, thereby the view object ought to get access to the back-end in order to retrieve the up-to-date version and, in turn, reset the associated StateManager.
 
+![View Diagram](./docs/UIPainter-ExternalDeps.svg)
+
 ## DrawStrategy
 
 As mentioned before, the main purpose of this component is to make the architecture independent of any UI framework, and so to be as portable as possible (it can be used for a web, desktop or mobile application). To further this purpose, we shall use the "Strategy Design Pattern" in order to delegate the draw function in View Objects to another dedicated object, which draws the UI by using a specific framework. In addition, a view object instance shall pass itself to the delegated strategy object, so it can access the required data of the view and/or invoke views event handlers. 
 
 This design is considered as a receptacle through which different frameworks can be plugged into the architecture; And so it extents the architecture to a wide variety of applications.
+
+![View Diagram](./docs/UIPainter-ViewDrawer.svg)
