@@ -2,7 +2,7 @@ import { Entity, Controller, AppState } from "../modules/StateManager"
 
 type AnyEntity = Entity<string, any, any>;
 
-type RootEntity = Entity<string, AppState<AnyEntity>, AppState<AnyEntity>>;
+type RootEntity = Entity<string, AppState<AnyEntity>, {}>;
 class RootController extends Controller<AnyEntity> {}
 
 class RootState extends AppState<RootEntity> {
@@ -17,7 +17,7 @@ class RootState extends AppState<RootEntity> {
   }
 
   protected generateCache(value: RootEntity["value"]): RootEntity["cache"] {
-    return value;
+    return {};
   }
 }
 
