@@ -10,7 +10,7 @@ export abstract class Controller<E extends ControllerEntity> {
   }
 
   getEntity(key: E["key"]): E {
-    const found = this.entities.find((entity) => entity.key = key)
+    const found = this.entities.find((entity) => entity.key === key)
     return found;
   }
 
