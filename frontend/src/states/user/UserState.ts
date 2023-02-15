@@ -5,14 +5,14 @@ type UserInfo = {
 	username: string
 }
 
-type UserEntity = Entity<"userinfo", UserInfo, Partial<UserInfo>>;
+type UserEntity = Entity<"info", UserInfo, Partial<UserInfo>>;
 class UserController extends Controller<UserEntity> {}
 
 export class UserState extends AppState<UserEntity> {
 	constructor(info: UserInfo) {
 		super();
 		this.controller = new UserController(this.entities);
-		this.addEntity("userinfo", info);
+		this.addEntity("info", info);
 		this.addEntity = null;
 	}
 
