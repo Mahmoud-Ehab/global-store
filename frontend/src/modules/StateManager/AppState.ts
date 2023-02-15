@@ -69,12 +69,7 @@ export abstract class AppState<E extends AppStateEntity> {
 
     for (let entity of this.entities) {
       const val = entity.value;
-      const cache = entity.cache;
-
-      obj[entity.key] = { 
-        "value": val.toObject ? {...val.toObject()} : {...val},
-        "cache": cache.toObject ? {...cache.toObject()} : {...cache}
-      }
+      obj[entity.key] = val.toObject ? {...val.toObject()} : {...val};
     }
 
     return obj;
