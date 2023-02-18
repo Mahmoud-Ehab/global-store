@@ -22,20 +22,20 @@ export abstract class Controller<E extends ControllerEntity> {
     return this.getEntity(key)?.cache;
   }
 
-  update(key: E["key"], newValue: E["value"]): boolean {
+  update(key: E["key"], newValue: Partial<E["value"]>): boolean {
     const prev = this.getValue(key);
     if (!prev)
       return false;
 
-    for (let k in prev) {
+    for (let k in newValue) {
       prev[k] = newValue[k];
     }
     return true;
   }
 
-  remove(key: E["key"]): boolean {
+  remove(key: E["key"]): E[] {
     const prevLen = this.entities.length;
     this.entities = this.entities.filter((entity) => entity.key != key);
-    return prevLen != this.entities.length;
+    return prevLen != this.entities.length ? this.entities : null;
   }
 }
