@@ -49,19 +49,23 @@ export abstract class AppState<E extends AppStateEntity> {
     return this.controller.getValue(key);
   }
 
-  update(key: E["key"], value: E["value"]) {
+  update(key: E["key"], value: Partial<E["value"]>) {
     if (!this.needsUpdate(key, value))
-      return;
-    
+      return false;
+
     const updated = this.controller.update(key, value);
     if (updated)
       this.callbacks.forEach(callback => callback.func());
+    return updated;
   }
 
   remove(key: E["key"]) {
     const removed = this.controller.remove(key);
-    if (removed)
+    if (removed) {
+      this.entities = removed;
       this.callbacks.forEach(callback => callback.func());
+    }
+    return removed !== null;
   }
 
   toObject() {
