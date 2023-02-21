@@ -10,12 +10,12 @@ import { StateFactory } from "./StateFactory";
 
 // A substitute to Enitity<...>, for the sake of readability.
 type AnyEntity = Entity<any, any, any>;
-
 type RootEntity = Entity<string, AppState<AnyEntity>, {}>;
-class RootController extends Controller<RootEntity> {}
+
 class RootState extends AppState<RootEntity> {
   constructor() {
 		super();
+    class RootController extends Controller<RootEntity> {}
 		this.controller = new RootController(this.entities);
 	}
 
