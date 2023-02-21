@@ -11,7 +11,7 @@ export class UsersListState extends AppState<UsersListEntity> {
 	}
 
 	protected needsUpdate(key: UsersListEntity["key"], newValue: UsersListEntity["value"]): boolean {
-		return this.controller.getValue(key) !== newValue;
+		return !this.controller.getValue(key).isEqual(newValue);
 	}
 
 	protected generateCache(_value: UsersListEntity["value"]): UsersListEntity["cache"] {
