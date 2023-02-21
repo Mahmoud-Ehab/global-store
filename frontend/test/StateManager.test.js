@@ -1,7 +1,5 @@
 const expect = require("expect.js");
-const { StateManager } = require("../dist/states");
-const { UserState } = require("../dist/states/user/UserState");
-const { UsersListState } = require("../dist/states/user/UsersListState");
+const { StateManager, User, UserList } = require("../dist/states");
 
 describe("#StateManager", function() {
   const user1 = {
@@ -20,9 +18,9 @@ describe("#StateManager", function() {
 
   describe("User Related States", function() {
     it("should create, store, and retrieve user 1, 2 and 3 info", function() {
-      StateManager.addEntity("user1", new UserState(user1));
-      StateManager.addEntity("user2", new UserState(user2));
-      StateManager.addEntity("user3", new UserState(user3));
+      StateManager.addEntity("user1", new User(user1));
+      StateManager.addEntity("user2", new User(user2));
+      StateManager.addEntity("user3", new User(user3));
       
       const data = StateManager.toObject();
       expect(data.user1.info).to.eql(user1);
@@ -31,7 +29,7 @@ describe("#StateManager", function() {
     });
 
     it("should create UsersList and add users to it", function() {
-      const users = new UsersListState();
+      const users = new UserList();
       users.addEntity("user1", StateManager.get("user1"));
       users.addEntity("user2", StateManager.get("user2"));
       users.addEntity("user3", StateManager.get("user3"));

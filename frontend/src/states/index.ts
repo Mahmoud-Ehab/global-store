@@ -1,24 +1,40 @@
 import { Entity, Controller, AppState } from "../modules/StateManager"
+import * as Structures from "./Structures";
+import { StateFactory } from "./StateFactory";
 
-type AnyEntity = Entity<string, any, any>;
+
+/* 
+  Create a RootState with "StateManager" as its name, 
+  and export it to the user.
+*/
+
+// A substitute to Enitity<...>, for the sake of readability.
+type AnyEntity = Entity<any, any, any>;
 
 type RootEntity = Entity<string, AppState<AnyEntity>, {}>;
-class RootController extends Controller<AnyEntity> {}
-
+class RootController extends Controller<RootEntity> {}
 class RootState extends AppState<RootEntity> {
   constructor() {
 		super();
 		this.controller = new RootController(this.entities);
 	}
 
-  protected needsUpdate(key: AnyEntity["key"], newValue: AnyEntity["value"]): boolean {
+  protected needsUpdate(key: RootEntity["key"], newValue: RootEntity["value"]): boolean {
     const value = this.controller.getValue(key);
-    return !value.isEqual(newValue);
+    if (typeof value === typeof newValue)
+      return !value.isEqual(newValue);
   }
 
   protected generateCache(value: RootEntity["value"]): RootEntity["cache"] {
     return {};
   }
 }
-
 export const StateManager = new RootState();
+
+
+/*
+  Create the reuseable states that the client will need and use
+  frequently in the StateManager.
+*/
+
+export const [User, UserList] = new StateFactory<Structures.User>().create();
