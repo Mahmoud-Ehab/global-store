@@ -9,7 +9,7 @@ In the following sections, we shall describe and specify these three design comp
 
 StateManager takes the full responsibility to store various application data, and to provide its access and update facilities. This component ought to be the most stable among the others, and as abstract as possible; it considered to carry out the business rules: it must NOT depend on other components and must define a general reusable design that can implement the business rules and cope to their future changes.
 
-Generally, storing and manipulating any kind of data requires defining two objects; one descibes the structure of the data units, and the other declares the features — the methods that could be applied to the data. We shall give the both names: _Entity_ and _Controller_.
+Generally, storing and manipulating any kind of data requires defining two objects; one describes the structure of the data units, and the other declares the features — the methods that could be applied to the data. We shall give the both names: _Entity_ and _Controller_.
 
 A state may be defined as a set of entities with a common controller. On the other hand, a StateManager requires an additional object to manage this entities-controller environment; it will delegate retrieval and manipulation functions to the controller, however, it's also responsible for creating/storing entities and adding, removing, and invoking update callbacks.
 
@@ -34,6 +34,16 @@ Reading the value could simply be returning it, parsing it as a string or JSON f
 A state is defined by a set of entities and a controller that's compatible with the structure of the entities. However, a State object is responsible to invoke the controller methods in order to manipulate the entities, and to store, remove, and invoke callbacks, as well.
 
 In addition, it should give the user a method to get the state (the set of entities) compiled into one JSON object with the proper values been evaluated; if one of the entities is just another StateManager, then it must be compiled in turn as well. Similary, it shall provide a method for loading the state(s) from the JSON object.
+
+## The Triad in Ground
+
+Finally, in this section we are going to see how the triad: Entity, Controller, and AppState, can be employed together, in harmony, to develop a StateManager that's suitable for almost any software application. First of all, we'll define the RootState which we may call the "TRUE" StateManager (among all of these AppStates/StateManagers). Then, we shall define general types of states, from which all the required states in the application can be derived, to be used by the Root. And last but not least, a factory class may be added to improve the quality of the code; StateFactory is responsible for generating and customizing derived states from the general ones (SingleState & ListState), by using different structures (data unit object) specified by the user.
+
+### RootState
+
+### SingleState & ListState
+
+### StateFactory
 
 
 # RequestDispatcher
