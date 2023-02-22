@@ -11,7 +11,7 @@ export class UserRouterInitializer extends RouterInitializerImp {
   _routerName = "user";
 
   init() {
-    const user = new UserStrategy(this.queryManager, "users");
+    const user = new UserStrategy(this.queryManager);
     const jsonOf = (res: any) => (payload: any) => res.json(payload);
 
     /*** Get User with a specific id ***/

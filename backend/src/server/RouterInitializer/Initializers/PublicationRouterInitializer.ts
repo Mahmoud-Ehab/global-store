@@ -11,8 +11,8 @@ export class PublicationRouterInitializer extends RouterInitializerImp {
   _routerName = "publication";
 
   init() {
-    const user = new UserStrategy(this.queryManager, "users");
-    const publication = new PublicationStrategy(this.queryManager, "publications");
+    const user = new UserStrategy(this.queryManager);
+    const publication = new PublicationStrategy(this.queryManager);
     const jsonOf = (res: any) => (payload: any) => res.json(payload);
 
     /*** get publication with a specific id ***/

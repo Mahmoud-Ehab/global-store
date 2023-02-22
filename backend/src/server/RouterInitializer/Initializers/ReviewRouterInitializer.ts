@@ -9,9 +9,9 @@ export class ReviewRouterInitializer extends RouterInitializerImp {
   _routerName = "review";
 
   init() {
-    const user = new UserStrategy(this.queryManager, "users");
-    const publication = new PublicationStrategy(this.queryManager, "publications");
-    const review = new ReviewStrategy(this.queryManager, "reviews");
+    const user = new UserStrategy(this.queryManager);
+    const publication = new PublicationStrategy(this.queryManager);
+    const review = new ReviewStrategy(this.queryManager);
     const jsonOf = (res: any) => (payload: any) => res.json(payload);
 
     /*** get a specific review with its publication_id and user_id ***/
