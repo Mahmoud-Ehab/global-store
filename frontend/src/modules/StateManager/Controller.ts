@@ -22,6 +22,11 @@ export abstract class Controller<E extends ControllerEntity> {
     return this.getEntity(key)?.cache;
   }
 
+  getObject(key: E["key"]) {
+    const val = this.getValue(key);
+    return val.toObject ? {...val.toObject()} : {...val};
+  }
+
   update(key: E["key"], newValue: Partial<E["value"]>): boolean {
     const prev = this.getValue(key);
     if (!prev)

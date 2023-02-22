@@ -71,10 +71,8 @@ export abstract class AppState<E extends AppStateEntity> {
   toObject() {
     const obj = Object.create({});
 
-    for (let entity of this.entities) {
-      const val = entity.value;
-      obj[entity.key] = val.toObject ? {...val.toObject()} : {...val};
-    }
+    for (let entity of this.entities)
+      obj[entity.key] = this.controller.getObject(entity.key);
 
     return obj;
   }
