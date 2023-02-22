@@ -37,13 +37,31 @@ In addition, it should give the user a method to get the state (the set of entit
 
 ## The Triad in Ground
 
-Finally, in this section we are going to see how the triad: Entity, Controller, and AppState, can be employed together, in harmony, to develop a StateManager that's suitable for almost any software application. First of all, we'll define the RootState which we may call the "TRUE" StateManager (among all of these AppStates/StateManagers). Then, we shall define general types of states, from which all the required states in the application can be derived, to be used by the Root. And last but not least, a factory class may be added to improve the quality of the code; StateFactory is responsible for generating and customizing derived states from the general ones (SingleState & ListState), by using different structures (data unit object) specified by the user.
+Finally, in this section we are going to see how the triad: Entity, Controller, and AppState, can be employed together, in harmony, to develop a StateManager that's suitable for almost any software application. First of all, we'll define the RootState which we may call the "TRUE" StateManager (among all of these AppStates/StateManagers). Then, we shall define general types of states, from which all the required states in the application can be derived, to be used by the Root. And last but not least, a factory class may be added to improve the quality of the code: the StateFactory is responsible for generating and customizing derived states, from the general ones (SingleState & ListState), by using different structures (data unit object) specified by the user.
+
+![RootState Diagram](./docs/diagrams/StateManager-RootState.svg)
 
 ### RootState
 
+The RootState is an inherited class from the AppState with a specific Entity, Controller, and few mehtods implementations: like _needsUpdate_ and _generateCache_ (these are usually being overrided for any new class inherites AppState).
+
+Typically, It's what the user will always need to store and retrieve different kinds of data; and so it shall be exported to and used by him with the name "StateManager". However, we may distinguish it from the other StateManagers (AppStates) by calling it the "TRUE" one!
+
+What mainly distinguishes an AppState from another is the Entity. And the main trait of RootState is the type of its Entity value; the value that can be stored in RootState entities is one of two types: SingleState and/or ListState.
+
 ### SingleState & ListState
 
+By considering the problem at hand: making a store web application, one can readily conclude that the user will only need two types of states regardless of the data units that'll be preserved. The first one is a state of a single entity, like "LoggedinUser" for instance, which we may call a _SingleState_. The second one is just a typical AppState with the SingleState as the type of the Entity value propery, which we may call a _ListState_.
+
+As mentioned before, inherited AppStates are distinguished by three things: the Entity, the Controller, and the overrided methods. For instance, in order to make a SingleState, we ought to change the key type of the Entity to a constant string rather than an arbitrary one (which is easly implemented with TypeScript). In addition we shall dismiss the "addEntity" method and let the user set the value by the class constructor instead.
+
+The end-states, that are ultimately used by the user to store data in the RootState, are created by specifying the structure of the SingleState value. For example, the structure {user_id, username,... etc} could be used to define a User end-state by specifying it as the type of the SingleState Entity value. Moreover, the creation of end-states should be generic; it shouldn't require more than defining the structure of the data. In other words, we should avoid the hell of inherited classes, by using a factory that takes a structure type, as a generic parameter, to create for us a ready to use SingleState, of the specified structure, and ListState, of the created SingleState.
+
+> Details are not mentioned here, for instance "needsUpdate" method override, which is a must, hasn't been mentioned here. In implementaion, every method in the abstract class should be revisited and decided whether it needs to be extented or overrided, or it's just suitalbe for the inherited class. 
+
 ### StateFactory
+
+The whole purpose of this class is to dynamically generate the AppStates that are meant to be exported to be used by the user. Without it, we will tediously declare and define several classes and write the same code over and over again: UserState, UserListState, PublicateState, PublicationListState,... etc. On the other hand, by using this class we will just need to define structures (data units), and pass them to a factory to which the process of end-state creation is delegated.
 
 
 # RequestDispatcher
