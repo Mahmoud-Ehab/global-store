@@ -3,15 +3,15 @@ const { StateManager, User, UserList } = require("../dist/StateManagerImpl");
 
 describe("#StateManager", function() {
   const user1 = {
-    user_id: "1",
+    id: "1",
     username: "Mahmoud Ehab"
   };
   const user2 = {
-    user_id: "2",
+    id: "2",
     username: "Ahmed Ehab"
   };
   const user3 = {
-    user_id: "3",
+    id: "3",
     username: "Ehab Ayman"
   };
   let lic = ""; // (lastInvokedCallback) used in callbacks tests
