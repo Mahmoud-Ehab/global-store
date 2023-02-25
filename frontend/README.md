@@ -66,11 +66,13 @@ The whole purpose of this class is to dynamically generate the AppStates that ar
 
 # RequestDispatcher
 
-This is the bridge which leads to the backend. The frontend shall use it along with StateManager to retrieve the data from the Database, and save the frequently used data by using the StateManager. It's up to the frontend implementation to decide whether it's worth retrieving the data from the StateManager or updating it and get the up-to-date version by using RequestDispatcher.
+RequestDispatcher is considered as a bridge between the frontend and the backend; the frontend shall use it to retrieve data from the Database, and save the frequently used data by using the StateManager. It's up to the frontend implementation to decide whether it's worth retrieving the data from the StateManager or updating it and get the up-to-date version by using RequestDispatcher.
 
 This component basically contains two elements: Dispatcher & RequestBuilder. Technically, the both objects contribute in constructing the (HTTP) request; the Dispatcher specifies requests proxy and headers, and the Builder specifies the url, the body and the method.
 
-Dispatcher uses [Axios](https://axios-http.com/docs/intro) to send HTTP requests with a configuration object initialized with the suitable proxy and HTTP-request-header once the Dispatcher constructor is invoked. It has only one method, that's used to dispatch different requests, with only one parameter of type Request (an object with url, body and method as its only properties). It may also contain funtions to return and replace configuration values. On the other hand, a RequestBuilder has dependency on [the Endpoint type of the Server component](../backend/README.md#server-component) to retrieve the right request url path associated with its method type, while the body is described in the implementations of the RequestBuilder for each non-GET-method request.
+Dispatcher uses [Axios](https://axios-http.com/docs/intro) to send HTTP requests with a configuration object initialized with the suitable proxy and HTTP-request-header once the Dispatcher constructor is invoked. It has only one method, that's used to dispatch different requests, with only one parameter of type Request (an object with url, body and method as its only properties). It may also contain functions to return and replace configuration values. On the other hand, a RequestBuilder has dependency on [the Endpoint type of the Server component](../backend/README.md#server-component) to retrieve the right request url path associated with its method type.
+
+The request body is prescribed by the implemented Builder classes; each class specifies the body structure (type). Generally, the "Builder.build" method builds Request objects out of Endpoints, and stores each Request, in a public object according to its method type, with a specified name. The body of the request, however, if not specified in the third parameter of the method, the Request will get generated with empty body value "{}".
 
 ![RequestDispatcher Diagram](./docs/diagrams/RequestDispatcher-ClassDiagram.svg)
 
