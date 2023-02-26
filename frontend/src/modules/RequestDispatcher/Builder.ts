@@ -1,21 +1,26 @@
 import { Endpoint, Request } from "./types";
 
-export abstract class Builder<T> {
-  GET: Object = {};
-  POST: Object = {};
-  PATCH: Object = {};
-  DELETE: Object = {};
+type ReqFunc = (body?: Object, ...params: any[]) => Request;
 
-  build(endpoint: Endpoint, name: string, body?: T) {
-    const newRequest: Request = {
-      url: endpoint.path,
+export abstract class Builder<R extends string> {
+  requests: Record<R, ReqFunc> = Object.create({});
+
+  protected build(name: string, endpoint: Endpoint) {
+    type Params = Parameters<typeof endpoint.path>
+
+    const reqFunc: ReqFunc = (body?: Object, ...params: Params) => ({
+      url: endpoint.path(params),
       method: endpoint.type,
       body: body || {}
-    }
+    });
+
     Object.defineProperty(
-      this[endpoint.type], 
+      this.requests, 
       name, 
-      {value: newRequest}
+      {
+        value: reqFunc,
+        enumerable: true
+      }
     );
   }
 }
