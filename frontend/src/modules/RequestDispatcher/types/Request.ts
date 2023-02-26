@@ -1,5 +1,5 @@
 export type Request = {
-  url: (...param: any) => string,
+  url: string,
   method: "GET" | "POST" | "PATCH" | "DELETE",
   body: Object
 }

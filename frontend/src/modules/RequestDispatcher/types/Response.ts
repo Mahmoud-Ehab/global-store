@@ -1,1 +1,1 @@
-export type Response = Promise<{}>;
+export type Response = Promise<any>;
