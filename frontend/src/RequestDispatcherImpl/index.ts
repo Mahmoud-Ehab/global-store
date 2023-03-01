@@ -3,7 +3,7 @@ import {
   UserReqBuilder
 } from "./Builders/UserReqBuilder";
 
-export const Dispatcher = new AxiosDispatcher(
+const Dispatcher = new AxiosDispatcher(
   {'Content-Type': 'application/json'}, 
   {
     protocol: 'http',
@@ -12,4 +12,7 @@ export const Dispatcher = new AxiosDispatcher(
   }
 );
 
-export const UserRequests = (new UserReqBuilder()).requests;
+export {
+  Dispatcher, 
+  UserReqBuilder
+};
