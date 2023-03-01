@@ -1,5 +1,5 @@
 const expect = require("expect.js");
-const { StateManager, User, UserList } = require("../dist/StateManagerImpl");
+const { StateManager, User, UserList } = require("../dist/frontend/src/StateManagerImpl");
 
 describe("#StateManager", function() {
   const user1 = {
