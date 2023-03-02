@@ -9,7 +9,7 @@ export abstract class Builder<R extends string> {
     type Params = Parameters<typeof endpoint.path>
 
     const reqFunc: ReqFunc = (body?: Object, ...params: Params) => ({
-      url: endpoint.path(params),
+      url: endpoint.path(...params),
       method: endpoint.type,
       body: body || {}
     });
