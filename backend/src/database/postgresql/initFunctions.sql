@@ -14,6 +14,7 @@ CREATE OR REPLACE FUNCTION delete_user()
 RETURNS TRIGGER AS $delete_user$
 BEGIN
   DELETE FROM publications WHERE user_id = OLD.id;
+  DELETE FROM reviews WHERE user_id = OLD.id;
   RETURN OLD;
 END;
 $delete_user$ LANGUAGE plpgsql;
