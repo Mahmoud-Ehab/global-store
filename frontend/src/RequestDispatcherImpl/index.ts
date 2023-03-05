@@ -1,6 +1,7 @@
 import { AxiosDispatcher } from "./Dispatchers/AxiosDispatcher";
 import { UserReqBuilder } from "./Builders/UserReqBuilder";
 import { PubReqBuilder } from "./Builders/PubReqBuilder";
+import { RevReqBuilder } from "./Builders/RevReqBuilder";
 
 const Dispatcher = new AxiosDispatcher(
   {'Content-Type': 'application/json'}, 
@@ -14,5 +15,6 @@ const Dispatcher = new AxiosDispatcher(
 export {
   Dispatcher, 
   UserReqBuilder,
-  PubReqBuilder
+  PubReqBuilder,
+  RevReqBuilder
 };

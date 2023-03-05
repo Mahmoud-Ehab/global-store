@@ -2,9 +2,11 @@ const expect = require("expect.js");
 const { 
   Dispatcher, 
   UserReqBuilder,
-  PubReqBuilder
+  PubReqBuilder,
+  RevReqBuilder
 } = require("../dist/frontend/src/RequestDispatcherImpl");
 
+// Mock Users Data
 const mockUser1 = {
   username: "user1",
   password: "123123123",
@@ -15,10 +17,12 @@ const mockUser2 = {
   password: "32131321",
   id: undefined
 }
+
+// Mock Publications Data
 const mockPub1 = {
   user_id: mockUser1.id,
   title: "the first publication",
-  description: "Just some mock publication no thing important here.",
+  description: "Just a mock publication nothing important here.",
   price: 123,
   currency: "EGP",
   phone: "012345678"
@@ -26,16 +30,31 @@ const mockPub1 = {
 const mockPub2 = {
   user_id: mockUser2.id,
   title: "the second publication",
-  description: "Just some mock publication no thing important here.",
+  description: "Just a mock publication nothing important here.",
   price: 321,
   currency: "EGP",
   phone: "011654321"
 }
 
+// Mock Reviews Data
+const mockReview1 = {
+  user_id: mockUser1.id,
+  publication_id: mockPub2.id,
+  title: "Review 1",
+  body: "Just a mock review nothing important here."
+}
+const mockReview2 = {
+  user_id: mockUser2.id,
+  publication_id: mockPub1.id,
+  title: "Review 2",
+  body: "Just a mock review nothing important here."
+}
+
 const userBuilder = new UserReqBuilder();
 const pubBuilder = new PubReqBuilder();
+const revBuilder = new RevReqBuilder();
 
-describe.only("#RequestDispatcher", function() {
+describe("#RequestDispatcher", function() {
   describe("##UserReqBuilder", function() {
     const mockUser = {
       username: "NewUser",
@@ -217,10 +236,93 @@ describe.only("#RequestDispatcher", function() {
   })
 
   describe("##ReviewReqBuilder", function() {
-    it("", async function () {})
-    it("", async function () {})
-    it("", async function () {})
-    it("", async function () {})
-    it("", async function () {})
+    before(async function() {
+      const user1Res = await Dispatcher.dispatch(userBuilder.register(mockUser1));
+      const user2Res = await Dispatcher.dispatch(userBuilder.register(mockUser2));
+
+      mockUser1.id = user1Res.data.metadata.id;
+      mockUser2.id = user2Res.data.metadata.id;
+
+      mockPub1.user_id = mockUser1.id;
+      mockPub2.user_id = mockUser2.id;
+
+      await Dispatcher.dispatch(pubBuilder.create(mockPub1, mockUser1));
+      await Dispatcher.dispatch(pubBuilder.create(mockPub2, mockUser2));
+
+      const pubsReq = await Dispatcher.dispatch(pubBuilder.get().limit(2));
+      const pubs = pubsReq.data.metadata.data;
+      mockPub1.id = pubs[0].id;
+      mockPub2.id = pubs[1].id;
+
+      mockReview1.user_id = mockUser1.id;
+      mockReview2.user_id = mockUser2.id;
+      mockReview1.publication_id = mockPub2.id;
+      mockReview2.publication_id = mockPub1.id;
+    })
+
+    after(function () {
+      Dispatcher.dispatch(userBuilder.remove(
+        mockUser1.id,
+        {
+          username: mockUser1.username,
+          password: mockUser1.password
+        }
+      ));
+      Dispatcher.dispatch(userBuilder.remove(
+        mockUser2.id,
+        {
+          username: mockUser2.username,
+          password: mockUser2.password
+        }
+      ));
+    })
+
+    it("should create review for each publication by each user", async function () {
+      const res1 = await Dispatcher.dispatch(revBuilder.create(mockReview1, mockUser1));
+      const res2 = await Dispatcher.dispatch(revBuilder.create(mockReview2, mockUser2));
+      expect(res1.data.code).to.equal(200);
+      expect(res2.data.code).to.equal(200);
+    })
+
+    it("should get the reviews of a specific user", async function () {
+      const res = await Dispatcher.dispatch(revBuilder.get().ofUser(mockUser1.id));
+      const reviews = res.data.metadata.data;
+      expect(res.data.code).to.equal(200)
+      expect(reviews).to.have.length(1);
+    })
+
+    it("should get the reviews of a specific publication", async function () {
+      const res = await Dispatcher.dispatch(revBuilder.get().ofPublication(mockPub2.id));
+      const reviews = res.data.metadata.data;
+      expect(res.data.code).to.equal(200)
+      expect(reviews).to.have.length(1);
+    })
+
+    it("should get a specific review with user_id and publication_id", async function () {
+      const res = await Dispatcher.dispatch(revBuilder.get().id(mockPub2.id, mockUser1.id));
+      const review = res.data.metadata.data;
+      expect(res.data.code).to.equal(200);
+      for (let key in mockReview1)
+        expect(review[key]).to.eql(mockReview1[key]);
+    })
+
+    it("should update the content of a review", async function () {
+      const res = await Dispatcher.dispatch(revBuilder.update(
+        mockReview1,
+        mockUser1,
+        {
+          title: "New Title",
+          body: "New body text content"
+        }
+      ));
+      expect(res.data.code).to.equal(200);
+    })
+
+    it("should successfuly remove reviews by using credentials", async function () {
+      const res1 = await Dispatcher.dispatch(revBuilder.remove(mockReview1, mockUser1));
+      const res2 = await Dispatcher.dispatch(revBuilder.remove(mockReview2, mockUser2));
+      expect(res1.data.code).to.equal(200);
+      expect(res2.data.code).to.equal(200);
+    })
   })
 })
