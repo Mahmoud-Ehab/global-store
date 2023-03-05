@@ -112,9 +112,10 @@ export class ReviewRouterInitializer extends RouterInitializerImp {
           publication_id: req.body.publication_id,
           data: req.body.data
       }
+      const cred = req.body.credentials;
       const credentials = {
-        username: req.body.username,
-        password: req.body.password
+        username: cred ? cred.username : undefined,
+        password: cred ? cred.password : undefined
       }
       if (this.hasUndefined(reqBody, credentials)) {
         next(BadRequest);
