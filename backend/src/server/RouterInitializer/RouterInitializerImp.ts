@@ -1,4 +1,5 @@
 import express = require("express");
+import { createHmac } from "node:crypto";
 import { RouterInitializer } from "./RouterInitializer";
 import { Endpoint } from "../Endpoints/type";
 import QueryManager from "../../database/QueryManager/QueryManager";
@@ -49,5 +50,11 @@ export abstract class RouterInitializerImp implements RouterInitializer {
           return true;
     }
     return false;
+  }
+
+  protected encrypt(secret: string): string {
+    return createHmac('sha256', secret)
+    .update('aolym@kfgl$lq#agi#@lasdjgf@kfo23kasdfm')
+    .digest('hex');
   }
 }

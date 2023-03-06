@@ -10,6 +10,11 @@ import { RouterInitializerImp } from "../RouterInitializerImp";
 export class UserRouterInitializer extends RouterInitializerImp {
   _routerName = "user";
 
+  private generateId(username: string): string {
+    const randnum = Math.floor(Math.random() * 10000);
+    return username.slice(0, 2) + randnum;
+  }
+
   init() {
     const user = new UserStrategy(this.queryManager);
     const jsonOf = (res: any) => (payload: any) => res.json(payload);
@@ -55,7 +60,13 @@ export class UserRouterInitializer extends RouterInitializerImp {
         return;
       }
 
-      //@TODO: Encrypt the password in reqBody obj
+      /*
+        @TODO: generate user_token and store it in the database,
+        it shall be used as a substitute for password in other
+        requests.
+      */
+      //@DONE: Encrypt the password in reqBody obj
+      reqBody.password = this.encrypt(reqBody.password);
 
       this.queryManager
       .query(user.getFilteredList({username: reqBody.username}))
@@ -80,7 +91,8 @@ export class UserRouterInitializer extends RouterInitializerImp {
         return;
       }
 
-      //@TODO: Encrypt the password in reqBody obj
+      //@DONE: Encrypt the password in reqBody obj
+      reqBody.password = this.encrypt(reqBody.password);
 
       this.queryManager
       .query(user.getFilteredList({username: reqBody.username}))
@@ -113,7 +125,9 @@ export class UserRouterInitializer extends RouterInitializerImp {
         return;
       }
 
-      //@TODO: Encrypt the password in reqBody obj
+      //@TODO: password should be replaced by token_id
+      credentials.password = this.encrypt(credentials.password);
+
       this.queryManager
       .query(user.getById(reqBody.id))
       .query(user.ifExists())
@@ -141,7 +155,9 @@ export class UserRouterInitializer extends RouterInitializerImp {
         return;
       }
 
-      //@TODO: Encrypt the password in reqBody obj
+      //@TODO: password should be replaced by token_id
+      credentials.password = this.encrypt(credentials.password);
+
       this.queryManager
       .query(user.getById(reqBody.id))
       .query(user.ifExists())
@@ -151,10 +167,5 @@ export class UserRouterInitializer extends RouterInitializerImp {
       .execute()
       .catch(e => next(e));
     });
-  }
-
-  private generateId(username: string): string {
-    const randnum = Math.floor(Math.random() * 10000);
-    return username.slice(0, 2) + randnum;
   }
 }
