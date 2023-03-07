@@ -13,7 +13,7 @@ interface DataController<T> {
   }, filter: Partial<T>): Promise<Array<T>>;
 
   insert(data: Partial<T>): Promise<object>;
-  update(data: Partial<T>, filter: object): Promise<QueryResult>;
+  update(data: Partial<T>, filter: Partial<T>): Promise<QueryResult>;
   delete(filter: object): Promise<QueryResult>;
 }
 

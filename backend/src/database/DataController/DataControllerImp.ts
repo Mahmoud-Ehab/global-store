@@ -109,7 +109,7 @@ abstract class DataController<T> implements DataControllerInterface<T> {
     }
   }
 
-  async update(data: Partial<T>, filter: object): Promise<QueryResult> {
+  async update(data: Partial<T>, filter: Partial<T>): Promise<QueryResult> {
     try {
       const query = this.queries.update(data, filter);
       const res = await this.client.query(query);
