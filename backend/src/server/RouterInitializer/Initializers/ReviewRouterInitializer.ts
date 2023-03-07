@@ -79,22 +79,19 @@ export class ReviewRouterInitializer extends RouterInitializerImp {
         user_id: req.body.user_id,
         publication_id: req.body.publication_id,
         title: req.body.title,
-        body: req.body.body
+        body: req.body.body,
       }
-      const cred = req.body.credentials;
-      const credentials = {
-        username: cred ? cred.username : undefined,
-        password: cred ? cred.password : undefined
-      }
-      if (this.hasUndefined(reqBody, credentials)) {
+      const token = req.body.token;
+
+      if (this.hasUndefined(reqBody, {token})) {
         next(BadRequest);
         return;
       }
-      //@TODO: encrypt password
+
       this.queryManager
       .query(user.getById(reqBody.user_id))
       .query(user.ifExists())
-      .query(user.auth(credentials))
+      .query(user.authToken(token))
       .query(publication.getById(reqBody.publication_id))
       .query(publication.ifExists())
       .query(review.insert(reqBody))
@@ -110,22 +107,19 @@ export class ReviewRouterInitializer extends RouterInitializerImp {
       const reqBody = {
           user_id: req.body.user_id,
           publication_id: req.body.publication_id,
-          data: req.body.data
+          data: req.body.data,
+          token: req.body.token
       }
-      const cred = req.body.credentials;
-      const credentials = {
-        username: cred ? cred.username : undefined,
-        password: cred ? cred.password : undefined
-      }
-      if (this.hasUndefined(reqBody, credentials)) {
+
+      if (this.hasUndefined(reqBody)) {
         next(BadRequest);
         return;
       }
-      //@TODO: encrypt password
+
       this.queryManager
       .query(user.getById(reqBody.user_id))
       .query(user.ifExists())
-      .query(user.auth(credentials))
+      .query(user.authToken(reqBody.token))
       .query(publication.getById(reqBody.publication_id))
       .query(publication.ifExists())
       .query(review.getFilteredList({
@@ -149,23 +143,18 @@ export class ReviewRouterInitializer extends RouterInitializerImp {
       const reqBody = {
         user_id: req.body.user_id,
         publication_id: req.body.publication_id,
+        token: req.body.token
       }
-      const cred = req.body.credentials;
-      const credentials = {
-        username: cred ? cred.username : undefined,
-        password: cred ? cred.password : undefined
-      }
-      if (this.hasUndefined(reqBody, credentials)) {
+
+      if (this.hasUndefined(reqBody)) {
         next(BadRequest);
         return;
       }
       
-      //@TODO: encrypt password
-
       this.queryManager
       .query(user.getById(reqBody.user_id))
       .query(user.ifExists())
-      .query(user.auth(credentials))
+      .query(user.authToken(reqBody.token))
       .query(publication.getById(reqBody.publication_id))
       .query(publication.ifExists())
       .query(review.getFilteredList({

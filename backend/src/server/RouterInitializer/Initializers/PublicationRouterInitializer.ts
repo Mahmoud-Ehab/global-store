@@ -82,7 +82,7 @@ export class PublicationRouterInitializer extends RouterInitializerImp {
     /*** create a new publication in the database ***/
     this.post(PublicationEndpoints.create, (req, res, next) => {
       const body = req.body;
-      const cred = req.body.credentials;
+      const token = req.body.token;
 
       const required = {
         user_id: body.user_id,
@@ -94,23 +94,17 @@ export class PublicationRouterInitializer extends RouterInitializerImp {
         description: body.description,
         phone: body.phone,
       }
-      const credentials = {
-        username: cred ? cred.username : undefined,
-        password: cred ? cred.password : undefined,
-      }
       const pubBody = {...required, ...sub}
 
-      if (this.hasUndefined(required, credentials)) {
+      if (this.hasUndefined(required, {token})) {
         next(BadRequest);
         return;
       }
 
-      //@TODO: encrypt password
-
       this.queryManager
       .query(user.getById(pubBody.user_id))
       .query(user.ifExists())
-      .query(user.auth(credentials))
+      .query(user.authToken(token))
       .query(publication.insert(pubBody))
       .query(async () => res.json(Done()))
       .execute()
@@ -122,14 +116,11 @@ export class PublicationRouterInitializer extends RouterInitializerImp {
       const required = {
         id: req.body.id,
         user_id: req.body.user_id,
-        data: req.body.data
+        data: req.body.data,
+        token: req.body.token
       }
-      const cred = req.body.credentials;
-      const credentials = {
-        username: cred ? cred.username : undefined,
-        password: cred ? cred.password : undefined
-      }
-      if (this.hasUndefined(required, credentials)) {
+
+      if (this.hasUndefined(required)) {
         next(BadRequest);
         return;
       }
@@ -140,12 +131,10 @@ export class PublicationRouterInitializer extends RouterInitializerImp {
         return;
       }
 
-      //@TODO: encrypt password
-
       this.queryManager
       .query(user.getById(required.user_id))
       .query(user.ifExists())
-      .query(user.auth(credentials))
+      .query(user.authToken(required.token))
       .query(publication.getById(required.id))
       .query(publication.ifExists())
       .query(publication.update(required.data, {id: required.id}))
@@ -159,14 +148,11 @@ export class PublicationRouterInitializer extends RouterInitializerImp {
     this.delete(PublicationEndpoints.remove, (req, res, next) => {
       const reqBody = {
         id: req.body.id,
-        user_id: req.body.user_id
+        user_id: req.body.user_id,
+        token: req.body.token
       }
-      const cred = req.body.credentials;
-      const credentials = {
-        username: cred ? cred.username : undefined,
-        password: cred ? cred.password : undefined
-      }
-      if (this.hasUndefined(reqBody, credentials)) {
+
+      if (this.hasUndefined(reqBody)) {
         next(BadRequest);
         return;
       }
@@ -176,7 +162,7 @@ export class PublicationRouterInitializer extends RouterInitializerImp {
       this.queryManager
       .query(user.getById(reqBody.user_id))
       .query(user.ifExists())
-      .query(user.auth(credentials))
+      .query(user.authToken(reqBody.token))
       .query(publication.getById(reqBody.id))
       .query(publication.ifExists())
       .query(publication.delete({id: reqBody.id}))

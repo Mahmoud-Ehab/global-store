@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS users (
   id varchar(6) NOT NULL PRIMARY KEY,
+  token varchar(256) NOT NULL,
   username varchar(20) NOT NULL UNIQUE,
   password varchar(256) NOT NULL,
   nickname varchar(20),

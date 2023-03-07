@@ -15,6 +15,18 @@ export class UserRouterInitializer extends RouterInitializerImp {
     return username.slice(0, 2) + randnum;
   }
 
+  private generateToken(): string {
+    let randomSecret = "";
+    const symbols = "agi75w@mk4$v2os&p1n6zuy";
+
+    for (let i = 0; i < 10; i++) {
+      const r = Math.floor(Math.random() * 100 % symbols.length);
+      randomSecret += symbols[r];
+    }
+
+    return this.encrypt(randomSecret);
+  }
+
   init() {
     const user = new UserStrategy(this.queryManager);
     const jsonOf = (res: any) => (payload: any) => res.json(payload);
@@ -61,10 +73,12 @@ export class UserRouterInitializer extends RouterInitializerImp {
       }
 
       /*
-        @TODO: generate user_token and store it in the database,
+        @DONE: generate user_token and store it in the database,
         it shall be used as a substitute for password in other
         requests.
       */
+      const token = this.generateToken();
+
       //@DONE: Encrypt the password in reqBody obj
       reqBody.password = this.encrypt(reqBody.password);
 
@@ -72,7 +86,8 @@ export class UserRouterInitializer extends RouterInitializerImp {
       .query(user.getFilteredList({username: reqBody.username}))
       .query(user.ifExists())
       .query(user.auth(reqBody))
-      .query(async () => res.json(Authenticated))
+      .query(user.setToken(token))
+      .query(async () => res.json(Authenticated(token)))
       .execute()
       .catch(e => next(e));
     });
@@ -85,7 +100,11 @@ export class UserRouterInitializer extends RouterInitializerImp {
         username: req.body.username,
         password: req.body.password,
         id: req.body.username ? this.generateId(req.body.username) : undefined,
+        token: undefined as string
       };
+      if (reqBody.id)
+        reqBody.token = reqBody.id + "." + this.generateToken();
+
       if (this.hasUndefined(reqBody)) {
         next(BadRequest);
         return;
@@ -98,7 +117,10 @@ export class UserRouterInitializer extends RouterInitializerImp {
       .query(user.getFilteredList({username: reqBody.username}))
       .query(user.ifNotExists())
       .query(user.insert(reqBody))
-      .query(async () => res.json(Done({id: reqBody.id})))
+      .query(async () => res.json(Done({
+        id: reqBody.id,
+        token: reqBody.token
+      })))
       .execute()
       .catch(e => next(e));
     });
