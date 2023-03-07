@@ -11,13 +11,14 @@ export const Done = (metadata?: object) => ({
   metadata,
 })
 
-export const Authenticated: Response = {
+export const Authenticated = (token: string): Response => ({
   code: 200,
-  message: "authenticated.", 
+  message: "authentication failed.", 
   metadata: {
-    auth: true
+    auth: true,
+    token
   }
-}
+})
 
 export const BadRequest: Response = {
   code: 400,
@@ -30,6 +31,11 @@ export const AuthenticationFailed: Response = {
   metadata: {
     auth: false
   }
+}
+
+export const InvalidToken: Response = {
+  code: 403,
+  message: "You have used an invalid token. Try signing in again"
 }
 
 export const NotFound: Response = {
