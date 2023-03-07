@@ -3,8 +3,9 @@ const axios = require("axios").default;
 const config = require("./axios.config.js").default;
 
 describe("#PublicationRouter", function () {
-    let userid = ""; // defined in before hook
-    let publicationId = 0; // defined in GET suite
+    let userid; // defined in before all hook
+    let usertoken; // defined in before all hook
+    let publicationId; // defined in GET suite
 
     const mockUser = {
         username: "PubTempUser",
@@ -29,6 +30,7 @@ describe("#PublicationRouter", function () {
             data: {...mockUser},
         });
         userid = axiosResponse.data.metadata.id;
+        usertoken = axiosResponse.data.metadata.token;
     });
 
     after(async function() {
@@ -54,7 +56,7 @@ describe("#PublicationRouter", function () {
                 data: {
                     user_id: userid,
                     ...mockPublication,
-                    credentials: {...mockUser}
+                    token: usertoken
                 },
             });
             const res = axiosResponse.data;
@@ -69,11 +71,11 @@ describe("#PublicationRouter", function () {
                 data: {
                     user_id: userid,
                     ...mockPublication,
-                    credentials: {...mockUser, password: ""}
+                    token: "invalid token"
                 },
             });
             const res = axiosResponse.data;
-            expect(res.code).to.equal(401);
+            expect(res.code).to.equal(403);
         });
 
         it("should NOT create publicaiton with a userid that doesn't exist", async function() {
@@ -84,7 +86,7 @@ describe("#PublicationRouter", function () {
                 data: {
                     user_id: "SomeId",
                     ...mockPublication,
-                    credentials: {...mockUser}
+                    token: usertoken
                 },
             });
             const res = axiosResponse.data;
@@ -197,7 +199,7 @@ describe("#PublicationRouter", function () {
                     data: {
                         title: "New Title"
                     },
-                    credentials: {...mockUser}
+                    token: usertoken
                 }
             });
             const res = axiosResponse.data;
@@ -215,7 +217,7 @@ describe("#PublicationRouter", function () {
                     data: {
                         title: "New Title"
                     },
-                    credentials: {...mockUser}
+                    token: usertoken
                 }
             });
             const res = axiosResponse.data;
@@ -232,7 +234,7 @@ describe("#PublicationRouter", function () {
                     data: {
                         title: "New Title"
                     },
-                    credentials: {...mockUser}
+                    token: usertoken
                 }
             });
             const res = axiosResponse.data;
@@ -249,7 +251,7 @@ describe("#PublicationRouter", function () {
                     data: {
                         title: "New Title"
                     },
-                    credentials: {...mockUser}
+                    token: usertoken
                 }
             });
             const res = axiosResponse.data;
@@ -267,11 +269,11 @@ describe("#PublicationRouter", function () {
                 data: {
                     id: publicationId,
                     user_id: userid,
-                    credentials: {...mockUser, password: ""}
+                    token: "invalid token"
                 }
             });
             const res = axiosResponse.data;
-            expect(res.code).to.equal(401);
+            expect(res.code).to.equal(403);
         });
 
         it("should send 404 when deleting publication with non-existing id", async function() {
@@ -282,7 +284,7 @@ describe("#PublicationRouter", function () {
                 data: {
                     id: 100,
                     user_id: userid,
-                    credentials: {...mockUser}
+                    token: usertoken
                 }
             });
             const res = axiosResponse.data;
@@ -296,7 +298,7 @@ describe("#PublicationRouter", function () {
                 url: '/publication/delete',
                 data: {
                     id: publicationId,
-                    credentials: {...mockUser}
+                    token: usertoken
                 }
             });
             const res = axiosResponse.data;
@@ -311,7 +313,7 @@ describe("#PublicationRouter", function () {
                 data: {
                     id: publicationId,
                     user_id: userid,
-                    credentials: {...mockUser}
+                    token: usertoken
                 }
             });
             const res = axiosResponse.data;

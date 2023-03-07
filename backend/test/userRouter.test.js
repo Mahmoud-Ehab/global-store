@@ -5,6 +5,23 @@ const config = require("./axios.config.js").default;
 describe("#UserRouter", function () {
     const registeredUsers = [];
 
+    after(async function() {
+        for (let user of registeredUsers) {
+            await axios({
+                ...config,
+                method: 'DELETE',
+                url: '/user/delete',
+                data: {
+                    id: user.id,
+                    credentials: {
+                        username: user.username,
+                        password: user.password
+                    }
+                }
+            })
+        }
+    });
+
     describe("POST: /user/register", function () {
         it("should successfully register user 1", async function () {
             const axiosResponse = await axios({
@@ -127,6 +144,7 @@ describe("#UserRouter", function () {
 
             expect(res.code).to.equal(200);
             expect(res.metadata.auth).to.be.true;
+            expect(res.metadata.token).to.be.a("string");
         });
 
         it("should NOT sign user in with wrong credentials", async function() {

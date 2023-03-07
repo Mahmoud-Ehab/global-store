@@ -3,8 +3,9 @@ const axios = require("axios").default;
 const config = require("./axios.config.js").default;
 
 describe('#ReviewRouter', function() {
-  let userid = ""; // defined in before hook
-  let pubid = 0; // defined in before hook
+  let userid; // defined in before hook
+  let usertoken; // defined in before all hook
+  let pubid; // defined in before hook
 
   const mockUser = {
     username: "RevTempUser",
@@ -36,6 +37,7 @@ describe('#ReviewRouter', function() {
       },
     });
     userid = userAxiosRes.data.metadata.id;
+    usertoken = userAxiosRes.data.metadata.token;
 
     // Create publication
     await axios({
@@ -45,7 +47,7 @@ describe('#ReviewRouter', function() {
       data: {
         user_id: userid,
         ...mockPublication,
-        credentials: {...mockUser}
+        token: usertoken
       },
     });
 
@@ -68,17 +70,6 @@ describe('#ReviewRouter', function() {
         credentials: {...mockUser}
       },
     });
-
-    // Delete the publication
-    await axios({
-      ...config,
-      method: 'DELETE',
-      url: '/publication/delete',
-      data: {
-        id: pubid,
-        credentials: {...mockUser}
-      },
-    });
   })
 
   describe('POST: /review/create', function() {
@@ -91,9 +82,10 @@ describe('#ReviewRouter', function() {
           user_id: userid,
           publication_id: pubid,
           ...mockReview,
-          credentials: {...mockUser}
+          token: usertoken
         }
       })).data;
+      
       expect(res.code).to.equal(200);
     })
 
@@ -106,10 +98,10 @@ describe('#ReviewRouter', function() {
           user_id: userid,
           publication_id: pubid,
           ...mockReview,
-          credentials: {...mockUser, password: "1321421"}
+          token: "invalid token"
         }
       })).data;
-      expect(res.code).to.equal(401);
+      expect(res.code).to.equal(403);
     })
 
     it("should NOT create review with incomplete request payload", async function() {
@@ -120,7 +112,7 @@ describe('#ReviewRouter', function() {
         data: {
           publication_id: pubid,
           ...mockReview,
-          credentials: {...mockUser}
+          token: usertoken
         }
       })).data;
       expect(res.code).to.equal(400);
@@ -135,7 +127,7 @@ describe('#ReviewRouter', function() {
           user_id: userid,
           publication_id: -1,
           ...mockReview,
-          credentials: {...mockUser}
+          token: usertoken
         }
       })).data;
       expect(res.code).to.equal(404);
@@ -206,10 +198,10 @@ describe('#ReviewRouter', function() {
         data: {
           user_id: userid,
           publication_id: pubid,
-          credentials: {...mockUser, password: "1312315"}
+          token: "invalid token"
         }
       })).data;
-      expect(res.code).to.equal(401);
+      expect(res.code).to.equal(403);
     })
 
     it("should raise BadRequest Error when not passing any id", async function() {
@@ -219,7 +211,7 @@ describe('#ReviewRouter', function() {
         url: '/review/delete',
         data: {
           publication_id: pubid,
-          credentials: {...mockUser}
+          token: usertoken
         }
       })).data;
       expect(res.code).to.equal(400);
@@ -233,7 +225,7 @@ describe('#ReviewRouter', function() {
         data: {
           user_id: userid,
           publication_id: -1,
-          credentials: {...mockUser}
+          token: usertoken
         }
       })).data;
       expect(res.code).to.equal(404);
@@ -247,7 +239,7 @@ describe('#ReviewRouter', function() {
         data: {
           user_id: userid,
           publication_id: pubid,
-          credentials: {...mockUser}
+          token: usertoken
         }
       })).data;
       expect(res.code).to.equal(200);
