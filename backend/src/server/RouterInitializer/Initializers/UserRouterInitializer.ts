@@ -6,6 +6,7 @@ import {
   Done,
 } from "../../Responses";
 import { RouterInitializerImp } from "../RouterInitializerImp";
+import { createHmac } from "node:crypto";
 
 export class UserRouterInitializer extends RouterInitializerImp {
   _routerName = "user";
@@ -13,6 +14,12 @@ export class UserRouterInitializer extends RouterInitializerImp {
   private generateId(username: string): string {
     const randnum = Math.floor(Math.random() * 10000);
     return username.slice(0, 2) + randnum;
+  }
+
+  protected encrypt(secret: string): string {
+    return createHmac('sha256', secret)
+    .update('aolym@kfgl$lq#agi#@lasdjgf@kfo23kasdfm')
+    .digest('hex');
   }
 
   private generateToken(): string {
