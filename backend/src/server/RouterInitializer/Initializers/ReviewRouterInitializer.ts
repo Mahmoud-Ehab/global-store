@@ -116,6 +116,15 @@ export class ReviewRouterInitializer extends RouterInitializerImp {
         return;
       }
 
+      const [tmp_user_id, tmp_pub_id] = [
+        reqBody.data.user_id, 
+        reqBody.data.publication_id
+      ];
+      if (tmp_user_id !== undefined || tmp_pub_id !== undefined) {
+        next(BadRequest);
+        return;
+      }
+
       this.queryManager
       .query(user.getById(reqBody.user_id))
       .query(user.ifExists())
