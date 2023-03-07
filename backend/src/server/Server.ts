@@ -31,7 +31,11 @@ class Server {
 
     // error-handling middlewares
     this.expressApp.use((err: any, req: any, res: any, next: any) => {
-      res.status(err.code).json(err);
+      if (err.code <= 510)
+        res.status(err.code).json(err);
+      else {
+        res.status(500).json({code: 500, message: "Internal error."});
+      }
     });
 
     // start the server
