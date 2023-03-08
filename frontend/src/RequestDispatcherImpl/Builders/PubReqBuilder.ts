@@ -1,11 +1,6 @@
 import { Builder } from "../../modules/RequestDispatcher/Builder";
 import { PublicationEndpoints } from "../../../../backend/src/server/Endpoints";
 
-type Credentials = {
-  username: string,
-  password: string
-}
-
 type PubInfo = {
   id: string,
   user_id: string,
@@ -42,15 +37,15 @@ export class PubReqBuilder extends Builder<keyof typeof PublicationEndpoints> {
     }
   }
 
-  create(pub: Partial<PubInfo>, credentials: Credentials) {
-    return this.requests.create({...pub, credentials});
+  create(pub: Partial<PubInfo>, token: string) {
+    return this.requests.create({...pub, token});
   }
 
-  update(pubIds: Pick<PubInfo, "id" | "user_id">, credentials: Credentials, data: Object) {
-    return this.requests.update({...pubIds, credentials, data});
+  update(pubIds: Pick<PubInfo, "id" | "user_id">, token: string, data: Object) {
+    return this.requests.update({...pubIds, token, data});
   }
 
-  remove(pubIds: Pick<PubInfo, "id" | "user_id">, credentials: Credentials) {
-    return this.requests.remove({...pubIds, credentials});
+  remove(pubIds: Pick<PubInfo, "id" | "user_id">, token: string) {
+    return this.requests.remove({...pubIds, token});
   }
 }

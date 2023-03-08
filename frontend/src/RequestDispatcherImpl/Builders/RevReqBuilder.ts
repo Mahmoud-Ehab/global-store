@@ -1,11 +1,6 @@
 import { Builder } from "../../modules/RequestDispatcher/Builder";
 import { ReviewEndpoints } from "../../../../backend/src/server/Endpoints";
 
-type Credentials = {
-  username: string,
-  password: string
-}
-
 type RevInfo = {
   user_id: string,
   publication_id: number,
@@ -38,15 +33,15 @@ export class RevReqBuilder extends Builder<keyof typeof ReviewEndpoints> {
     }
   }
 
-  create(review: RevInfo, credentials: Credentials) {
-    return this.requests.create({...review, credentials});
+  create(review: RevInfo, token: string) {
+    return this.requests.create({...review, token});
   }
 
-  update(reviewIds: RevIds, credentials: Credentials, data: Object) {
-    return this.requests.update({...reviewIds, credentials, data});
+  update(reviewIds: RevIds, token: string, data: Object) {
+    return this.requests.update({...reviewIds, token, data});
   }
 
-  remove(reviewIds: RevIds, credentials: Credentials) {
-    return this.requests.remove({...reviewIds, credentials});
+  remove(reviewIds: RevIds, token: string) {
+    return this.requests.remove({...reviewIds, token});
   }
 }

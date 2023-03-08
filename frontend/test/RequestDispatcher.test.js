@@ -10,12 +10,14 @@ const {
 const mockUser1 = {
   username: "user1",
   password: "123123123",
-  id: undefined
+  id: "",
+  token: ""
 }
 const mockUser2 = {
   username: "user2",
   password: "32131321",
-  id: undefined
+  id: "",
+  token: ""
 }
 
 // Mock Publications Data
@@ -140,18 +142,14 @@ describe("#RequestDispatcher", function() {
   describe("##PubReqBuilder", function() {
     before(async function() {
       // add the mock users first before all publication tests
-      const res1 = await Dispatcher.dispatch(userBuilder.register({
-        username: mockUser1.username,
-        password: mockUser1.password
-      }));
+      const res1 = await Dispatcher.dispatch(userBuilder.register(mockUser1));
       mockUser1.id = res1.data.metadata.id;
+      mockUser1.token = res1.data.metadata.token;
       mockPub1.user_id = mockUser1.id;
 
-      const res2 = await Dispatcher.dispatch(userBuilder.register({
-        username: mockUser2.username,
-        password: mockUser2.password
-      }));
+      const res2 = await Dispatcher.dispatch(userBuilder.register(mockUser2));
       mockUser2.id = res2.data.metadata.id;
+      mockUser2.token = res2.data.metadata.token;
       mockPub2.user_id = mockUser2.id;
     })
 
@@ -175,8 +173,8 @@ describe("#RequestDispatcher", function() {
     })
 
     it("should create two publications (mockPub1 & mockPub2)", async function () {
-      const res1 = await Dispatcher.dispatch(pubBuilder.create(mockPub1, mockUser1));
-      const res2 = await Dispatcher.dispatch(pubBuilder.create(mockPub2, mockUser2));
+      const res1 = await Dispatcher.dispatch(pubBuilder.create(mockPub1, mockUser1.token));
+      const res2 = await Dispatcher.dispatch(pubBuilder.create(mockPub2, mockUser2.token));
       expect(res1.data.code).to.equal(200);
       expect(res2.data.code).to.equal(200);
     })
@@ -221,15 +219,15 @@ describe("#RequestDispatcher", function() {
     it("should update the content of publications", async function () {
       const res = await Dispatcher.dispatch(pubBuilder.update(
         mockPub1, 
-        mockUser1,
+        mockUser1.token,
         {title: "Just a New Title!"}
       ));
       expect(res.data.code).to.equal(200);
     })
 
     it("should remove the publications", async function () {
-      const res1 = await Dispatcher.dispatch(pubBuilder.remove(mockPub1, mockUser1));
-      const res2 = await Dispatcher.dispatch(pubBuilder.remove(mockPub2, mockUser2));
+      const res1 = await Dispatcher.dispatch(pubBuilder.remove(mockPub1, mockUser1.token));
+      const res2 = await Dispatcher.dispatch(pubBuilder.remove(mockPub2, mockUser2.token));
       expect(res1.data.code).to.equal(200);
       expect(res2.data.code).to.equal(200);
     })
@@ -237,17 +235,19 @@ describe("#RequestDispatcher", function() {
 
   describe("##ReviewReqBuilder", function() {
     before(async function() {
-      const user1Res = await Dispatcher.dispatch(userBuilder.register(mockUser1));
-      const user2Res = await Dispatcher.dispatch(userBuilder.register(mockUser2));
+      const res1 = await Dispatcher.dispatch(userBuilder.register(mockUser1));
+      const res2 = await Dispatcher.dispatch(userBuilder.register(mockUser2));
 
-      mockUser1.id = user1Res.data.metadata.id;
-      mockUser2.id = user2Res.data.metadata.id;
+      mockUser1.id = res1.data.metadata.id;
+      mockUser1.token = res1.data.metadata.token;
+      mockUser2.id = res2.data.metadata.id;
+      mockUser2.token = res2.data.metadata.token;
 
       mockPub1.user_id = mockUser1.id;
       mockPub2.user_id = mockUser2.id;
 
-      await Dispatcher.dispatch(pubBuilder.create(mockPub1, mockUser1));
-      await Dispatcher.dispatch(pubBuilder.create(mockPub2, mockUser2));
+      await Dispatcher.dispatch(pubBuilder.create(mockPub1, mockUser1.token));
+      await Dispatcher.dispatch(pubBuilder.create(mockPub2, mockUser2.token));
 
       const pubsReq = await Dispatcher.dispatch(pubBuilder.get().limit(2));
       const pubs = pubsReq.data.metadata.data;
@@ -278,8 +278,8 @@ describe("#RequestDispatcher", function() {
     })
 
     it("should create review for each publication by each user", async function () {
-      const res1 = await Dispatcher.dispatch(revBuilder.create(mockReview1, mockUser1));
-      const res2 = await Dispatcher.dispatch(revBuilder.create(mockReview2, mockUser2));
+      const res1 = await Dispatcher.dispatch(revBuilder.create(mockReview1, mockUser1.token));
+      const res2 = await Dispatcher.dispatch(revBuilder.create(mockReview2, mockUser2.token));
       expect(res1.data.code).to.equal(200);
       expect(res2.data.code).to.equal(200);
     })
@@ -309,7 +309,7 @@ describe("#RequestDispatcher", function() {
     it("should update the content of a review", async function () {
       const res = await Dispatcher.dispatch(revBuilder.update(
         mockReview1,
-        mockUser1,
+        mockUser1.token,
         {
           title: "New Title",
           body: "New body text content"
@@ -319,8 +319,8 @@ describe("#RequestDispatcher", function() {
     })
 
     it("should successfuly remove reviews by using credentials", async function () {
-      const res1 = await Dispatcher.dispatch(revBuilder.remove(mockReview1, mockUser1));
-      const res2 = await Dispatcher.dispatch(revBuilder.remove(mockReview2, mockUser2));
+      const res1 = await Dispatcher.dispatch(revBuilder.remove(mockReview1, mockUser1.token));
+      const res2 = await Dispatcher.dispatch(revBuilder.remove(mockReview2, mockUser2.token));
       expect(res1.data.code).to.equal(200);
       expect(res2.data.code).to.equal(200);
     })
