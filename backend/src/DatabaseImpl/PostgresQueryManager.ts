@@ -1,43 +1,43 @@
-import { Client } from "pg";
-import { QueryManager } from "../../_modules/Database/QueryManager";
-import { PostgresQueryGenerator } from "../PostgresQueryGenerator";
+import { QueryManager } from "../_modules/Database/QueryManager";
+import { PostgresQueryGenerator } from "./PostgresQueryGenerator";
 
 import { 
   UsersController,
   PublicationsController,
   ReviewsController
-} from "../Controllers";
+} from "./Controllers";
+import { PostgresQueryHandler } from "./PostgresQueryHandler";
 
 export class PostgresQueryManager extends QueryManager {
-  private client: Client;
+  private queryHandler: PostgresQueryHandler<any>;
 
   protected connect(): Promise<void> {
-    this.client = new Client({
+    this.queryHandler = new PostgresQueryHandler({
       host: 'localhost',
       user: 'mahmoudehab',
       password: 'admin',
       database: 'globalstore',
     });
     this.controllers.users = new UsersController(
-      this.client, 
+      this.queryHandler, 
       new PostgresQueryGenerator('users')
     );
     this.controllers.publications = new PublicationsController(
-      this.client, 
+      this.queryHandler, 
       new PostgresQueryGenerator('publications')
     );
     this.controllers.reviews = new ReviewsController(
-      this.client, 
+      this.queryHandler, 
       new PostgresQueryGenerator('reviews')
     );
-    return this.client.connect();
+    return this.queryHandler.connect();
   }
 
   protected async disconnect(): Promise<void> {
     if (this.queriesQueue.length === 0) {
       this.inExecution = false;
       this.carrier.length = 0;
-      await this.client.end();
+      await this.queryHandler.end();
     }
   }
 }

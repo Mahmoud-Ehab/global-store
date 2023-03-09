@@ -1,11 +1,11 @@
-import { QueryConfig } from "pg";
+import { QueryConfig } from "./Types";
 
 export interface QueryGeneratorInterface {
   get(id: any): QueryConfig;
   getWhere(filter: object): QueryConfig;
   getAll(): QueryConfig;
   getLimit(limit: number): QueryConfig;
-  getLimitWithOffset(limit: number, offset: number): QueryConfig<any[]>;
+  getLimitWithOffset(limit: number, offset: number): QueryConfig;
   getRegEx(filter: Object): QueryConfig;
   getJoin(join: {
     table: string,

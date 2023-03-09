@@ -1,24 +1,24 @@
-import { Client, QueryResult } from 'pg'
+import { QueryHandler } from './Types'
 import { QueryGeneratorInterface } from './QueryGeneratorInterface'
 
 export abstract class DataController<T> {
-  protected client: Client;
+  protected queryHandler: QueryHandler<T>;
   protected queries: QueryGeneratorInterface;
 
-  constructor(client: Client, queries: QueryGeneratorInterface) {
-    this.client = client;
+  constructor(queryHandler: QueryHandler<T>, queries: QueryGeneratorInterface) {
+    this.queryHandler = queryHandler;
     this.queries = queries;
   }
 
   async get(id: string | number): Promise<T> {
     try {
       const query = this.queries.get(id);
-      const res = await this.client.query(query);
+      const res = await this.queryHandler.query(query);
 
-      if (res.rows.length === 0)
+      if (res.length === 0)
         return {} as T;
 
-      const data = this.parseData(res.rows[0]);
+      const data = this.parseData(res[0]);
       return data;
     }
     catch (e) {
@@ -29,10 +29,10 @@ export abstract class DataController<T> {
   async getAll(): Promise<T[]> {
     try {
       const query = this.queries.getAll();
-      const res = await this.client.query(query);
+      const res = await this.queryHandler.query(query);
 
       const data: Array<T> = [];
-      res.rows.forEach(row => data.push(this.parseData(row)));
+      res.forEach(row => data.push(this.parseData(row)));
       return data;
     } 
     catch (e) {
@@ -43,10 +43,10 @@ export abstract class DataController<T> {
   async getLimit(limit: number): Promise<T[]> {
     try {
       const query = this.queries.getLimit(limit);
-      const res = await this.client.query(query);
+      const res = await this.queryHandler.query(query);
       
       const data: Array<T> = [];
-      res.rows.forEach(row => data.push(this.parseData(row)));
+      res.forEach(row => data.push(this.parseData(row)));
       return data;
     }
     catch (e) {
@@ -57,10 +57,10 @@ export abstract class DataController<T> {
   async getLimitWithOffset(limit: number, offset: number): Promise<Array<T>> {
     try {
       const query = this.queries.getLimitWithOffset(limit, offset);
-      const res = await this.client.query(query);
+      const res = await this.queryHandler.query(query);
       
       const data: Array<T> = [];
-      res.rows.forEach(row => data.push(this.parseData(row)));
+      res.forEach(row => data.push(this.parseData(row)));
       return data;
     }
     catch (e) {
@@ -71,10 +71,10 @@ export abstract class DataController<T> {
   async getFiltered(filterOptions: Partial<T>): Promise<T[]> {
     try {
       const query = this.queries.getWhere(filterOptions);
-      const res = await this.client.query(query);
+      const res = await this.queryHandler.query(query);
       
       const data: Array<T> = [];
-      res.rows.forEach(row => data.push(this.parseData(row)));
+      res.forEach(row => data.push(this.parseData(row)));
       return data;
     }
     catch (e) {
@@ -85,10 +85,10 @@ export abstract class DataController<T> {
   async getJoin(join: { table: string; key1: string; key2: string; }, filter: Partial<T>): Promise<T[]> {
     try {
       const query = this.queries.getJoin(join, filter);
-      const res = await this.client.query(query);
+      const res = await this.queryHandler.query(query);
       
       const data: Array<T> = [];
-      res.rows.forEach(row => data.push(this.parseData(row, true)));
+      res.forEach(row => data.push(this.parseData(row, true)));
       return data;
     }
     catch (e) {
@@ -96,33 +96,30 @@ export abstract class DataController<T> {
     }
   }
 
-  async insert(data: Partial<T>): Promise<QueryResult> {
+  async insert(data: Partial<T>): Promise<void> {
     try {
       const query = this.queries.insert(data);
-      const res = await this.client.query(query);
-      return res;
+      const res = await this.queryHandler.query(query);
     }
     catch (e) {
       throw e;
     }
   }
 
-  async update(data: Partial<T>, filter: Partial<T>): Promise<QueryResult> {
+  async update(data: Partial<T>, filter: Partial<T>): Promise<void> {
     try {
       const query = this.queries.update(data, filter);
-      const res = await this.client.query(query);
-      return res;
+      await this.queryHandler.query(query);
     }
     catch (e) {
       throw e;
     }
   }
   
-  async delete(filter: object): Promise<QueryResult> {
+  async delete(filter: object): Promise<void> {
     try {  
       const query = this.queries.delete(filter);
-      const res = await this.client.query(query);
-      return res;
+      await this.queryHandler.query(query);
     }
     catch (e) {
       throw e;

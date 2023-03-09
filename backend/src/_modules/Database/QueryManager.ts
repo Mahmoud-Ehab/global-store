@@ -1,5 +1,5 @@
 import { DataController } from "./DataController";
-import { User, Publication, Review } from "./DataTypes";
+import { User, Publication, Review } from "./Types";
 
 export type Controllers = {
   users: DataController<User>,
