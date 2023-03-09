@@ -1,5 +1,5 @@
 import { User } from "../../_modules/Database/DataTypes";
-import { QueryManagerInterface } from "../../_modules/Database/QueryManagerInterface";
+import { QueryManager } from "../../_modules/Database/QueryManager";
 import { QueryStrategy } from "../../_modules/Server/QueryStrategy";
 import { 
   AuthenticationFailed, 
@@ -8,7 +8,7 @@ import {
 } from "../../_modules/Server/Responses";
 
 export class UserStrategy extends QueryStrategy<User> {
-  constructor(qm: QueryManagerInterface) {
+  constructor(qm: QueryManager) {
     super(qm, "users");
   }
   

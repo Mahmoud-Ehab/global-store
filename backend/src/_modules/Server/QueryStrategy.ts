@@ -1,11 +1,11 @@
-import { Controllers, QueryManagerInterface } from "../Database/QueryManagerInterface";
+import { Controllers, QueryManager } from "../Database/QueryManager";
 import { AlreadyExists, Done, NotFound } from "./Responses";
 
 export abstract class QueryStrategy<T> {
-  protected qm: QueryManagerInterface;
+  protected qm: QueryManager;
   protected type: keyof Controllers;
 
-  constructor(qm: QueryManagerInterface, type: keyof Controllers) {
+  constructor(qm: QueryManager, type: keyof Controllers) {
     this.qm = qm;
     this.type = type;
   }

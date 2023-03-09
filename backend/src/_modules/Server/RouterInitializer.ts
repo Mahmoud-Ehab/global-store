@@ -1,13 +1,13 @@
-import { QueryManagerInterface } from "../Database/QueryManagerInterface";
+import { QueryManager } from "../Database/QueryManager";
 import { Endpoint, Router, Handler } from "./Types";
 
 export abstract class RouterInitializer<R extends Router> {
   private _router: R;
   private _routerName: string;
 
-  protected queryManager: QueryManagerInterface;
+  protected queryManager: QueryManager;
 
-  constructor(routerName: string, router: R, qm: QueryManagerInterface) {
+  constructor(routerName: string, router: R, qm: QueryManager) {
     this._routerName = routerName;
     this._router = router
     this.queryManager = qm;

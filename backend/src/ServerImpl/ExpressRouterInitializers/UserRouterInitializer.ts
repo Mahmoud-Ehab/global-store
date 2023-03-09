@@ -2,7 +2,7 @@ import express = require("express");
 import { createHmac } from "node:crypto";
 
 import { RouterInitializer } from "../../_modules/Server/RouterInitializer";
-import { QueryManagerInterface } from "../../_modules/Database/QueryManagerInterface";
+import { QueryManager } from "../../_modules/Database/QueryManager";
 import { UserStrategy } from "../QueryStrategies";
 import { UserEndpoints } from "../Endpoints";
 
@@ -14,7 +14,7 @@ import {
 
 export class UserRouterInitializer extends RouterInitializer<express.Router> {
 
-  constructor(qm: QueryManagerInterface) {
+  constructor(qm: QueryManager) {
     super("user", express.Router(), qm);
   }
 

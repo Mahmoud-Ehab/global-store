@@ -1,7 +1,7 @@
 import express = require("express");
 
 import { RouterInitializer } from "../../_modules/Server/RouterInitializer";
-import { QueryManagerInterface } from "../../_modules/Database/QueryManagerInterface";
+import { QueryManager } from "../../_modules/Database/QueryManager";
 import { UserStrategy, PublicationStrategy, ReviewStrategy } from "../QueryStrategies";
 import { ReviewEndpoints } from "../Endpoints";
 
@@ -12,7 +12,7 @@ import {
 
 export class ReviewRouterInitializer extends RouterInitializer<express.Router> {
 
-  constructor(qm: QueryManagerInterface) {
+  constructor(qm: QueryManager) {
     super("review", express.Router(), qm);
   }
 

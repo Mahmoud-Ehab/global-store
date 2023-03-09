@@ -1,5 +1,5 @@
 import { ExpressServer } from './ServerImpl';
-import { QueryManager } from './DatabaseImpl';
+import { PostgresQueryManager } from './DatabaseImpl';
 import { 
 	UserRouterInitializer,
 	PublicationRouterInitializer,
@@ -7,7 +7,7 @@ import {
 } from './ServerImpl/ExpressRouterInitializers';
 
 const server = new ExpressServer("localhost", 5000);
-const queryManager = new QueryManager();
+const queryManager = new PostgresQueryManager();
 
 const userRF = new UserRouterInitializer(queryManager);
 const pubRF = new PublicationRouterInitializer(queryManager);

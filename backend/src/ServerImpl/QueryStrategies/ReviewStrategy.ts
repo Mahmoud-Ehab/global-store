@@ -1,9 +1,9 @@
 import { Review } from "../../_modules/Database/DataTypes";
-import { QueryManagerInterface } from "../../_modules/Database/QueryManagerInterface";
+import { QueryManager } from "../../_modules/Database/QueryManager";
 import { QueryStrategy } from "../../_modules/Server/QueryStrategy";
 
 export class ReviewStrategy extends QueryStrategy<Review> {
-  constructor(qm: QueryManagerInterface) {
+  constructor(qm: QueryManager) {
     super(qm, "reviews");
   }
   
