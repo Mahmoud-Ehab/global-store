@@ -1,18 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var QueryManagerImp_1 = require("../dist/database/QueryManager/QueryManagerImp");
-var Server_1 = require("../dist/server/Server");
-var UserRouterInitializer_1 = require("../dist/server/RouterInitializer/Initializers/UserRouterInitializer");
-var PublicationRouterInitializer_1 = require("../dist/server/RouterInitializer/Initializers/PublicationRouterInitializer");
-var ReviewRouterInitializer_1 = require("../dist/server/RouterInitializer/Initializers/ReviewRouterInitializer");
-
-var server = new Server_1.default("localhost", 5000);
-var queryManager = new QueryManagerImp_1.default();
-
-var userRF = new UserRouterInitializer_1.UserRouterInitializer(queryManager);
-var pubRF = new PublicationRouterInitializer_1.PublicationRouterInitializer(queryManager);
-var reviewRF = new ReviewRouterInitializer_1.ReviewRouterInitializer(queryManager);
-
+var ServerImpl_1 = require("../dist/ServerImpl");
+var DatabaseImpl_1 = require("../dist/DatabaseImpl");
+var ExpressRouterInitializers_1 = require("../dist/ServerImpl/ExpressRouterInitializers");
+var server = new ServerImpl_1.ExpressServer("localhost", 5000);
+var queryManager = new DatabaseImpl_1.QueryManager();
+var userRF = new ExpressRouterInitializers_1.UserRouterInitializer(queryManager);
+var pubRF = new ExpressRouterInitializers_1.PublicationRouterInitializer(queryManager);
+var reviewRF = new ExpressRouterInitializers_1.ReviewRouterInitializer(queryManager);
 server.addRouter(userRF);
 server.addRouter(pubRF);
 server.addRouter(reviewRF);

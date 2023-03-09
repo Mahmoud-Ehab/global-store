@@ -1,12 +1,13 @@
-import QueryManagerImp from './database/QueryManager/QueryManagerImp'
-import Server from './server/Server';
+import { ExpressServer } from './ServerImpl';
+import { QueryManager } from './DatabaseImpl';
+import { 
+	UserRouterInitializer,
+	PublicationRouterInitializer,
+	ReviewRouterInitializer
+} from './ServerImpl/ExpressRouterInitializers';
 
-import { UserRouterInitializer } from './server/RouterInitializer/Initializers/UserRouterInitializer';
-import { PublicationRouterInitializer } from './server/RouterInitializer/Initializers/PublicationRouterInitializer';
-import { ReviewRouterInitializer } from './server/RouterInitializer/Initializers/ReviewRouterInitializer';
-
-const server = new Server("localhost", 5000);
-const queryManager = new QueryManagerImp();
+const server = new ExpressServer("localhost", 5000);
+const queryManager = new QueryManager();
 
 const userRF = new UserRouterInitializer(queryManager);
 const pubRF = new PublicationRouterInitializer(queryManager);
