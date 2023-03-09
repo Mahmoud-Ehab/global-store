@@ -1,5 +1,5 @@
 import { Builder } from "../../modules/RequestDispatcher/Builder";
-import { UserEndpoints } from "../../../../backend/src/server/Endpoints";
+import { UserEndpoints } from "../../../../backend/src/ServerImpl/Endpoints";
 
 type Credentials = {
   username: string,

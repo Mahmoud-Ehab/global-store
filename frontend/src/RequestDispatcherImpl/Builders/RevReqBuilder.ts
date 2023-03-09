@@ -1,5 +1,5 @@
 import { Builder } from "../../modules/RequestDispatcher/Builder";
-import { ReviewEndpoints } from "../../../../backend/src/server/Endpoints";
+import { ReviewEndpoints } from "../../../../backend/src/ServerImpl/Endpoints";
 
 type RevInfo = {
   user_id: string,

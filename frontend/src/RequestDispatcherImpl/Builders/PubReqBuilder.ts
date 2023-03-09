@@ -1,5 +1,5 @@
 import { Builder } from "../../modules/RequestDispatcher/Builder";
-import { PublicationEndpoints } from "../../../../backend/src/server/Endpoints";
+import { PublicationEndpoints } from "../../../../backend/src/ServerImpl/Endpoints";
 
 type PubInfo = {
   id: string,
