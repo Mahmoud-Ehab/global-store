@@ -28,30 +28,45 @@ It tests server routers components by using mocha framework and axios.
 npm run test
 ```
 
-# Overview of The Structure
+# Overview
 
-There are only two major components of the backend side: _Database_ & _Server_, each of which is located in a separete sub-directory of the backend. 
+Any program can be considered as a store with one or more storages (subprograms) and at least one facility for each storage. Any subprogram, moreover, is a program itself; hath its own storages and facilites (a program can relatively be called storage or facilite for another). Storages can vary in properties: such as structures and types of elements, also, they can share facilities. A facility is an equipment that is used to retrieve, manipulate, or remove elements from storages. Speaking more technically, a program is an accumulation of algorithms and data structures, as the store is a collection of facilites and storages. This is the perception upon which each piece of the architecture will be designed.
 
-The _Database_ considered to possess the business rules of the system, that represent the overall concept behind the system: _DataContollers_ and _QueryGenerator_. The former is used to encapsulate the operations of sending queries to the Database Client. However, the latter is to avoid hard-coding the SQL queries. In addition, the component provides a full-organized and managed facility to use and access its all operations via _QueryManager_.
+To amplify the distinction between storages and facilities in technical sense, we shall define a storage as a subprogram, a set of classes, or as set of types (structures or interfaces), whereas a faclity is either a subprogram or a set of classes. A storage can be a subprogram in case it has high level of complexity which requires breaking it down, it can be a class whose methods will be delegated by facilites, or it can be just a type that will be used by facilites. Similary, a facility can be a subprogram, or a class that will either use the types of the storage or delegate some functionality to the classes thereof.
 
-On the other hand, the _Server_ is a detail. It tightly coupled to Express's architecture and has dependency on the _Database_, however, it has RouterInitializer design that aquires the component some flexibility. Loosely speaking, if some other framework is intended to be used rather than Express, minor modifications in a few functions of _RouterInitializer Abstract Class_ are supposed to be the only repercussions.
+This component (the backend) is considered as the storage of the web application. It has only one storage along with its facility, which we shall call the "Database" and the "Server", respectively. Each of which, in turn, contains its own storages and facilities.
 
-## Database Component
-The _Dababase_ component is composed of three objects/collections of objects (building blocks). Each object/collection is distinguished by its level of abstraction and stability. They might be listed according to the levels, descentantly, as follows:
+# The Database
 
-1. DataController & QueryGenerator 
-2. DataControllerImp & QueryGeneratorImp
-3. QueryManager & QueryManagerImp
+The _Database_ represents the overall concept behind the system; as it should be only coupled to the business rules. It has one storage with two facilities; the storage is a set of three data types: _User_, _Publication_, and _Review_, whereas the facilities are _DataController_ and _QueryManager_.
 
-_QueryGenerator_ and _DataController_ are the most stable objects in the system, they shall change only after changing the requirements. On the other hand, _DataControllerImp_ might change if the used database client (which is provided by postgres-node in our case) changed, for some reason. And _QueryGenerator_ is , as obvious, completely coupled to SQL. Meanly, it will need changes if we decided to use NoSQL in future for some reasone, or other DBMS.
+_DataController_ is a low-level facility that will use each type of the storage to create, update, remove, and retrieve data. On the other hand, _QueryManager_ is a high-level facility in the sense that it uses _DataContoller_, and it provides a framework that users shall use, rather than _DataControllers_, to set the required queries (DataController methods) in a chain and excute them sequentially.
 
-Finally, _QueryManager_, the most instable object, whose only purpose is to provide the external environment with well-organised and managed facility to access all the _Database_ operations. Despite it gives the user access to client connection operations, it shall connect and disconnect the client automatically, when the user sends a query and when all queries are fulfilled, respectively.
+## DataController
 
-> The component is totally coupled to postgres-node, as it explicitly uses its types objects and client. However it shall be decoupled by adding extra interfaces in future.
+_DataController_ is a subprogram with a type storage and class facility. To define a _DataController_, first we need to specify four underlying types:
+
+1. QueryGenerator,
+2. QueryConfig,
+3. QueryHandler,
+4. and QueryResult
+
+_QueryGenerator_ is an interface declares a set of methods each of which generates a distinct _QueryConfig_. Whereas a _QueryConfig_ is a structure that specifies precisely a use case in a way that _QueryHandler_ can interpret. A _QueryHandler_, in turn, is a class with at least one method which takes _QueryConfig_ as input and produces _QueryResult_ as output. Last but not least, _QueryResult_ is a data type specifies the value that the user expect to get from queries.
+
+Second, we shall define a class that uses the four types and employ them together to send queries more handily. It encapsulates the use of the storage (the four types), and provides users with a set of expressive methods, relieving the burden of knowing about the four types, that they should use rather than tediously employing the four types in order to accomplish a simple query.
+
+## QueryManager
+
+_QueryManager_ is a class facility that specifies the required _DataControllers_ for the user, by integrating the Database Storage (_User_, _Publication_, and _Review_ types) with _DataController_, along with methods to push queries in a queue, to excute them sequentially, and to retrieve queries results saved so far.
+
+Pushing queries in a queue, then executing them all in order, can have many avails. In case we are using a SQL database, for instance, this would be significant to have; as it defines two points of time in which a connection can be established and breaked. A connection can be established after pushing the first query and can be breaked after the invocation of the last one. It also further the readability of the code; by writing it in the following form "QueryManager.query(UserController.get("userid"))" rather than a bunch of lines before and after the query to establish connection, initialize QueryHandler and DataControllers,...etc. Lastly, one of the major features of this approuch is that the results of queries can be saved in a stack which may be used ultimately to construct a convenient payload to be submitted to the user.
+
+To save and retrieve queries results, we might simply define an array in this class and use it directly, or more elegantly we may define an inner class called _CarrierStack_. _CarrierStack_ has methods to store and retrieve elements, and to reset the stack. It behaves like a stack in storing elements; this is reckoned to be convenient as the last saved query result is likely to be the most required in the payload (taking over the burden of specifying an index). However, it behaves like an array in retrieving elements.
 
 ![database diagram](./docs/diagrams/database-diagram.svg)
 
-## Server Component
+# The Server
+
 The _Server_ component is much more simple, compared to the _Database_, in implementaion, however, it's more wordy to some extent. It consists of just two major elements, and another minor ones for the external environment. 
 
 The _RouterInitializer_, as mentioned previously, is coupled to Express Architecture. However, it should be trivial to port it to another architecture, by few changes in the Abstract implementation. The _RouterInitializerImp_ has dependency on the _QueryManager_ of the _Database_, in order to be able to handle users requests which certainlly requires access to the database.
@@ -64,7 +79,7 @@ Finally, the _Endpoint_ purpose is to share the implemented endpoints by the rou
 
 ![server diagram](./docs/diagrams/server-diagram.svg)
 
-### QueriesStrategy.builder()
+## QueriesStrategy.builder()
 
 Despite the fact that, no much has been said about various objects of this component, the implementation of builder method cannot be overlooked and worth elaborating.
 
