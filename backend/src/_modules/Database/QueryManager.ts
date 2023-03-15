@@ -14,9 +14,9 @@ export abstract class QueryManager {
 
   // shall be defined in "connect" method implementations.
   protected controllers: Controllers = {
-    users: null,
-    publications: null,
-    reviews: null
+    users: undefined,
+    publications: undefined,
+    reviews: undefined
   };
 
   get users() {
@@ -34,11 +34,17 @@ export abstract class QueryManager {
   }
 
   protected connect(): Promise<void> {
-    throw Error("method is not implemented");
+    throw Error(
+      `method is not implemented; a QueryHandler should 
+      be initialized and thereby the controllers too.`
+    );
   }
 
   protected async disconnect(): Promise<void> {
-    throw Error("method is not implemented");
+    throw Error(
+      `method is not implemented; queriesQueue, carrier, 
+      and inExceution shall get reseted.`
+    );
   }
 
   query(func: () => Promise<any>): QueryManager {

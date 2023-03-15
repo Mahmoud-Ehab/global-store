@@ -1,7 +1,7 @@
 import { QueryConfig } from "../_modules/Database/Types";
-import { QueryGeneratorInterface } from "../_modules/Database/QueryGeneratorInterface";
+import { QueryGenerator } from "../_modules/Database/Types/Query/QueryGenerator";
 
-export class PostgresQueryGenerator implements QueryGeneratorInterface {
+export class PostgresQueryGenerator implements QueryGenerator {
   private tableName: string;
 
   constructor(tableName: string) {

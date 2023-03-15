@@ -1,6 +1,6 @@
-import { QueryConfig } from "./Types";
+import { QueryConfig } from "..";
 
-export interface QueryGeneratorInterface {
+export interface QueryGenerator {
   get(id: any): QueryConfig;
   getWhere(filter: object): QueryConfig;
   getAll(): QueryConfig;

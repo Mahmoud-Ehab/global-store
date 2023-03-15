@@ -1,11 +1,11 @@
 import { QueryHandler } from './Types'
-import { QueryGeneratorInterface } from './QueryGeneratorInterface'
+import { QueryGenerator } from './Types/Query/QueryGenerator'
 
 export abstract class DataController<T> {
   protected queryHandler: QueryHandler<T>;
-  protected queries: QueryGeneratorInterface;
+  protected queries: QueryGenerator;
 
-  constructor(queryHandler: QueryHandler<T>, queries: QueryGeneratorInterface) {
+  constructor(queryHandler: QueryHandler<T>, queries: QueryGenerator) {
     this.queryHandler = queryHandler;
     this.queries = queries;
   }
