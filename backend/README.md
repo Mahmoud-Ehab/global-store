@@ -1,5 +1,3 @@
-> last update on September 14, 2022
-
 # Get Started
 
 ## NPM install
@@ -32,7 +30,7 @@ npm run test
 
 Any program can be considered as a store with one or more storages (subprograms) and at least one facility for each storage. Any subprogram, moreover, is a program itself; hath its own storages and facilites (a program can relatively be called storage or facilite for another). Storages can vary in properties: such as structures and types of elements, also, they can share facilities. A facility is an equipment that is used to retrieve, manipulate, or remove elements from storages. Speaking more technically, a program is an accumulation of algorithms and data structures, as the store is a collection of facilites and storages. This is the perception upon which each piece of the architecture will be designed.
 
-To amplify the distinction between storages and facilities in technical sense, we shall define a storage as a subprogram, a set of classes, or as set of types (structures or interfaces), whereas a faclity is either a subprogram or a set of classes. A storage can be a subprogram in case it has high level of complexity which requires breaking it down, it can be a class whose methods will be delegated by facilites, or it can be just a type that will be used by facilites. Similary, a facility can be a subprogram, or a class that will either use the types of the storage or delegate some functionality to the classes thereof.
+To amplify the distinction between storages and facilities in technical sense, we shall define a storage as a subprogram, a set of classes, or a set of types (structures or interfaces), whereas a faclity is either a subprogram or a set of classes. A storage can be a subprogram in case it has high level of complexity which requires breaking it down, it can be a class whose methods will be delegated by facilites, or it can be just a type that will be used by facilites. Similary, a facility can be a subprogram, or a class that will either use the types of the storage or delegate some functionality to the classes thereof.
 
 This component (the backend) is considered as the storage of the web application. It has only one storage along with its facility, which we shall call the "Database" and the "Server", respectively. Each of which, in turn, contains its own storages and facilities.
 
@@ -40,7 +38,7 @@ This component (the backend) is considered as the storage of the web application
 
 The _Database_ represents the overall concept behind the system; as it should be only coupled to the business rules. It has one storage with two facilities; the storage is a set of three data types: _User_, _Publication_, and _Review_, whereas the facilities are _DataController_ and _QueryManager_.
 
-_DataController_ is a low-level facility that will use each type of the storage to create, update, remove, and retrieve data. On the other hand, _QueryManager_ is a high-level facility in the sense that it uses _DataContoller_, and it provides a framework that users shall use, rather than _DataControllers_, to set the required queries (DataController methods) in a chain and excute them sequentially.
+_DataController_ is a low-level facility that shall use each type of the storage to create, update, remove, and retrieve data. On the other hand, _QueryManager_ is a high-level facility in the sense that it uses _DataContoller_, and it provides a framework that users shall use, rather than _DataControllers_, to set the required queries (DataController methods) in a chain and excute them sequentially.
 
 ## DataController
 
@@ -61,7 +59,7 @@ _QueryManager_ is a class facility that specifies the required _DataControllers_
 
 Pushing queries in a queue, then executing them all in order, can have many avails. In case we are using a SQL database, for instance, this would be significant to have; as it defines two points of time in which a connection can be established and breaked. A connection can be established after pushing the first query and can be breaked after the invocation of the last one. It also further the readability of the code; by writing it in the following form "QueryManager.query(UserController.get("userid"))" rather than a bunch of lines before and after the query to establish connection, initialize QueryHandler and DataControllers,...etc. Lastly, one of the major features of this approuch is that the results of queries can be saved in a stack which may be used ultimately to construct a convenient payload to be submitted to the user.
 
-To save and retrieve queries results, we might simply define an array in this class and use it directly, or more elegantly we may define an inner class called _CarrierStack_. _CarrierStack_ has methods to store and retrieve elements, and to reset the stack. It behaves like a stack in storing elements; this is reckoned to be convenient as the last saved query result is likely to be the most required in the payload (taking over the burden of specifying an index). However, it behaves like an array in retrieving elements.
+To save and retrieve queries results, we might simply define an array in this class and use it directly, or more elegantly we may define an inner class called _CarrierStack_. _CarrierStack_ has methods to store and retrieve elements, and to reset the stack. It behaves like a stack in storing elements; this is reckoned to be convenient as the last saved query result is likely to be the most required in the payload (assuming the index to be zero, while constructing the payload, will relieve the burden of specifying the index). However, it behaves like an array in retrieving elements, so the user can use the desired result directly without poping the above results.
 
 ![database diagram](./docs/diagrams/database-diagram.svg)
 
