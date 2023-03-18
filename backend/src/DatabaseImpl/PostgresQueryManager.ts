@@ -34,10 +34,6 @@ export class PostgresQueryManager extends QueryManager {
   }
 
   protected async disconnect(): Promise<void> {
-    if (this.queriesQueue.length === 0) {
-      this.inExecution = false;
-      this.carrier.length = 0;
-      await this.queryHandler.end();
-    }
+    await this.queryHandler.end();
   }
 }

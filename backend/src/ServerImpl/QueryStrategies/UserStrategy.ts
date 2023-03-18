@@ -14,9 +14,9 @@ export class UserStrategy extends QueryStrategy<User> {
   
   auth(credentials: any) {
     return (async function() {
-      let k = -1; while (!this.carrier[++k]);
+      const prevResult = this.carrier.get();
 
-      const userid = this.carrier[k].id || this.carrier[k][0].id;
+      const userid = prevResult.id || prevResult[0].id;
       if (!userid) throw InteranlError;
 
       const auth = await this.users.auth(userid, credentials);
@@ -26,9 +26,9 @@ export class UserStrategy extends QueryStrategy<User> {
 
   authToken(token: string) {
     return (async function() {
-      let k = -1; while (!this.carrier[++k]);
+      const prevResult = this.carrier.get();
 
-      const userid = this.carrier[k].id || this.carrier[k][0].id;
+      const userid = prevResult.id || prevResult[0].id;
       if (!userid) throw InteranlError;
 
       const valid = await this.users.authToken(userid, token);
@@ -38,9 +38,9 @@ export class UserStrategy extends QueryStrategy<User> {
 
   setToken(token: string) {
     return (async function() {
-      let k = -1; while (!this.carrier[++k]);
+      const prevResult = this.carrier.get();
 
-      const userid = this.carrier[k].id || this.carrier[k][0].id;
+      const userid = prevResult.id || prevResult[0].id;
       if (!userid) throw InteranlError;
 
       const successed = await this.users.setToken(userid, token);

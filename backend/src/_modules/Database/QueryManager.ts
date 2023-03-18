@@ -9,7 +9,7 @@ export type Controllers = {
 
 export abstract class QueryManager {
   protected queriesQueue: Array<Function> = [];
-  protected carrier: Array<any> = []; // carries the prev queries results
+  protected carrier: CarrierStack<any> = new CarrierStack();
   protected inExecution: boolean = false;
 
   // shall be defined in "connect" method implementations.
@@ -41,10 +41,7 @@ export abstract class QueryManager {
   }
 
   protected async disconnect(): Promise<void> {
-    throw Error(
-      `method is not implemented; queriesQueue, carrier, 
-      and inExceution shall get reseted.`
-    );
+    throw Error("method is not implemented.");
   }
 
   query(func: () => Promise<any>): QueryManager {
@@ -54,7 +51,15 @@ export abstract class QueryManager {
     this.queriesQueue.push(func);
     return this;
   }
-
+  
+  private predisconnect() {
+    if (this.queriesQueue.length === 0) {
+      this.carrier.reset();
+      this.inExecution = false;
+      this.disconnect();
+    }
+  }
+  
   async execute(): Promise<void> {
     try {
       if (this.inExecution) return;
@@ -62,14 +67,33 @@ export abstract class QueryManager {
       while (this.queriesQueue.length > 0) {
         const queryFunc = this.queriesQueue.shift();
         const result = await queryFunc();
-        this.carrier.splice(0, 0, result);
+        this.carrier.put(result);
       }
-      await this.disconnect();
+      await this.predisconnect();
     }
     catch (e) {
       this.queriesQueue.length = 0;
-      await this.disconnect();
+      await this.predisconnect();
       throw e;
     }
+  }
+}
+
+
+class CarrierStack<T> {
+  private carrier: Array<T> = [];
+  private rdvi: number = -1; // recentDefinedValueIndex
+
+  get(i?: number) {
+    return this.carrier[i || this.rdvi];
+  }
+
+  put(value: T) {
+    this.carrier.splice(0, 0, value);
+    this.rdvi = (value !== undefined) ? 0 : ++this.rdvi;
+  }
+
+  reset() {
+    this.carrier.length = 0;
   }
 }

@@ -56,16 +56,14 @@ export abstract class QueryStrategy<T> {
 
   ifNotExists(i?: number) {
     return (async function() {
-      let k = -1; while (!this.carrier[++k]);
-      if (Object.keys(this.carrier[i || k]).length) {
+      if (Object.keys(this.carrier.get(i)).length) {
         throw AlreadyExists;
       }
     }).bind(this.qm)
   }
   ifExists(i?: number) {
     return (async function() {
-      let k = -1; while (!this.carrier[++k]);
-      if (!Object.keys(this.carrier[i || k]).length) {
+      if (!Object.keys(this.carrier.get(i)).length) {
         throw NotFound;
       }
     }).bind(this.qm)
@@ -74,22 +72,22 @@ export abstract class QueryStrategy<T> {
   builder() {
     return {
       getListItem: (i: number) => (async function() {
-        let k = -1; while (!this.carrier[++k]);
-        if (this.carrier[k][i])
-          return this.carrier[k][i]
+        const listItem = this.carrier.get();
+        if (listItem[i])
+          return listItem[i]
         else
-          return this.carrier[k]
+          return listItem
       }).bind(this.qm),
 
       define: (key: string, i: number) => (async function() {
-        let k = -1; while (!this.carrier[++k]);
-        let obj: any = {...this.carrier[k]};
+        const objItem = this.carrier.get();
+        let obj: any = {...objItem};
         if (key)
-          obj[key] = this.carrier[i || k];
+          obj[key] = this.carrier.get(i);
         else
           obj = {
             ...obj,
-            ...this.carrier[i || k]
+            ...this.carrier.get(i)
           }
         return obj;
       }).bind(this.qm)
@@ -98,8 +96,7 @@ export abstract class QueryStrategy<T> {
   
   send(callback: Function, i?: number) {
     return (async function() {
-      let k = -1; while (!this.carrier[++k]);
-      callback(Done({data: this.carrier[i || k]}))
+      callback(Done({data: this.carrier.get(i)}))
     }).bind(this.qm)
   }
 }
