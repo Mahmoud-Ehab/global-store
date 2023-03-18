@@ -26,19 +26,19 @@ export abstract class RouterInitializer<R extends Router> {
   }
 
   protected get(endpoint: Endpoint, ...handlers: Handler[]) {
-    this._router.get(endpoint.expressPath, ...handlers);
+    this._router.get(endpoint.appPath, ...handlers);
   }
 
   protected post(endpoint: Endpoint, ...handlers: Handler[]) {
-    this._router.post(endpoint.expressPath, ...handlers);
+    this._router.post(endpoint.appPath, ...handlers);
   }
 
   protected delete(endpoint: Endpoint, ...handlers: Handler[]): void {
-    this._router.delete(endpoint.expressPath, ...handlers);
+    this._router.delete(endpoint.appPath, ...handlers);
   }
 
   protected patch(endpoint: Endpoint, ...handlers: Handler[]): void {
-    this._router.patch(endpoint.expressPath, ...handlers);
+    this._router.patch(endpoint.appPath, ...handlers);
   }
 
   protected hasUndefined(...objs: any) {

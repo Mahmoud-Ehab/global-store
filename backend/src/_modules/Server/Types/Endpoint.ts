@@ -1,5 +1,5 @@
 export type Endpoint = {
   path: (...params: any) => string;
-  expressPath: string;
+  appPath: string;
   type: 'GET' | 'POST' | 'DELETE' | 'PATCH';
 }
