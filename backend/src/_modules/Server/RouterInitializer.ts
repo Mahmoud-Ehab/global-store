@@ -1,19 +1,19 @@
-import { QueryManager } from "../Database/QueryManager";
-import { Endpoint, Router, Handler } from "./Types";
+import { RequestHandler } from "./RequestHandler";
+import { Endpoint, Router } from "./Types";
 
-export abstract class RouterInitializer<R extends Router> {
-  private _router: R;
+export abstract class RouterInitializer {
+  private _router: Router;
   private _routerName: string;
 
-  protected queryManager: QueryManager;
+  protected handler: RequestHandler;
 
-  constructor(routerName: string, router: R, qm: QueryManager) {
+  constructor(routerName: string, router: Router, handler: RequestHandler) {
     this._routerName = routerName;
-    this._router = router
-    this.queryManager = qm;
+    this._router = router;
+    this.handler = handler;
   }
 
-  get router(): R {
+  get router(): Router {
     return this._router;
   }
 
@@ -25,28 +25,7 @@ export abstract class RouterInitializer<R extends Router> {
     throw new Error("Method not implemented.");
   }
 
-  protected get(endpoint: Endpoint, ...handlers: Handler[]) {
-    this._router.get(endpoint.appPath, ...handlers);
-  }
-
-  protected post(endpoint: Endpoint, ...handlers: Handler[]) {
-    this._router.post(endpoint.appPath, ...handlers);
-  }
-
-  protected delete(endpoint: Endpoint, ...handlers: Handler[]): void {
-    this._router.delete(endpoint.appPath, ...handlers);
-  }
-
-  protected patch(endpoint: Endpoint, ...handlers: Handler[]): void {
-    this._router.patch(endpoint.appPath, ...handlers);
-  }
-
-  protected hasUndefined(...objs: any) {
-    for (const obj of objs) {
-      for (const key in obj)
-        if (obj[key] === undefined)
-          return true;
-    }
-    return false;
+  protected define(endpoint: Endpoint) {
+    this._router.define(endpoint, this.handler);
   }
 }

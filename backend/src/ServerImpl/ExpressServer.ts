@@ -1,28 +1,29 @@
-import express = require("express");
 import bodyParser = require("body-parser");
 import { Server } from "../_modules/Server/Server";
+import { ExpressApp } from "./ExpressApp";
 
 export class ExpressServer extends Server {
   private appListener: any;
 
   constructor(host: string, port: number) {
-    super(express(), host, port);
+    super(new ExpressApp(), host, port);
   }
 
   start() {
     // third-party middlewares
-    (this.app as express.Application).use(bodyParser.json());
+    (this.app as ExpressApp).getExpressApp().use(bodyParser.json());
 
     // router-level middlewares
     this.loadRouters();
 
     // application-level middlewares
-    (this.app as express.Application).get('/', (_req, _res) => {
+    (this.app as ExpressApp).getExpressApp().get('/', (_req, _res) => {
       _res.send("Hello world");
     });
 
     // error-handling middlewares
-    (this.app as express.Application).use((err: any, req: any, res: any, next: any) => {
+    (this.app as ExpressApp)
+    .getExpressApp().use((err: any, req: any, res: any, next: any) => {
       if (err.code <= 510)
         res.status(err.code).json(err);
       else {
@@ -31,7 +32,9 @@ export class ExpressServer extends Server {
     });
 
     // start the server
-    this.appListener = (this.app as express.Application).listen(this.port, this.host, () => {
+    this.appListener = (this.app as ExpressApp)
+    .getExpressApp()
+    .listen(this.port, this.host, () => {
       console.log(`Example app is hosting on http://localhost:${this.port}`);
     })
   }

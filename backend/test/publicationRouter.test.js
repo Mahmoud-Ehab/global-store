@@ -27,7 +27,10 @@ describe("#PublicationRouter", function () {
             ...config,
             method: 'POST',
             url: '/user/register',
-            data: {...mockUser},
+            data: {
+                request_name: "user_register",
+                ...mockUser
+            },
         });
         userid = axiosResponse.data.metadata.id;
         usertoken = axiosResponse.data.metadata.token;
@@ -40,6 +43,7 @@ describe("#PublicationRouter", function () {
             method: 'DELETE',
             url: '/user/delete',
             data: {
+                request_name: "user_delete",
                 id: userid,
                 credentials: {...mockUser}
             },
@@ -54,6 +58,7 @@ describe("#PublicationRouter", function () {
                 method: 'POST',
                 url: '/publication/create',
                 data: {
+                    request_name: "publication_create",
                     user_id: userid,
                     ...mockPublication,
                     token: usertoken
@@ -69,6 +74,7 @@ describe("#PublicationRouter", function () {
                 method: 'POST',
                 url: '/publication/create',
                 data: {
+                    request_name: "publication_create",
                     user_id: userid,
                     ...mockPublication,
                     token: "invalid token"
@@ -84,6 +90,7 @@ describe("#PublicationRouter", function () {
                 method: 'POST',
                 url: '/publication/create',
                 data: {
+                    request_name: "publication_create",
                     user_id: "SomeId",
                     ...mockPublication,
                     token: usertoken
@@ -99,6 +106,7 @@ describe("#PublicationRouter", function () {
                 method: 'POST',
                 url: '/publication/create',
                 data: {
+                    request_name: "publication_create",
                     user_id: userid,
                     ...mockPublication
                 },
@@ -115,11 +123,12 @@ describe("#PublicationRouter", function () {
                 ...config,
                 method: 'GET',
                 url: '/publication/limit/1',
+                data: {request_name: "publication_getLimit"}
             });
             const res = axiosResponse.data;
-            const publicaitons = res.metadata.data;
-
             expect(res.code).to.equal(200);
+            
+            const publicaitons = res.metadata.data;
             expect(publicaitons).to.be.an("array");
             expect(publicaitons).to.have.length(1);
             expect(publicaitons[0]).to.eql({
@@ -135,6 +144,7 @@ describe("#PublicationRouter", function () {
                 ...config,
                 method: 'GET',
                 url: `/publication/${publicationId}`,
+                data: {request_name: "publication_getById"}
             });
             const res = axiosResponse.data;
     
@@ -152,6 +162,7 @@ describe("#PublicationRouter", function () {
                 ...config,
                 method: 'GET',
                 url: `/publication/limit/1/offset/0`,
+                data: {request_name: "publication_getLimitAndOffset"}
             });
             const res = axiosResponse.data;
             const publicaitons = res.metadata.data;
@@ -171,6 +182,7 @@ describe("#PublicationRouter", function () {
                 ...config,
                 method: 'GET',
                 url: `/publication/of/user/${userid}`,
+                data: {request_name: "publication_getOfUser"}
             });
             const res = axiosResponse.data;
             const publicaitons = res.metadata.data;
@@ -194,6 +206,7 @@ describe("#PublicationRouter", function () {
                 method: 'PATCH',
                 url: '/publication/update',
                 data: {
+                    request_name: "publication_update",
                     id: publicationId,
                     user_id: userid,
                     data: {
@@ -212,6 +225,7 @@ describe("#PublicationRouter", function () {
                 method: 'PATCH',
                 url: '/publication/update',
                 data: {
+                    request_name: "publication_update",
                     id: publicationId,
                     user_id: userid,
                     data: {
@@ -230,6 +244,7 @@ describe("#PublicationRouter", function () {
                 method: 'PATCH',
                 url: '/publication/update',
                 data: {
+                    request_name: "publication_update",
                     user_id: userid,
                     data: {
                         title: "New Title"
@@ -247,6 +262,7 @@ describe("#PublicationRouter", function () {
                 method: 'PATCH',
                 url: '/publication/update',
                 data: {
+                    request_name: "publication_update",
                     id: publicationId,
                     data: {
                         title: "New Title"
@@ -267,6 +283,7 @@ describe("#PublicationRouter", function () {
                 method: 'DELETE',
                 url: '/publication/delete',
                 data: {
+                    request_name: "publication_delete",
                     id: publicationId,
                     user_id: userid,
                     token: "invalid token"
@@ -282,6 +299,7 @@ describe("#PublicationRouter", function () {
                 method: 'DELETE',
                 url: '/publication/delete',
                 data: {
+                    request_name: "publication_delete",
                     id: 100,
                     user_id: userid,
                     token: usertoken
@@ -297,6 +315,7 @@ describe("#PublicationRouter", function () {
                 method: 'DELETE',
                 url: '/publication/delete',
                 data: {
+                    request_name: "publication_delete",
                     id: publicationId,
                     token: usertoken
                 }
@@ -311,6 +330,7 @@ describe("#PublicationRouter", function () {
                 method: 'DELETE',
                 url: '/publication/delete',
                 data: {
+                    request_name: "publication_delete",
                     id: publicationId,
                     user_id: userid,
                     token: usertoken

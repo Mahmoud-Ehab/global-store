@@ -9,13 +9,13 @@ import {
 const server = new ExpressServer("localhost", 5000);
 const queryManager = new PostgresQueryManager();
 
-const userRF = new UserRouterInitializer(queryManager);
-const pubRF = new PublicationRouterInitializer(queryManager);
-const reviewRF = new ReviewRouterInitializer(queryManager);
+const userRI = new UserRouterInitializer(queryManager);
+const pubRI = new PublicationRouterInitializer(queryManager);
+const reviewRI = new ReviewRouterInitializer(queryManager);
 
-server.addRouter(userRF);
-server.addRouter(pubRF);
-server.addRouter(reviewRF);
+server.addRouter(userRI);
+server.addRouter(pubRI);
+server.addRouter(reviewRI);
 server.start();
 
 process.on('SIGTERM', () => {

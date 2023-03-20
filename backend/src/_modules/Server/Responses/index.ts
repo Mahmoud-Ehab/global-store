@@ -1,6 +1,6 @@
 import { Response } from "../Types/Response"
 
-export const Done = (metadata?: object) => ({
+export const Done = (metadata?: object): Response => ({
   code: 200,
   message: "query fulfilled.", 
   metadata,

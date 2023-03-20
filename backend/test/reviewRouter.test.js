@@ -33,6 +33,7 @@ describe('#ReviewRouter', function() {
       method: 'POST',
       url: '/user/register',
       data: {
+        request_name: "user_register",
         ...mockUser
       },
     });
@@ -45,6 +46,7 @@ describe('#ReviewRouter', function() {
       method: 'POST',
       url: '/publication/create',
       data: {
+        request_name: "publication_create",
         user_id: userid,
         ...mockPublication,
         token: usertoken
@@ -55,6 +57,7 @@ describe('#ReviewRouter', function() {
       ...config,
       method: 'GET',
       url: `/publication/of/user/${userid}`,
+      data: {request_name: "publication_getOfUser"}
     })).data.metadata.data[0];
     pubid = publication.id;
   })
@@ -66,6 +69,7 @@ describe('#ReviewRouter', function() {
       method: 'DELETE',
       url: '/user/delete',
       data: {
+        request_name: "user_delete",
         id: userid,
         credentials: {...mockUser}
       },
@@ -79,13 +83,14 @@ describe('#ReviewRouter', function() {
         method: 'POST',
         url: '/review/create',
         data: {
+          request_name: "review_create",
           user_id: userid,
           publication_id: pubid,
           ...mockReview,
           token: usertoken
         }
       })).data;
-      
+
       expect(res.code).to.equal(200);
     })
 
@@ -95,6 +100,7 @@ describe('#ReviewRouter', function() {
         method: 'POST',
         url: '/review/create',
         data: {
+          request_name: "review_create",
           user_id: userid,
           publication_id: pubid,
           ...mockReview,
@@ -110,6 +116,7 @@ describe('#ReviewRouter', function() {
         method: 'POST',
         url: '/review/create',
         data: {
+          request_name: "review_create",
           publication_id: pubid,
           ...mockReview,
           token: usertoken
@@ -124,6 +131,7 @@ describe('#ReviewRouter', function() {
         method: 'POST',
         url: '/review/create',
         data: {
+          request_name: "review_create",
           user_id: userid,
           publication_id: -1,
           ...mockReview,
@@ -140,8 +148,10 @@ describe('#ReviewRouter', function() {
       const res = (await axios({
         ...config,
         method: 'GET',
-        url: `/review/of/publication/${pubid}/of/user/${userid}`
+        url: `/review/of/publication/${pubid}/of/user/${userid}`,
+        data: {request_name: "review_get"}
       })).data;
+
       expect(res.code).to.equal(200);
       expect(res.metadata.data.user).to.be.ok;
       expect(res.metadata.data).to.eql({
@@ -156,9 +166,11 @@ describe('#ReviewRouter', function() {
       const res = (await axios({
         ...config,
         method: 'GET',
-        url: `/review/of/user/${userid}`
+        url: `/review/of/user/${userid}`,
+        data: {request_name: "review_getOfUser"}
       })).data;
       const reviews = res.metadata.data;
+
       expect(res.code).to.equal(200);
       expect(reviews).to.be.an('array');
       for (const review of reviews) {
@@ -173,9 +185,11 @@ describe('#ReviewRouter', function() {
       const res = (await axios({
         ...config,
         method: 'GET',
-        url: `/review/of/publication/${pubid}`
+        url: `/review/of/publication/${pubid}`,
+        data: {request_name: "review_getOfPublication",}
       })).data;
       const reviews = res.metadata.data;
+
       expect(res.code).to.equal(200);
       expect(reviews).to.be.an('array');
       for (const review of reviews) {
@@ -196,6 +210,7 @@ describe('#ReviewRouter', function() {
         method: 'DELETE',
         url: '/review/delete',
         data: {
+          request_name: "review_delete",
           user_id: userid,
           publication_id: pubid,
           token: "invalid token"
@@ -210,6 +225,7 @@ describe('#ReviewRouter', function() {
         method: 'DELETE',
         url: '/review/delete',
         data: {
+          request_name: "review_delete",
           publication_id: pubid,
           token: usertoken
         }
@@ -223,6 +239,7 @@ describe('#ReviewRouter', function() {
         method: 'DELETE',
         url: '/review/delete',
         data: {
+          request_name: "review_delete",
           user_id: userid,
           publication_id: -1,
           token: usertoken
@@ -237,6 +254,7 @@ describe('#ReviewRouter', function() {
         method: 'DELETE',
         url: '/review/delete',
         data: {
+          request_name: "review_delete",
           user_id: userid,
           publication_id: pubid,
           token: usertoken

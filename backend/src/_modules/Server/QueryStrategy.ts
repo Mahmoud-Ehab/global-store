@@ -96,7 +96,7 @@ export abstract class QueryStrategy<T> {
   
   send(callback: Function, i?: number) {
     return (async function() {
-      callback(Done({data: this.carrier.get(i)}))
+      callback(Done({data: this.carrier.get(i)}));
     }).bind(this.qm)
   }
 }

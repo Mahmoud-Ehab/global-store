@@ -12,6 +12,7 @@ describe("#UserRouter", function () {
                 method: 'DELETE',
                 url: '/user/delete',
                 data: {
+                    request_name: "user_delete",
                     id: user.id,
                     credentials: {
                         username: user.username,
@@ -29,6 +30,7 @@ describe("#UserRouter", function () {
                 method: 'POST',
                 url: '/user/register',
                 data: {
+                    request_name: "user_register",
                     username: "user 1",
                     password: "123456"
                 },
@@ -43,6 +45,7 @@ describe("#UserRouter", function () {
                 method: 'POST',
                 url: '/user/register',
                 data: {
+                    request_name: "user_register",
                     username: "user 2",
                     password: "654321"
                 }
@@ -57,6 +60,7 @@ describe("#UserRouter", function () {
                 method: 'POST',
                 url: '/user/register',
                 data: {
+                    request_name: "user_register",
                     username: "user 2",
                     password: "654321"
                 }
@@ -71,6 +75,7 @@ describe("#UserRouter", function () {
                 method: 'POST',
                 url: '/user/register',
                 data: {
+                    request_name: "user_register",
                     password: "123456",
                 }
             });
@@ -84,6 +89,7 @@ describe("#UserRouter", function () {
                 method: 'POST',
                 url: '/user/register',
                 data: {
+                    request_name: "user_register",
                     username: "user 3",
                 }
             });
@@ -99,6 +105,9 @@ describe("#UserRouter", function () {
                 ...config,
                 method: 'GET',
                 url: '/user/limit/2',
+                data: {
+                    request_name: "user_getLimit",
+                }
             });
             const res = axiosResponse.data;
             const users = res.metadata.data;
@@ -118,6 +127,9 @@ describe("#UserRouter", function () {
                 ...config,
                 method: 'GET',
                 url: `/user/${registeredUsers[0].id}`,
+                data: {
+                    request_name: "user_getById",
+                }
             });
             const res = axiosResponse.data;
     
@@ -136,6 +148,7 @@ describe("#UserRouter", function () {
                 method: 'POST',
                 url: '/user/login',
                 data: {
+                    request_name: "user_login",
                     username: "user 1",
                     password: "123456"
                 }
@@ -153,6 +166,7 @@ describe("#UserRouter", function () {
                 method: 'POST',
                 url: '/user/login',
                 data: {
+                    request_name: "user_login",
                     username: "user 1",
                     password: "123451"
                 }
@@ -168,6 +182,7 @@ describe("#UserRouter", function () {
                 method: 'POST',
                 url: '/user/login',
                 data: {
+                    request_name: "user_login",
                     username: "user 100",
                     password: "123321"
                 }
@@ -186,6 +201,7 @@ describe("#UserRouter", function () {
                 method: 'PATCH',
                 url: '/user/update',
                 data: {
+                    request_name: "user_update",
                     id: registeredUsers[1].id,
                     credentials: {
                         username: "user 2",
@@ -206,6 +222,7 @@ describe("#UserRouter", function () {
                 method: 'PATCH',
                 url: '/user/update',
                 data: {
+                    request_name: "user_update",
                     id: registeredUsers[0].id,
                     credentials: {
                         username: "user 1",
@@ -226,6 +243,7 @@ describe("#UserRouter", function () {
                 method: 'PATCH',
                 url: '/user/update',
                 data: {
+                    request_name: "user_update",
                     id: registeredUsers[0].id,
                     credentials: {
                         username: "user 1",
@@ -249,6 +267,7 @@ describe("#UserRouter", function () {
                 method: 'DELETE',
                 url: '/user/delete',
                 data: {
+                    request_name: "user_delete",
                     id: registeredUsers[0].id,
                     credentials: {
                         username: "user 1",
@@ -266,6 +285,7 @@ describe("#UserRouter", function () {
                 method: 'DELETE',
                 url: '/user/delete',
                 data: {
+                    request_name: "user_delete",
                     id: "non-existing",
                     credentials: {
                         username: "user 1",
@@ -283,6 +303,7 @@ describe("#UserRouter", function () {
                 method: 'DELETE',
                 url: '/user/delete',
                 data: {
+                    request_name: "user_delete",
                     id: registeredUsers[0].id,
                     credentials: {
                         username: "user 1",
@@ -300,6 +321,7 @@ describe("#UserRouter", function () {
                 method: 'DELETE',
                 url: '/user/delete',
                 data: {
+                    request_name: "user_delete",
                     id: registeredUsers[1].id,
                     credentials: {
                         username: "user 3",
