@@ -1,5 +1,5 @@
 import { Controllers, QueryManager } from "../Database/QueryManager";
-import { AlreadyExists, Done, NotFound } from "./Responses";
+import { AlreadyExists, Done, NotFound } from "../../ServerImpl/Responses";
 
 export abstract class QueryStrategy<T> {
   protected qm: QueryManager;

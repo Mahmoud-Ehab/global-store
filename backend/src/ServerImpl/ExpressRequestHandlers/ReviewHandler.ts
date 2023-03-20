@@ -2,7 +2,7 @@ import { QueryManager } from "../../_modules/Database/QueryManager";
 import { ExpressRequestHandler } from "../ExpressRequestHandler";
 import { StrategiesFacade } from "../QueryStrategies";
 import { Request } from "../../_modules/Server/Types";
-import { BadRequest, Done } from "../../_modules/Server/Responses";
+import { BadRequest, Done } from "../Responses";
 
 export class ReviewHandler extends ExpressRequestHandler {
   private sf: StrategiesFacade;

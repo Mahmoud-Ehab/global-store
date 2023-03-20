@@ -5,7 +5,7 @@ import {
   AuthenticationFailed, 
   InteranlError, 
   InvalidToken 
-} from "../../_modules/Server/Responses";
+} from "../Responses";
 
 export class UserStrategy extends QueryStrategy<User> {
   constructor(qm: QueryManager) {
