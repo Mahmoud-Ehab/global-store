@@ -1,4 +1,4 @@
-import { Response } from "../../_modules/Server/Storages/Response"
+import { Response } from "../Storages/Response"
 
 export const Done = (metadata?: object): Response => ({
   code: 200,

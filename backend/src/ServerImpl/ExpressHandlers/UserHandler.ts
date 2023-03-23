@@ -4,7 +4,7 @@ import { ExpressHandler } from "../ExpressHandler";
 import { StrategiesFacade } from "../QueryStrategies";
 import { Request } from "../../_modules/Server/Storages";
 import { QueryManager } from "../../_modules/Database/QueryManager";
-import { Authenticated, BadRequest, Done } from "../Responses";
+import { Authenticated, BadRequest, Done } from "../../_modules/Server/Responses";
 
 export class UserHandler extends ExpressHandler {
   private sf: StrategiesFacade;
