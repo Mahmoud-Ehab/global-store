@@ -1,8 +1,8 @@
 import express = require("express");
-import { RequestHandler } from "../_modules/Server/RequestHandler";
+import { Handler } from "../_modules/Server/Types/Handler";
 import { Response } from "../_modules/Server/Types";
 
-export abstract class ExpressRequestHandler extends RequestHandler {
+export abstract class ExpressHandler extends Handler {
   private res: express.Response;
 
   initExpressVars(res: express.Response) {

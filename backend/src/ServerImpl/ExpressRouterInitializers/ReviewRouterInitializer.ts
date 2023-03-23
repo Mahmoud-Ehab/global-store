@@ -2,7 +2,7 @@ import { RouterInitializer } from "../../_modules/Server/RouterInitializer";
 import { QueryManager } from "../../_modules/Database/QueryManager";
 import { ExpressRouter } from "../ExpressRouter";
 import { ReviewEndpoints } from "../Endpoints";
-import { ReviewHandler } from "../ExpressRequestHandlers/ReviewHandler";
+import { ReviewHandler } from "../ExpressHandlers/ReviewHandler";
 
 export class ReviewRouterInitializer extends RouterInitializer {
   constructor(qm: QueryManager) {

@@ -1,13 +1,13 @@
-import { RequestHandler } from "./RequestHandler";
+import { Handler } from "./Types/Handler";
 import { Endpoint, Router } from "./Types";
 
 export abstract class RouterInitializer {
   private _router: Router;
   private _routerName: string;
 
-  protected handler: RequestHandler;
+  protected handler: Handler;
 
-  constructor(routerName: string, router: Router, handler: RequestHandler) {
+  constructor(routerName: string, router: Router, handler: Handler) {
     this._routerName = routerName;
     this._router = router;
     this.handler = handler;

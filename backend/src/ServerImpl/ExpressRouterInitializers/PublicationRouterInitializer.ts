@@ -2,7 +2,7 @@ import { RouterInitializer } from "../../_modules/Server/RouterInitializer";
 import { QueryManager } from "../../_modules/Database/QueryManager";
 import { PublicationEndpoints } from "../Endpoints";
 import { ExpressRouter } from "../ExpressRouter";
-import { PublicationHandler } from "../ExpressRequestHandlers/PublicationHandler";
+import { PublicationHandler } from "../ExpressHandlers/PublicationHandler";
 
 export class PublicationRouterInitializer extends RouterInitializer {
   constructor(qm: QueryManager) {

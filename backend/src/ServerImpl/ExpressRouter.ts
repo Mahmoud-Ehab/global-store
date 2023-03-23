@@ -1,6 +1,6 @@
 import express = require("express");
 import { Endpoint, Router } from "../_modules/Server/Types";
-import { ExpressRequestHandler } from "./ExpressRequestHandler";
+import { ExpressHandler } from "./ExpressHandler";
 
 export class ExpressRouter implements Router {
   private router: express.Router;
@@ -9,7 +9,7 @@ export class ExpressRouter implements Router {
     this.router = express.Router();
   }
 
-  define(endpoint: Endpoint, handler: ExpressRequestHandler) {
+  define(endpoint: Endpoint, handler: ExpressHandler) {
     this[endpoint.type]()(
       endpoint.appPath, 
       (req: express.Request, res: express.Response) => {

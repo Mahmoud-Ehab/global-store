@@ -1,12 +1,12 @@
 import { createHmac } from "node:crypto";
 
-import { ExpressRequestHandler } from "../ExpressRequestHandler";
+import { ExpressHandler } from "../ExpressHandler";
 import { StrategiesFacade } from "../QueryStrategies";
 import { Request } from "../../_modules/Server/Types";
 import { QueryManager } from "../../_modules/Database/QueryManager";
 import { Authenticated, BadRequest, Done } from "../Responses";
 
-export class UserHandler extends ExpressRequestHandler {
+export class UserHandler extends ExpressHandler {
   private sf: StrategiesFacade;
 
   constructor(queryManager: QueryManager) {

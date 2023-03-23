@@ -1,8 +1,8 @@
-import { QueryManager } from "../Database/QueryManager";
-import { Request } from "./Types/Request";
-import { Response } from "./Types/Response";
+import { QueryManager } from "../../Database/QueryManager";
+import { Request } from "./Request";
+import { Response } from "./Response";
 
-export abstract class RequestHandler {
+export abstract class Handler {
   protected queryManager: QueryManager;
 
   constructor(queryManager: QueryManager) {

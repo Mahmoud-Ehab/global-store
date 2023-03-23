@@ -1,10 +1,10 @@
 import { QueryManager } from "../../_modules/Database/QueryManager";
-import { ExpressRequestHandler } from "../ExpressRequestHandler";
+import { ExpressHandler } from "../ExpressHandler";
 import { StrategiesFacade } from "../QueryStrategies";
 import { Request } from "../../_modules/Server/Types";
 import { BadRequest, Done } from "../Responses";
 
-export class ReviewHandler extends ExpressRequestHandler {
+export class ReviewHandler extends ExpressHandler {
   private sf: StrategiesFacade;
 
   constructor(queryManager: QueryManager) {
