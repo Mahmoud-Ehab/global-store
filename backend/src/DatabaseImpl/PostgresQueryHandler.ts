@@ -1,5 +1,5 @@
 import { Client, ClientConfig } from "pg";
-import { QueryConfig, QueryHandler, QueryResult } from "../_modules/Database/Types";
+import { QueryConfig, QueryHandler, QueryResult } from "../_modules/Database/Storages";
 
 export class PostgresQueryHandler<T> implements QueryHandler<T> {
   private client: Client;

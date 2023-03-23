@@ -1,5 +1,5 @@
 import express = require("express");
-import { Endpoint, Router } from "../_modules/Server/Types";
+import { Endpoint, Router } from "../_modules/Server/Storages";
 import { ExpressHandler } from "./ExpressHandler";
 
 export class ExpressRouter implements Router {

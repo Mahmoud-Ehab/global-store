@@ -1,5 +1,5 @@
-import { QueryHandler } from './Types'
-import { QueryGenerator } from './Types/Query/QueryGenerator'
+import { QueryHandler } from './Storages'
+import { QueryGenerator } from './Storages/Query/QueryGenerator'
 
 export abstract class DataController<T> {
   protected queryHandler: QueryHandler<T>;

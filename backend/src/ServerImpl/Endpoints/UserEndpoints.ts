@@ -1,4 +1,4 @@
-import { Endpoint } from "../../_modules/Server/Types/Endpoint"
+import { Endpoint } from "../../_modules/Server/Storages/Endpoint"
 
 export const getUser: Endpoint = {
   path: (id) => `/user/${id}`,

@@ -1,5 +1,5 @@
 import { DataController } from "../../_modules/Database/DataController";
-import { Publication } from "../../_modules/Database/Types";
+import { Publication } from "../../_modules/Database/Storages";
 
 export class PublicationsController extends DataController<Publication> {
   protected parseData(data: Publication, all?: boolean): Publication {

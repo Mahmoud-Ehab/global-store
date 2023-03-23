@@ -1,5 +1,5 @@
 import { DataController } from "../../_modules/Database/DataController";
-import { Review } from "../../_modules/Database/Types";
+import { Review } from "../../_modules/Database/Storages";
 
 export class ReviewsController extends DataController<Review> {
   protected parseData(data: any, all?: boolean): Review {

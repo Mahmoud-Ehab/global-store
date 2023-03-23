@@ -1,5 +1,5 @@
-import { Handler } from "./Types/Handler";
-import { Endpoint, Router } from "./Types";
+import { Handler } from "./Storages/Handler";
+import { Endpoint, Router } from "./Storages";
 
 export abstract class RouterInitializer {
   private _router: Router;

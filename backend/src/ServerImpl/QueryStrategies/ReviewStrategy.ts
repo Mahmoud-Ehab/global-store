@@ -1,4 +1,4 @@
-import { Review } from "../../_modules/Database/Types";
+import { Review } from "../../_modules/Database/Storages";
 import { QueryManager } from "../../_modules/Database/QueryManager";
 import { QueryStrategy } from "../../_modules/Server/QueryStrategy";
 

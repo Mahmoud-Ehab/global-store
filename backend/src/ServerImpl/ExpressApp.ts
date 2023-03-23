@@ -1,5 +1,5 @@
 import express = require("express");
-import { ServerApp } from "../_modules/Server/Types";
+import { ServerApp } from "../_modules/Server/Storages";
 import { ExpressRouter } from "./ExpressRouter";
 
 export class ExpressApp implements ServerApp {

@@ -1,5 +1,5 @@
 import { DataController } from "../../_modules/Database/DataController";
-import { User } from "../../_modules/Database/Types";
+import { User } from "../../_modules/Database/Storages";
 
 type Credentials = {
   username: string,
