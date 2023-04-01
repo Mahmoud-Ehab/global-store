@@ -3,8 +3,7 @@ import { Server } from "../_modules/Server/Server";
 import { ExpressApp } from "./ExpressApp";
 
 export class ExpressServer extends Server {
-  private appListener: any;
-
+  
   constructor(host: string, port: number) {
     super(new ExpressApp(), host, port);
   }
@@ -32,15 +31,6 @@ export class ExpressServer extends Server {
     });
 
     // start the server
-    this.appListener = (this.app as ExpressApp)
-    .getExpressApp()
-    .listen(this.port, this.host, () => {
-      console.log(`Example app is hosting on http://localhost:${this.port}`);
-    })
-  }
-
-  close(callback: Function) {
-    if (this.appListener)
-      this.appListener.close(callback);
+    super.start();
   }
 }

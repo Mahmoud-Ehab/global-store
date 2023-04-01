@@ -15,11 +15,14 @@ export abstract class Server {
   }
 
   start() {
-    throw Error("method is not implemented");
+    this.app.listen(this.port, this.host, () => {
+      console.log(`Example app is hosting on http://localhost:${this.port}`);
+    })
   }
 
   close(callback: Function) {
-    throw Error("method is not implemented");
+    if (this.app)
+      this.app.close(callback);
   }
 
   addRouter(router: RouterInitializer) {
