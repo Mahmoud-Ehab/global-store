@@ -31,6 +31,8 @@ export class ExpressServer extends Server {
     });
 
     // start the server
-    super.start();
+    this.app.listen(this.port, this.host, () => {
+      console.log(`Example app is hosting on http://localhost:${this.port}`);
+    })
   }
 }
