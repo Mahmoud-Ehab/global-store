@@ -153,23 +153,23 @@ describe("#RequestDispatcher", function() {
       mockPub2.user_id = mockUser2.id;
     })
 
-    after(function () {
+    after(async function () {
       // remove all mock data that involved in publication tests
-      Dispatcher.dispatch(userBuilder.remove(
+      // the publications will get removed automatically by the server
+      await Dispatcher.dispatch(userBuilder.remove(
         mockUser1.id,
         {
           username: mockUser1.username,
           password: mockUser1.password
         }
       ));
-      Dispatcher.dispatch(userBuilder.remove(
+      await Dispatcher.dispatch(userBuilder.remove(
         mockUser2.id,
         {
           username: mockUser2.username,
           password: mockUser2.password
         }
       ));
-      // the publications will get removed automatically by the server
     })
 
     it("should create two publications (mockPub1 & mockPub2)", async function () {
@@ -260,15 +260,16 @@ describe("#RequestDispatcher", function() {
       mockReview2.publication_id = mockPub1.id;
     })
 
-    after(function () {
-      Dispatcher.dispatch(userBuilder.remove(
+    after(async function () {
+      await Dispatcher.dispatch(userBuilder.remove(
         mockUser1.id,
         {
           username: mockUser1.username,
           password: mockUser1.password
         }
       ));
-      Dispatcher.dispatch(userBuilder.remove(
+
+      await Dispatcher.dispatch(userBuilder.remove(
         mockUser2.id,
         {
           username: mockUser2.username,
