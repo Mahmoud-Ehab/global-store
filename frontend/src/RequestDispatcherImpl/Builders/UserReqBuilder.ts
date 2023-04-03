@@ -18,27 +18,33 @@ export class UserReqBuilder extends Builder<keyof typeof UserEndpoints> {
   get() {
     return {
       id: (userId: string) => {
-        return this.requests.getUser({}, userId);
+        const request_name = "user_getById";
+        return this.requests.getUser({request_name}, userId);
       },
       limit: (limit: number) => {
-        return this.requests.getUsersLimit({}, limit);
+        const request_name = "user_getLimit";
+        return this.requests.getUsersLimit({request_name}, limit);
       }
     }
   }
 
   update(id: string, credentials: Credentials, data: Object) {
-    return this.requests.update({id, credentials, data});
+    const request_name = "user_update";
+    return this.requests.update({request_name, id, credentials, data});
   }
 
   remove(id: string, credentials: Credentials) {
-    return this.requests.remove({id, credentials});
+    const request_name = "user_delete";
+    return this.requests.remove({request_name, id, credentials});
   }
 
   login(credentials: Credentials) {
-    return this.requests.login(credentials);
+    const request_name = "user_login";
+    return this.requests.login({request_name, ...credentials});
   }
 
   register(credentials: Credentials) {
-    return this.requests.register(credentials);
+    const request_name = "user_register";
+    return this.requests.register({request_name, ...credentials});
   }
 }

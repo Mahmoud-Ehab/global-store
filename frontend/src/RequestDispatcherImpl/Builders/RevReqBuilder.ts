@@ -22,26 +22,32 @@ export class RevReqBuilder extends Builder<keyof typeof ReviewEndpoints> {
   get() {
     return {
       id: (pubId: number, userId: string) => {
-        return this.requests.getReview({}, pubId, userId);
+        const request_name = "review_get";
+        return this.requests.getReview({request_name}, pubId, userId);
       },
       ofUser: (userId: string) => {
-        return this.requests.getReviewsOfUser({}, userId);
+        const request_name = "review_getOfUser";
+        return this.requests.getReviewsOfUser({request_name}, userId);
       },
       ofPublication: (pubId: string) => {
-        return this.requests.getReviewsOfPublication({}, pubId);
+        const request_name = "review_getOfPublication";
+        return this.requests.getReviewsOfPublication({request_name}, pubId);
       }
     }
   }
 
   create(review: RevInfo, token: string) {
-    return this.requests.create({...review, token});
+    const request_name = "review_create";
+    return this.requests.create({request_name, ...review, token});
   }
 
   update(reviewIds: RevIds, token: string, data: Object) {
-    return this.requests.update({...reviewIds, token, data});
+    const request_name = "review_update";
+    return this.requests.update({request_name, ...reviewIds, token, data});
   }
 
   remove(reviewIds: RevIds, token: string) {
-    return this.requests.remove({...reviewIds, token});
+    const request_name = "review_delete";
+    return this.requests.remove({request_name, ...reviewIds, token});
   }
 }

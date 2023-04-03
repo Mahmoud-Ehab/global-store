@@ -23,29 +23,36 @@ export class PubReqBuilder extends Builder<keyof typeof PublicationEndpoints> {
   get() {
     return {
       id: (pubId: string) => {
-        return this.requests.getPublication({}, pubId);
+        const request_name = "publication_getById";
+        return this.requests.getPublication({request_name}, pubId);
       },
       limit: (limit: number) => {
-        return this.requests.getPublicationsWithLimit({}, limit);
+        const request_name = "publication_getLimit";
+        return this.requests.getPublicationsWithLimit({request_name}, limit);
       },
       limitAndOffset: (limit: number, offset: number) => {
-        return this.requests.getPublicationsWithLimitAndOffset({}, limit, offset);
+        const request_name = "publication_getLimitAndOffset";
+        return this.requests.getPublicationsWithLimitAndOffset({request_name}, limit, offset);
       },
       ofUser: (userId: string) => {
-        return this.requests.getPublicationsOfUser({}, userId);
+        const request_name = "publication_getOfUser";
+        return this.requests.getPublicationsOfUser({request_name}, userId);
       }
     }
   }
 
   create(pub: Partial<PubInfo>, token: string) {
-    return this.requests.create({...pub, token});
+    const request_name = "publication_create";
+    return this.requests.create({request_name, ...pub, token});
   }
 
   update(pubIds: Pick<PubInfo, "id" | "user_id">, token: string, data: Object) {
-    return this.requests.update({...pubIds, token, data});
+    const request_name = "publication_update";
+    return this.requests.update({request_name, ...pubIds, token, data});
   }
 
   remove(pubIds: Pick<PubInfo, "id" | "user_id">, token: string) {
-    return this.requests.remove({...pubIds, token});
+    const request_name = "publication_delete";
+    return this.requests.remove({request_name, ...pubIds, token});
   }
 }
