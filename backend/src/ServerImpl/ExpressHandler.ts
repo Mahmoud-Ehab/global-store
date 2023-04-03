@@ -13,7 +13,7 @@ export abstract class ExpressHandler extends Handler {
   }
 
   error(e: {code: number, message: string}) {
-    this.res.status(e.code).json(e);
+    this.res.status(e.code).end(e.message);
   }
 
   protected hasUndefined(...objs: any) {

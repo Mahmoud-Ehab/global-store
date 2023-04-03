@@ -24,9 +24,9 @@ export class ExpressServer extends Server {
     (this.app as ExpressApp)
     .getExpressApp().use((err: any, req: any, res: any, next: any) => {
       if (err.code <= 510)
-        res.status(err.code).json(err);
+        res.status(err.code).end(err.message);
       else {
-        res.status(500).json({code: 500, message: "Internal error."});
+        res.status(500).end("Internal error.");
       }
     });
 
