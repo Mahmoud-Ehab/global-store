@@ -1,5 +1,5 @@
 import express = require("express");
-import { Handler, Response } from "../_modules/Server/Storages";
+import { Handler, Response } from "../_modules/Server/Storage";
 
 export abstract class ExpressHandler extends Handler {
   private res: express.Response;

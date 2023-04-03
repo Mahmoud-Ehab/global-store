@@ -1,7 +1,7 @@
 import { QueryManager } from "../../_modules/Database/QueryManager";
 import { ExpressHandler } from "../ExpressHandler";
 import { StrategiesFacade } from "../QueryStrategies";
-import { Request } from "../../_modules/Server/Storages";
+import { Request } from "../../_modules/Server/Storage";
 import { BadRequest, Done } from "../../_modules/Server/Responses";
 
 export class ReviewHandler extends ExpressHandler {

@@ -1,4 +1,4 @@
-import { User } from "../../_modules/Database/Storages";
+import { User } from "../../_modules/Database/Storage";
 import { QueryManager } from "../../_modules/Database/QueryManager";
 import { QueryStrategy } from "../../_modules/Server/QueryStrategy";
 import { 

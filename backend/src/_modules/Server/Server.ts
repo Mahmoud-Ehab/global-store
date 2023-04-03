@@ -1,5 +1,5 @@
 import { RouterInitializer } from "./RouterInitializer";
-import { ServerApp } from "./Storages/ServerApp";
+import { ServerApp } from "./Storage/ServerApp";
 
 export abstract class Server {
   protected app: ServerApp;

@@ -1,5 +1,5 @@
-import { QueryConfig } from "../_modules/Database/Storages";
-import { QueryGenerator } from "../_modules/Database/Storages/Query/QueryGenerator";
+import { QueryConfig } from "../_modules/Database/Storage";
+import { QueryGenerator } from "../_modules/Database/Storage/Query/QueryGenerator";
 
 export class PostgresQueryGenerator implements QueryGenerator {
   private tableName: string;

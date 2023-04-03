@@ -2,7 +2,7 @@ import { createHmac } from "node:crypto";
 
 import { ExpressHandler } from "../ExpressHandler";
 import { StrategiesFacade } from "../QueryStrategies";
-import { Request } from "../../_modules/Server/Storages";
+import { Request } from "../../_modules/Server/Storage";
 import { QueryManager } from "../../_modules/Database/QueryManager";
 import { Authenticated, BadRequest, Done } from "../../_modules/Server/Responses";
 
