@@ -1,4 +1,4 @@
-import { Endpoint } from "./Endpoint";
+import { Endpoint } from "../../../../../backend/src/_modules/Server/Storage/Endpoint";
 import { Proxy } from "./Proxy";
 import { Request } from "./Request";
 import { Response } from "./Response";
