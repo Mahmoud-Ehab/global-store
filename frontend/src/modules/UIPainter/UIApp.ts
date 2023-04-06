@@ -1,9 +1,6 @@
-import { View } from "./Storage/View";
-import { ClassFile } from "./Storage/ClassFile";
-import { ScreenInfo } from "./Storage/ScreenInfo";
-
-import { existsSync, mkdirSync } from "fs";
+import { View, ClassFile, ScreenInfo } from "./Storage";
 import { PathResolver } from "./PathResolver";
+import { existsSync, mkdirSync } from "fs";
 
 export abstract class UIApp {
   protected rootdir: string = "";

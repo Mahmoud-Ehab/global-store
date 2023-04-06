@@ -1,4 +1,4 @@
-import { ScreenInfo } from "../modules/UIPainter/Storage/ScreenInfo";
+import { ScreenInfo } from "../modules/UIPainter/Storage";
 
 export interface HTMLScreenInfo extends ScreenInfo {
   author?: string;

@@ -1,8 +1,6 @@
 import { writeFileSync } from 'fs';
 import { PathResolver } from '../modules/UIPainter/PathResolver';
-import { Screen } from '../modules/UIPainter/Storage/Screen';
-import { ClassFile } from '../modules/UIPainter/Storage/ClassFile';
-import { View } from '../modules/UIPainter/Storage/View';
+import { Screen, ClassFile, View } from '../modules/UIPainter/Storage';
 import { HTMLScreenInfo } from './HTMLScreenInfo';
 
 export class HTMLScreen extends Screen {

@@ -1,7 +1,6 @@
-import { ClassFile } from "../../modules/UIPainter/Storage/ClassFile";
-import { View } from "../../modules/UIPainter/Storage/View";
+import { ClassFile, View } from "../../modules/UIPainter/Storage";
 
-export class HomePage implements View, ClassFile {
+export class HomePage extends View implements ClassFile {
   draw() {
     const root = document.getElementById("root");
     const label = document.createElement("label");

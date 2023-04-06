@@ -1,6 +1,6 @@
-import { ClassFile } from "./ClassFile";
-import { ScreenInfo } from "./ScreenInfo";
-import { View } from "./View";
+import { ClassFile } from "./Storage/ClassFile";
+import { ScreenInfo } from "./Storage/ScreenInfo";
+import { View } from "../View/View";
 
 export abstract class Screen {
   protected name: string;

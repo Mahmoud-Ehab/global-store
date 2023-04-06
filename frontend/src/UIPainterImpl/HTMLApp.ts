@@ -1,7 +1,6 @@
 import { Server } from "https";
 import { UIApp } from "../modules/UIPainter/UIApp";
-import { ClassFile } from "../modules/UIPainter/Storage/ClassFile";
-import { View } from "../modules/UIPainter/Storage/View";
+import { ClassFile, View } from "../modules/UIPainter/Storage";
 import { HTMLScreen } from "./HTMLScreen";
 import { HTMLScreenInfo } from "./HTMLScreenInfo";
 
