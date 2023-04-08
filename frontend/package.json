@@ -7,9 +7,9 @@
     "doc": "docs"
   },
   "scripts": {
-    "start": "node dist/frontend/src/app.js",
-    "build": "tsc",
-    "build-dev": "tsc -w",
+    "start": "node dist/app.js",
+    "build": "rollup --config",
+    "build-dev": "rollup --config --watch",
     "test": "mocha --require test/mocha.fixtures.cjs --bail"
   },
   "repository": {
@@ -23,10 +23,16 @@
   },
   "homepage": "https://github.com/Mahmoud-Ehab/global-store#readme",
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.2",
+    "@rollup/plugin-typescript": "^11.1.0",
     "@types/node": "^18.14.1",
     "@types/serve-handler": "^6.1.1",
     "expect.js": "^0.3.1",
     "mocha": "^10.2.0",
+    "rollup": "^3.20.2",
+    "tslib": "^2.5.0",
     "typescript": "^4.9.5"
   },
   "dependencies": {
