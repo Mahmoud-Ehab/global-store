@@ -1,9 +1,9 @@
 import { View } from "./View";
 import { DrawStrategy } from "./DrawStrategy";
-import { StyleFactory } from "./StyleFactory";
+import { ViewData } from "./Storage/ViewData";
 
 export {
   View,
+  ViewData,
   DrawStrategy,
-  StyleFactory
 }

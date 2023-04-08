@@ -1,24 +1,21 @@
-import { View, ClassFile, ScreenInfo } from "./Storage";
-import { PathResolver } from "./PathResolver";
+import { View, ClassFile, ScreenInfo, ViewData } from "./Storage";
 import { existsSync, mkdirSync } from "fs";
 
-export abstract class UIApp {
-  protected rootdir: string = "";
-  protected resolver: PathResolver;
+export abstract class UIApp<V extends View<ViewData, any>> {
+  protected rootdir: string;
 
-  constructor(rootdir: string, resolver: PathResolver) {
+  constructor(rootdir: string) {
     try {
-      this.resolver = resolver;
-      this.rootdir = this.resolver.normalize(rootdir);
-      if (!existsSync(this.rootdir))
-        mkdirSync(this.rootdir);
+      this.rootdir = rootdir;
+      if (!existsSync(rootdir))
+        mkdirSync(rootdir);
     } 
     catch (err) {
       throw err;
     }
   }
 
-  addScreen(info: ScreenInfo, views: Array<View & ClassFile>) {
+  addScreen(info: ScreenInfo, views: Array<V & ClassFile>) {
     throw Error("method is not implemented.");
   }
 

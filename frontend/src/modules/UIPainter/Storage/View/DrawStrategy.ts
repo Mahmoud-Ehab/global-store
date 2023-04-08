@@ -1,9 +1,8 @@
-import { StyleFactory } from "./StyleFactory";
+import { ViewData } from "./Storage/ViewData";
 import { View } from "./View";
 
-export interface DrawStrategy {
-  setStyle(style: StyleFactory): void;
-  draw(view: View): void;
-  update(view: View): void;
-  destroy(view: View): void;
+export interface DrawStrategy<V extends View<ViewData, any>> {
+  draw(view: V): void;
+  update(view: V): void;
+  destroy(view: V): void;
 }

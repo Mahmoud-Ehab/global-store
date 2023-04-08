@@ -1,20 +1,15 @@
 import { writeFileSync } from 'fs';
-import { PathResolver } from '../modules/UIPainter/PathResolver';
-import { Screen, ClassFile, View } from '../modules/UIPainter/Storage';
+import { Screen, ClassFile, View, ViewData } from '../modules/UIPainter/Storage';
 import { HTMLScreenInfo } from './HTMLScreenInfo';
+import { HTMLView } from './HTMLView';
 
 export class HTMLScreen extends Screen {
   private info: HTMLScreenInfo;
   private chunks: Array<string>;
 
-  private resolver: PathResolver;
   private appRootDir: string;
 
-  setResolver(resolver: PathResolver) {
-    this.resolver = resolver;
-  }
-
-  setAppRootDir(path: string) {
+  setRootDir(path: string) {
     this.appRootDir = path;
   }
   
@@ -40,19 +35,17 @@ export class HTMLScreen extends Screen {
     );
   }
 
-  apply(view: View & ClassFile): void {
-    if (!this.appRootDir || !this.resolver) {
-      throw Error(`HTMLScreen: setRootDir & setResolver 
-      should be invoked first before apply method.`);
+  apply(view: HTMLView & ClassFile): void {
+    if (!this.appRootDir) {
+      throw Error(`HTMLScreen: setRootDir should be invoked 
+      first before apply method.`);
     }
 
     this.chunks.push(
       `
-      <script type="module" src="${
-        this.resolver.relPath(this.appRootDir, view.getFilePath())
-      }"></script>
       <script type="module">
-        const view = new exports.${view.getClassName()}();
+        import { ${view.getClassName()} } from '${view.getFilePath()}';
+        const view = new ${view.getClassName()}();
         view.draw();
       </script>
       `
@@ -60,7 +53,7 @@ export class HTMLScreen extends Screen {
   }
 
   create(): void {
-    if (!this.appRootDir || !this.resolver) {
+    if (!this.appRootDir) {
       throw Error(`HTMLScreen: setRootDir should be invoked 
       first before create method.`);
     }

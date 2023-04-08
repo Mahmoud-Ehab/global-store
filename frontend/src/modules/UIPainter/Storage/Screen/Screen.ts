@@ -1,6 +1,6 @@
 import { ClassFile } from "./Storage/ClassFile";
 import { ScreenInfo } from "./Storage/ScreenInfo";
-import { View } from "../View/View";
+import { View, ViewData } from "../View";
 
 export abstract class Screen {
   protected name: string;
@@ -18,7 +18,7 @@ export abstract class Screen {
     throw Error("method is not implemented.");
   }
 
-  apply(view: View & ClassFile) {
+  apply(view: View<ViewData, any> & ClassFile) {
     throw Error("method is not implemented.");
   }
 

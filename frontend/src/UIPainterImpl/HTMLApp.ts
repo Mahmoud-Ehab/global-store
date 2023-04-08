@@ -1,19 +1,18 @@
-import { Server } from "https";
 import { UIApp } from "../modules/UIPainter/UIApp";
-import { ClassFile, View } from "../modules/UIPainter/Storage";
+import { ClassFile, View, ViewData } from "../modules/UIPainter/Storage";
 import { HTMLScreen } from "./HTMLScreen";
 import { HTMLScreenInfo } from "./HTMLScreenInfo";
 
-const handler = require('serve-handler');
-const http = require('http');
+import handler from 'serve-handler';
+import { Server, createServer } from 'http';
+import { HTMLView } from "./HTMLView";
 
-export class HTMLApp extends UIApp {
+export class HTMLApp extends UIApp<HTMLView> {
   private server: Server;
 
-  addScreen(info: HTMLScreenInfo, views: Array<View & ClassFile>): void {
+  addScreen(info: HTMLScreenInfo, views: Array<HTMLView & ClassFile>): void {
     const screen = new HTMLScreen(info);
-    screen.setAppRootDir(this.rootdir);
-    screen.setResolver(this.resolver);
+    screen.setRootDir(this.rootdir);
 
     for (let view of views)
       screen.apply(view);
@@ -25,7 +24,7 @@ export class HTMLApp extends UIApp {
     const port = 3000;
     const host = 'localhost';
 
-    this.server = http.createServer((req: any, res: any) => {
+    this.server = createServer((req: any, res: any) => {
       return handler(req, res, {
         public: this.rootdir,
         directoryListing: false
