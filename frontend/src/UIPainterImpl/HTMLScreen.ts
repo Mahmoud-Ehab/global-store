@@ -25,6 +25,19 @@ export class HTMLScreen extends Screen {
         <meta name="description" content="${info.description || ''}">
         <meta name="keywords" content="${info.keywords || ''}">
         <meta name="author" content="${info.author || ''}">
+        <style>
+          * {
+            margin: 0;
+            padding: 0;
+          }
+          #root {
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+          }
+        </style>
       </head>
       <body>
         <div id="root">

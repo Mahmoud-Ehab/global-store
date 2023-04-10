@@ -6,13 +6,14 @@ export class HomePage extends HTMLView implements ClassFile {
   constructor() {
     super(
       {id: "home", parentId: "root", text: ""}, 
-      {width: "600px", height: "600px", backgroundColor: "#132321"}, 
+      {width: "100%", height: "100%", backgroundColor: "#132321"}, 
       new ContainerDrawer()
     );
   }
   
   getFilePath(): string {
-    return "./pages/HomePage.js";
+    // return the file path that shall be used after compilation
+    return "./views/HomePage.js";
   }
   
   getClassName(): string {

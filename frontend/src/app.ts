@@ -1,6 +1,6 @@
 import { normalize } from "path";
 import { HTMLApp } from "./UIPainterImpl/HTMLApp";
-import { HomePage } from "./UIPainterImpl/pages/HomePage";
+import { HomePage } from "./UIPainterImpl/views/HomePage";
 
 try {
   const app = new HTMLApp(normalize(__dirname + "/"));

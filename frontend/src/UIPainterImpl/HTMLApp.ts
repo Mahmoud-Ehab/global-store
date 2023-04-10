@@ -1,5 +1,5 @@
 import { UIApp } from "../modules/UIPainter/UIApp";
-import { ClassFile, View, ViewData } from "../modules/UIPainter/Storage";
+import { ClassFile } from "../modules/UIPainter/Storage";
 import { HTMLScreen } from "./HTMLScreen";
 import { HTMLScreenInfo } from "./HTMLScreenInfo";
 
