@@ -1,5 +1,8 @@
-import { View, ClassFile, ScreenInfo, ViewData } from "./Storage";
 import { existsSync, mkdirSync } from "fs";
+
+import { ClassFile, ViewData } from "./Storage";
+import { Screen } from "./Screen";
+import { View } from "./View";
 
 export abstract class UIApp<V extends View<ViewData, any>> {
   protected rootdir: string;
@@ -15,7 +18,7 @@ export abstract class UIApp<V extends View<ViewData, any>> {
     }
   }
 
-  addScreen(info: ScreenInfo, views: Array<V & ClassFile>) {
+  addScreen(screen: Screen, views: Array<V & ClassFile>) {
     throw Error("method is not implemented.");
   }
 

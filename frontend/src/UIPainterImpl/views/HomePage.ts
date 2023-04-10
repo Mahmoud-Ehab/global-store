@@ -5,7 +5,7 @@ import { ContainerDrawer } from "../drawers/ContainerDrawer";
 export class HomePage extends HTMLView implements ClassFile {
   constructor() {
     super(
-      {id: "home", parentId: "root", text: ""}, 
+      {id: "home", parentId: "root"}, 
       {width: "100%", height: "100%", backgroundColor: "#132321"}, 
       new ContainerDrawer()
     );
@@ -13,6 +13,7 @@ export class HomePage extends HTMLView implements ClassFile {
   
   getFilePath(): string {
     // return the file path that shall be used after compilation
+    // @TODO: make it dynamic.
     return "./views/HomePage.js";
   }
   

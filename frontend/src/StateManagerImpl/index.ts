@@ -8,7 +8,7 @@ import { StateFactory } from "./StateFactory";
   and export it to the user.
 */
 
-// A substitute to Enitity<...>, for the sake of readability.
+// substitutes to Enitity<...> for more readability.
 type AnyEntity = Entity<any, any, any>;
 type RootEntity = Entity<string, AppState<AnyEntity>, {}>;
 

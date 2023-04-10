@@ -1,6 +1,14 @@
-import { View, ViewData } from "../modules/UIPainter/Storage";
+import { View } from "../modules/UIPainter/View";
 
-export abstract class HTMLView extends View<ViewData, Partial<CSSStyleDeclaration>> {
+type Data = {
+  id: string;
+  parentId: string;
+  text?: string;
+}
+
+type Style = Partial<CSSStyleDeclaration>
+
+export abstract class HTMLView extends View<Data, Style> {
   private element: HTMLElement;
 
   getElement(): HTMLElement {

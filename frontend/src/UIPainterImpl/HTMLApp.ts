@@ -1,17 +1,16 @@
-import { UIApp } from "../modules/UIPainter/UIApp";
-import { ClassFile } from "../modules/UIPainter/Storage";
-import { HTMLScreen } from "./HTMLScreen";
-import { HTMLScreenInfo } from "./HTMLScreenInfo";
-
 import handler from 'serve-handler';
 import { Server, createServer } from 'http';
+
+import { UIApp } from "../modules/UIPainter/UIApp";
+import { ClassFile } from "../modules/UIPainter/Storage";
+
+import { HTMLScreen } from "./HTMLScreen";
 import { HTMLView } from "./HTMLView";
 
 export class HTMLApp extends UIApp<HTMLView> {
   private server: Server;
 
-  addScreen(info: HTMLScreenInfo, views: Array<HTMLView & ClassFile>): void {
-    const screen = new HTMLScreen(info);
+  addScreen(screen: HTMLScreen, views: Array<HTMLView & ClassFile>): void {
     screen.setRootDir(this.rootdir);
 
     for (let view of views)

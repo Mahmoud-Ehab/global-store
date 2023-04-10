@@ -1,7 +1,4 @@
-import { 
-  DrawStrategy, 
-  ViewData,
-} from "../../modules/UIPainter/Storage";
+import { DrawStrategy } from "../../modules/UIPainter/DrawStrategy";
 import { HTMLView } from "../HTMLView";
 
 export class ContainerDrawer implements DrawStrategy<HTMLView> {

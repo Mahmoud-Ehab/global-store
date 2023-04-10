@@ -1,11 +1,11 @@
-import { View, DrawStrategy, ViewData } from "./View";
-import { Screen, ScreenInfo, ClassFile } from "./Screen";
+import { ViewInterface } from "./ViewInterface"
+import { ViewData } from "./ViewData"
+import { ScreenInfo } from "./ScreenInfo"
+import { ClassFile } from "./ClassFile"
 
 export {
-  View,
+  ViewInterface,
   ViewData,
-  DrawStrategy,
-  Screen,
   ScreenInfo,
   ClassFile
 }
