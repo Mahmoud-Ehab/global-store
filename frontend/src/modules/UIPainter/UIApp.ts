@@ -1,8 +1,8 @@
 import { existsSync, mkdirSync } from "fs";
 
-import { ClassFile, ViewData } from "./Storage";
+import { ClassFile, ViewData } from "./Screen";
 import { Screen } from "./Screen";
-import { View } from "./View";
+import { View } from "./View/View";
 
 export abstract class UIApp<V extends View<ViewData, any>> {
   protected rootdir: string;

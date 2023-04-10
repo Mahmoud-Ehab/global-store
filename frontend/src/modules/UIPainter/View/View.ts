@@ -1,5 +1,5 @@
 import { ViewData } from "./Storage/ViewData";
-import { DrawStrategy } from "./DrawStrategy";
+import { ViewDrawer } from "./Storage/ViewDrawer";
 import { ViewInterface } from "./Storage/ViewInterface";
 
 type V = View<ViewData, any>;
@@ -7,14 +7,14 @@ type V = View<ViewData, any>;
 export abstract class View<D extends ViewData, S> implements ViewInterface<S> {
   private data: D;
   private style: S;
-  private drawer: DrawStrategy<V>;
+  private drawer: ViewDrawer<V>;
   private drawn: boolean = false;
 
   private onDrawCallback: Function;
   private onUpdateCallback: Function;
   private onDestroyCallback: Function;
 
-  constructor(data: D, style: S, drawer: DrawStrategy<V>) {
+  constructor(data: D, style: S, drawer: ViewDrawer<V>) {
     this.data = data;
     this.style = style;
     this.drawer = drawer;
@@ -82,6 +82,9 @@ export abstract class View<D extends ViewData, S> implements ViewInterface<S> {
       if (this.onUpdateCallback) {
         this.onUpdateCallback(this);
       }
+    }
+    else {
+      this.draw();
     }
   }
 

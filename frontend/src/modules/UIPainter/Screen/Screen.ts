@@ -1,6 +1,6 @@
 import { ClassFile } from "./Storage/ClassFile";
 import { ScreenInfo } from "./Storage/ScreenInfo";
-import { ViewInterface } from "./Storage";
+import { ViewInterface } from "../View/Storage/ViewInterface";
 
 export abstract class Screen {
   protected name: string;
