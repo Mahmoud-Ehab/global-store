@@ -1,5 +1,5 @@
 import { ViewData } from "./Storage/ViewData";
-import { View } from "./View";
+import { View } from "./Storage/View";
 
 export class ConstructiveView<D extends ViewData, S> extends View<D, S> {
   private children: Array<View<any, any>>;

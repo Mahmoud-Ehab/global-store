@@ -1,17 +1,15 @@
-import { View } from "./View";
+import { View } from "./Storage/View";
 import { ViewData } from "./Storage/ViewData";
-import { ViewInterface } from "./Storage/ViewInterface";
 import { ViewDrawer } from "./Storage/ViewDrawer";
 import { ConstructiveView } from "./ConstructiveView";
-import { InteractiveConstruct } from "./Storage/InteractiveConstruct";
-import { AestheticConstruct } from "./Storage/AestheticConstruct";
+import { InteractiveView } from "./InteractiveView";
+import { AestheticView } from "./AestheticView";
 
 export {
   View,
   ViewData,
-  ViewInterface,
   ViewDrawer,
   ConstructiveView,
-  InteractiveConstruct,
-  AestheticConstruct
+  InteractiveView,
+  AestheticView
 }

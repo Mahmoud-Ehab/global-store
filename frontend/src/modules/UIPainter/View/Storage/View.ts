@@ -1,10 +1,9 @@
-import { ViewData } from "./Storage/ViewData";
-import { ViewDrawer } from "./Storage/ViewDrawer";
-import { ViewInterface } from "./Storage/ViewInterface";
+import { ViewData } from "./ViewData";
+import { ViewDrawer } from "./ViewDrawer";
 
 type V = View<ViewData, any>;
 
-export abstract class View<D extends ViewData, S> implements ViewInterface<S> {
+export abstract class View<D extends ViewData, S> {
   private data: D;
   private style: S;
   private drawer: ViewDrawer<V>;
@@ -97,15 +96,15 @@ export abstract class View<D extends ViewData, S> implements ViewInterface<S> {
     }
   }
 
-  onDraw(callback: Function) {
+  setOnDraw(callback: Function) {
     this.onDrawCallback = callback;
   }
 
-  onUpdate(callback: Function) {
+  setOnUpdate(callback: Function) {
     this.onUpdateCallback = callback;
   }
 
-  onDestroy(callback: Function) {
+  setOnDestroy(callback: Function) {
     this.onDestroyCallback = callback;
   }
 }
