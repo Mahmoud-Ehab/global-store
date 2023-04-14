@@ -4,6 +4,7 @@ import { View } from "../modules/UIPainter/View/Storage/View";
 type Data = {
   id: string;
   parentId: string;
+  viewName: string; // the name of both file & class
   text?: string;
 }
 
@@ -21,12 +22,10 @@ export class HTMLView extends View<Data, Style> implements ClassFile {
   }
 
   getFilePath(): string {
-    // return the file path that shall be used after compilation
-    // @TODO: make it dynamic.
-    return "./views/pages/Home.js";
+    return `./views/${this.getData().viewName}.js`;
   }
   
   getClassName(): string {
-    return "Home";
+    return this.getData().viewName;
   }
 }

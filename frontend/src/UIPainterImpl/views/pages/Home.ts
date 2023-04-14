@@ -5,7 +5,7 @@ import { HTMLView } from "../../HTMLView";
 export class Home extends ConstructiveView<HTMLView> {
   constructor() {
     super(new HTMLView(
-      {id: "home", parentId: "root"}, 
+      {id: "home", parentId: "root", viewName: "Home"}, 
       {width: "100%", height: "100%", backgroundColor: "#132321"}, 
       GlobalDrawers.div()
     ));

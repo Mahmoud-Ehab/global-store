@@ -25,7 +25,7 @@ export default [
       './src/UIPainterImpl/views/pages/Home.ts'
     ],
     output: {
-      dir: 'dist/views/pages',
+      dir: 'dist/views',
       format: 'es'
     },
     plugins: [
