@@ -22,10 +22,10 @@ export default [
   },
   {
     input: [
-      './src/UIPainterImpl/views/HomePage.ts'
+      './src/UIPainterImpl/views/pages/Home.ts'
     ],
     output: {
-      dir: 'dist/views',
+      dir: 'dist/views/pages',
       format: 'es'
     },
     plugins: [

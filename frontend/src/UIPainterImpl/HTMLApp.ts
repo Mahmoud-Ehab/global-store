@@ -1,14 +1,27 @@
 import handler from 'serve-handler';
 import { Server, createServer } from 'http';
+import { existsSync, mkdirSync } from 'fs';
 
 import { UIApp } from "../modules/UIPainter/UIApp";
-import { ClassFile } from "../modules/UIPainter/Storage";
+import { ClassFile } from "../modules/UIPainter/Screen";
 
 import { HTMLScreen } from "./HTMLScreen";
 import { HTMLView } from "./HTMLView";
 
-export class HTMLApp extends UIApp<HTMLView> {
+export class HTMLApp implements UIApp<HTMLView> {
   private server: Server;
+  protected rootdir: string;
+
+  constructor(rootdir: string) {
+    try {
+      this.rootdir = rootdir;
+      if (!existsSync(rootdir))
+        mkdirSync(rootdir);
+    } 
+    catch (err) {
+      throw err;
+    }
+  }
 
   addScreen(screen: HTMLScreen, views: Array<HTMLView & ClassFile>): void {
     screen.setRootDir(this.rootdir);

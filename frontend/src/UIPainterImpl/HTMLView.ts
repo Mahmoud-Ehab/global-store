@@ -1,4 +1,5 @@
-import { View } from "../modules/UIPainter/View";
+import { ClassFile } from "../modules/UIPainter/Screen";
+import { View } from "../modules/UIPainter/View/Storage/View";
 
 type Data = {
   id: string;
@@ -8,7 +9,7 @@ type Data = {
 
 type Style = Partial<CSSStyleDeclaration>
 
-export abstract class HTMLView extends View<Data, Style> {
+export class HTMLView extends View<Data, Style> implements ClassFile {
   private element: HTMLElement;
 
   getElement(): HTMLElement {
@@ -17,5 +18,15 @@ export abstract class HTMLView extends View<Data, Style> {
 
   setElement(element: HTMLElement) {
     this.element = element;
+  }
+
+  getFilePath(): string {
+    // return the file path that shall be used after compilation
+    // @TODO: make it dynamic.
+    return "./views/pages/Home.js";
+  }
+  
+  getClassName(): string {
+    return "Home";
   }
 }

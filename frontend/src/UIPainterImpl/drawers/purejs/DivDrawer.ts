@@ -1,7 +1,7 @@
-import { DrawStrategy } from "../../modules/UIPainter/DrawStrategy";
-import { HTMLView } from "../HTMLView";
+import { ViewDrawer } from "../../../modules/UIPainter/View";
+import { HTMLView } from "../../HTMLView";
 
-export class ContainerDrawer implements DrawStrategy<HTMLView> {
+export class DivDrawer implements ViewDrawer<HTMLView> {
   draw(view: HTMLView): void {
     const data = view.getData();
     const style = view.getStyle();

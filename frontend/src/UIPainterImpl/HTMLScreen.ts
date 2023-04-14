@@ -1,6 +1,6 @@
 import { writeFileSync } from 'fs';
 
-import { ClassFile } from '../modules/UIPainter/Storage';
+import { ClassFile } from '../modules/UIPainter/Screen';
 import { Screen } from '../modules/UIPainter/Screen';
 
 import { HTMLScreenInfo } from './HTMLScreenInfo';
