@@ -17,18 +17,16 @@ export abstract class InteractiveView<D extends ViewData, S> extends View<D, S> 
     }
   }
 
-  apply() {
-    throw new Error("Method not implemented.");
+  applyEvents() {
+    if (this.drawn) {
+      this.apply();
+    }
+    else {
+      throw new Error("The view must be drawn before applying events.");
+    }
   }
 
-  draw() {
-    try {
-      super.draw();
-      this.apply();
-    } 
-    catch(e) {
-      this.destroy();
-      console.error(e);
-    }
+  protected apply() {
+    throw new Error("Method not implemented.");
   }
 }

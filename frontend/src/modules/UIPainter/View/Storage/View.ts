@@ -7,7 +7,7 @@ export abstract class View<D extends ViewData, S> {
   private data: D;
   private style: S;
   private drawer: ViewDrawer<V>;
-  private drawn: boolean = false;
+  protected drawn: boolean = false;
 
   private onDrawCallback: Function;
   private onUpdateCallback: Function;
