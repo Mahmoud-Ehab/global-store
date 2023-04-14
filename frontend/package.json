@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "node dist/app.js",
+    "start-dev": "nodemon dist/app.js",
     "build": "rollup --config",
     "build-dev": "rollup --config --watch",
     "test": "mocha --require test/mocha.fixtures.cjs --bail"
@@ -31,6 +32,7 @@
     "@types/serve-handler": "^6.1.1",
     "expect.js": "^0.3.1",
     "mocha": "^10.2.0",
+    "nodemon": "^2.0.22",
     "rollup": "^3.20.2",
     "tslib": "^2.5.0",
     "typescript": "^4.9.5"
