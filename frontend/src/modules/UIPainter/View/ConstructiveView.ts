@@ -1,14 +1,23 @@
-import { ViewData } from "./Storage/ViewData";
 import { View } from "./Storage/View";
 
-export class ConstructiveView<D extends ViewData, S> extends View<D, S> {
-  private children: Array<View<any, any>>;
+export class ConstructiveView<V extends View<any, any>> {
+  private children: Array<V>;
+  private view: V;
+
+  constructor(view: V) {
+    this.view = view;
+    this.children = [];
+  }
+
+  myView(): V {
+    return this.view;
+  }
 
   getView(id: string) {
     return this.children.find((v) => v.getId() === id);
   }
 
-  addView(view: View<any, any>) {
+  addView(view: V) {
     const alreadyExist = this.children.find((v) => v === view)
     if (alreadyExist) {
       throw new Error("Cannot add the same view more than once.");
@@ -30,7 +39,7 @@ export class ConstructiveView<D extends ViewData, S> extends View<D, S> {
   }
 
   search(id: string) {
-    if (this.getId() === id)
+    if (this.myView().getId() === id)
       return this;
     
     for (let view of this.children) {
@@ -49,13 +58,13 @@ export class ConstructiveView<D extends ViewData, S> extends View<D, S> {
   }
 
   draw() {
-    super.draw();
+    this.myView().draw();
     for (let view of this.children)
       view.draw();
   }
 
   update() {
-    super.update();
+    this.myView().update();
     for (let view of this.children)
       view.update();
   }
