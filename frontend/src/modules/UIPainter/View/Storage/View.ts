@@ -19,6 +19,10 @@ export abstract class View<D extends ViewData, S> {
     this.drawer = drawer;
   }
 
+  myView() {
+    return this;
+  }
+
   getId(): string {
     return this.data.id;
   }
@@ -80,14 +84,12 @@ export abstract class View<D extends ViewData, S> {
   }
 
   update() {
-    if (this.drawn) {
-      this.drawer.update(this);
-      if (this.onUpdateCallback) {
-        this.onUpdateCallback(this);
-      }
-    }
-    else {
-      this.draw();
+    if (!this.drawn)
+      return;
+
+    this.drawer.update(this);
+    if (this.onUpdateCallback) {
+      this.onUpdateCallback(this);
     }
   }
 

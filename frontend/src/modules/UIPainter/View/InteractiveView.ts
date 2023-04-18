@@ -1,5 +1,4 @@
 import { View } from "./Storage/View";
-import { ViewData } from "./Storage/ViewData";
 
 export abstract class InteractiveView<V extends View<any, any>> {
   private callbacks: Object;
