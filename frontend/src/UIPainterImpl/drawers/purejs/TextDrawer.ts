@@ -1,7 +1,7 @@
 import { HTMLDrawer } from "./HTMLDrawer";
 
-export class DivDrawer extends HTMLDrawer {
+export class TextDrawer extends HTMLDrawer {
   constructor() {
-    super("div");
+    super("label");
   }
 }
