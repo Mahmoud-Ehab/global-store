@@ -22,7 +22,9 @@ export default [
   },
   {
     input: [
-      './src/UIPainterImpl/views/pages/Home.ts'
+      './src/UIPainterImpl/views/pages/Home.ts',
+      './src/UIPainterImpl/views/components/Header.ts',
+      './src/UIPainterImpl/views/mini-components/TextView.ts',
     ],
     output: {
       dir: 'dist/views',

@@ -6,7 +6,7 @@ import { Screen } from '../modules/UIPainter/Screen';
 import { HTMLScreenInfo } from './HTMLScreenInfo';
 import { HTMLView } from './HTMLView';
 
-export class HTMLScreen extends Screen {
+export class HTMLScreen extends Screen<HTMLScreenInfo> {
   private info: HTMLScreenInfo;
   private chunks: Array<string>;
 

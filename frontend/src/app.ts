@@ -10,6 +10,7 @@ try {
     name: "index",
     width: 1024,
     height: 600,
+    title: "Global Store",
   });
 
   app.addScreen(homeScreen, [(new Home()).myView()]);
