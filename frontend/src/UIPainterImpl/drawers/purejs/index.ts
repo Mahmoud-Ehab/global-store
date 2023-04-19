@@ -1,14 +1,17 @@
 import { HTMLView } from "../../HTMLView";
 import { DrawersFacade } from "../DrawersFacade";
-import { DivDrawer } from "./DivDrawer";
-import { TextDrawer } from "./TextDrawer";
+import { HTMLDrawer } from "./HTMLDrawer";
 
 export class PureJS_Drawers implements DrawersFacade<HTMLView> {
   div() {
-    return new DivDrawer();
+    return new HTMLDrawer("div");
   }
   
   text() {
-    return new TextDrawer();
+    return new HTMLDrawer("label");
+  }
+
+  button() {
+    return new HTMLDrawer("button");
   }
 }
