@@ -1,22 +1,28 @@
 import { View } from "./Storage/View";
 
+type InteractiveViewCallback = (view: View<any, any>) => void;
+type CallbacksObject = {
+  [name: string]: Array<InteractiveViewCallback>
+}
+
 export abstract class InteractiveView<V extends View<any, any>> {
-  private callbacks: Object;
+  protected callbacks: CallbacksObject;
   private view: V;
 
   constructor(view: V) {
     this.view = view;
+    this.callbacks = {};
   }
 
   myView() {
     return this.view;
   }
 
-  setEvent(name: string, callback: Function) {
+  setEvent(name: string, callback: InteractiveViewCallback) {
     this.callbacks[name] = [callback];
   }
 
-  onEvent(name: string, callback: Function) {
+  onEvent(name: string, callback: InteractiveViewCallback) {
     if (this.callbacks[name]) {
       this.callbacks[name].push(callback);
     }
@@ -25,13 +31,9 @@ export abstract class InteractiveView<V extends View<any, any>> {
     }
   }
 
-  applyEvents() {
-    if (this.myView().isDrawn()) {
-      this.apply();
-    }
-    else {
-      throw new Error("The view must be drawn before applying events.");
-    }
+  draw() {
+    this.view.draw();
+    this.apply();
   }
 
   protected apply() {

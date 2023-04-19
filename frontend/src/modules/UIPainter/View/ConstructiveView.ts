@@ -70,10 +70,7 @@ export class ConstructiveView<V extends View<ViewData, any>> {
   draw() {
     this.myView().draw();
     for (let view of this.children) {
-      if (view instanceof ConstructiveView)
-        view.draw();
-      else
-        view.myView().draw();
+      view.draw();
     }
   }
 

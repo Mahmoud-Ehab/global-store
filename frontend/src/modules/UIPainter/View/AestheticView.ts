@@ -14,6 +14,10 @@ export abstract class AestheticView<V extends View<any, any>> {
     return this.view;
   }
 
+  draw() {
+    this.view.draw();
+  }
+
   setAnimator(animator: ViewAnimator<ViewData, any>) {
     this.animator = animator;
   }
