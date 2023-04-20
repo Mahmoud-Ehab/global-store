@@ -4,7 +4,7 @@ import { HTMLView } from "../../HTMLView";
 import { TextStyle } from "../../static/styles/TextStyle";
 
 export class TextView extends AestheticView<HTMLView> {
-  constructor(id: string, text: string, fontSize?: string, color?: string) {
+  constructor(id: string, text: string, style?: Partial<CSSStyleDeclaration>) {
     super(new HTMLView(
       {
         id, 
@@ -12,7 +12,10 @@ export class TextView extends AestheticView<HTMLView> {
         viewName: "TextView",
         text,
       }, 
-      {...TextStyle, fontSize, color}, 
+      {
+        ...TextStyle,
+        ...style
+      }, 
       GlobalDrawers.text()
     ));
   }

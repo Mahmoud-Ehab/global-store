@@ -1,5 +1,5 @@
 export const TextStyle: Partial<CSSStyleDeclaration> = {
-  fontFamily: "Arial",
+  fontFamily: 'Jua',
   fontSize: "100%",
   color: "#fff",
 }

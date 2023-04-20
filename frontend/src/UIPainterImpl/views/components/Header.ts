@@ -2,6 +2,7 @@ import { ConstructiveView } from "../../../modules/UIPainter/View";
 import { GlobalDrawers } from "../../GlobalDrawers";
 import { HTMLView } from "../../HTMLView";
 import { HeaderStyle } from "../../static/styles/HeaderStyle";
+import { Button } from "../mini-components/Button";
 import { TextView } from "../mini-components/TextView";
 
 export class Header extends ConstructiveView<HTMLView> {
@@ -12,17 +13,29 @@ export class Header extends ConstructiveView<HTMLView> {
         parentId: "", 
         viewName: "Header"
       }, 
-      HeaderStyle, 
+      HeaderStyle.body, 
       GlobalDrawers.div()
     ));
 
-    const title = new TextView(
-      "header-title",
-      "Global Store",
-      "100%",
-      "#fff"
-    );
-
-    this.addView(title);
+    this.addView(textView);
+    this.addView(loginButton);
   }
 }
+
+const textView = (() => {
+  return new TextView(
+    "header-title",
+    "Global Store",
+    HeaderStyle.title
+  )
+})();
+
+const loginButton = (() => {
+  const button = new Button(
+    "header-login-btn", 
+    "Login", 
+  );
+  button.setStyle(HeaderStyle.loginBtn.normal);
+  button.setHover(HeaderStyle.loginBtn.hover);
+  return button;
+})();
