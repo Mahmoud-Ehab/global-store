@@ -3,6 +3,7 @@ type ObjectOfStyles = {
 }
 
 const body: Partial<CSSStyleDeclaration> = {
+  position: "fixed",
   display: "flex",
   flexFlow: "row",
   alignItems: "center",

@@ -4,6 +4,7 @@ import { HTMLView } from "../../HTMLView";
 import { HomeStyle } from "../../static/styles/HomeStyle";
 
 import { Header } from "../components/Header";
+import { Home_Overview } from "../sections/Home_Overview";
 
 export class Home extends ConstructiveView<HTMLView> {
   constructor() {
@@ -13,10 +14,11 @@ export class Home extends ConstructiveView<HTMLView> {
         parentId: "root", 
         viewName: "Home"
       }, 
-      HomeStyle, 
+      HomeStyle.body, 
       GlobalDrawers.div()
     ));
 
     this.addView(new Header());
+    this.addView(new Home_Overview());
   }
 }

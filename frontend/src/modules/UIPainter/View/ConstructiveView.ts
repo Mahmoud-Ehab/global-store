@@ -36,6 +36,11 @@ export class ConstructiveView<V extends View<ViewData, any>> {
     this.update();
   }
 
+  addViews(...views: ViewTypes[]) {
+    for (let view of views)
+      this.addView(view);
+  }
+
   rmvView(id: string) {
     let i: number = 0;
     for (; i < this.children.length; i++) {
