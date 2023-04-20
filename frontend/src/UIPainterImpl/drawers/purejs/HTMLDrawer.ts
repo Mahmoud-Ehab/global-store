@@ -1,7 +1,7 @@
 import { ViewDrawer } from "../../../modules/UIPainter/View";
 import { HTMLView } from "../../HTMLView";
 
-type ExtendCallback = (element: HTMLElement) => void;
+type ExtendCallback = (element: HTMLElement, view: HTMLView) => void;
 
 export class HTMLDrawer implements ViewDrawer<HTMLView> {
   private tagName: string;
@@ -33,7 +33,7 @@ export class HTMLDrawer implements ViewDrawer<HTMLView> {
     element.textContent = data.text;
 
     if (this.drawExtention)
-      this.drawExtention(element);
+      this.drawExtention(element, view);
 
     if (style) {
       let key: keyof typeof style;
@@ -66,7 +66,7 @@ export class HTMLDrawer implements ViewDrawer<HTMLView> {
     element.textContent = data.text;
 
     if (this.updateExtention)
-      this.updateExtention(element);
+      this.updateExtention(element, view);
 
     let key: keyof typeof style;
     for (key in style) {

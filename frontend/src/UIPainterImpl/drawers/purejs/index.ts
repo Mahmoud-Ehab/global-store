@@ -1,3 +1,4 @@
+import { ViewDrawer } from "../../../modules/UIPainter/View";
 import { HTMLView } from "../../HTMLView";
 import { DrawersFacade } from "../DrawersFacade";
 import { HTMLDrawer } from "./HTMLDrawer";
