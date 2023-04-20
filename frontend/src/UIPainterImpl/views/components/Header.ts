@@ -11,7 +11,6 @@ export class Header extends ConstructiveView<HTMLView> {
       {
         id: "header", 
         parentId: "", 
-        viewName: "Header"
       }, 
       HeaderStyle.body, 
       GlobalDrawers.div()
@@ -33,9 +32,16 @@ const textView = (() => {
 const loginButton = (() => {
   const button = new Button(
     "header-login-btn", 
-    "Login", 
+    "Login"
   );
+
   button.setStyle(HeaderStyle.loginBtn.normal);
   button.setHover(HeaderStyle.loginBtn.hover);
+  button.setEvent("onclick", () => {
+    const hyperlink = document.createElement('a');
+    hyperlink.href = "/login";
+    hyperlink.click();
+  });
+
   return button;
 })();

@@ -12,7 +12,6 @@ export class Button extends InteractiveView<HTMLView> {
       {
         id, 
         parentId: "", 
-        viewName: "Button",
         text,
       }, 
       {
@@ -22,7 +21,7 @@ export class Button extends InteractiveView<HTMLView> {
       GlobalDrawers.button()
     ));
 
-    this.normalStyle = style;
+    this.normalStyle = {...style};
     this.hoverStyle = {};
 
     this.setEvent("onmouseout", (view) => view.setStyle(this.normalStyle));

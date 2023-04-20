@@ -9,7 +9,6 @@ export class TextView extends AestheticView<HTMLView> {
       {
         id, 
         parentId: "", 
-        viewName: "TextView",
         text,
       }, 
       {
