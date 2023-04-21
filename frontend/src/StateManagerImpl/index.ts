@@ -38,3 +38,4 @@ export const StateManager = new RootState();
 */
 
 export const [User, UserList] = new StateFactory<Structures.User>().create();
+export const StringState = new StateFactory<{value: string}>().createSingleState();

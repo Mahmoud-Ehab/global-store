@@ -13,7 +13,7 @@ try {
     title: "Global Store",
   });
 
-  app.addScreen(homeScreen, [(new Home()).myView()]);
+  app.addScreen(homeScreen, [(new Home("")).myView()]);
 
   app.start((port: number, host: string) => {
     console.log(`The app is live on http://${host}:${port}`);

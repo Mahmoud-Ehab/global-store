@@ -1,6 +1,7 @@
 import { ConstructiveView } from "../../../modules/UIPainter/View";
 import { GlobalDrawers } from "../../GlobalDrawers";
 import { HTMLView } from "../../HTMLView";
+import { getLabels } from "../../static/strings/labels";
 import { HeaderStyle } from "../../static/styles/HeaderStyle";
 import { Button } from "../mini-components/Button";
 import { TextView } from "../mini-components/TextView";
@@ -15,9 +16,10 @@ export class Header extends ConstructiveView<HTMLView> {
       HeaderStyle.body, 
       GlobalDrawers.div()
     ));
-
+    
+    const lang = this.myView().lang;
     this.addView(textView);
-    this.addView(loginButton);
+    this.addView(loginButton(lang));
   }
 }
 
@@ -29,10 +31,10 @@ const textView = (() => {
   )
 })();
 
-const loginButton = (() => {
+const loginButton = (lang: string) => {
   const button = new Button(
     "header-login-btn", 
-    "Login"
+    getLabels(lang).buttons.login
   );
 
   button.setStyle(HeaderStyle.loginBtn.normal);
@@ -44,4 +46,4 @@ const loginButton = (() => {
   });
 
   return button;
-})();
+};

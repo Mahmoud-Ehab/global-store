@@ -30,7 +30,7 @@ export class HTMLDrawer implements ViewDrawer<HTMLView> {
 
     const element = document.createElement(this.tagName);
     element.id = data.id;
-    element.textContent = data.text;
+    element.innerText = data.text || "";
 
     if (this.drawExtention)
       this.drawExtention(element, view);
@@ -63,7 +63,6 @@ export class HTMLDrawer implements ViewDrawer<HTMLView> {
     if (!element) {
       throw new Error("Can't find view with id " + data.id);
     }
-    element.textContent = data.text;
 
     if (this.updateExtention)
       this.updateExtention(element, view);

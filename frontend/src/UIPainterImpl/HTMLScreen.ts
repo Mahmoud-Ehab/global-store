@@ -69,7 +69,8 @@ export class HTMLScreen extends Screen<HTMLScreenInfo> {
       `
       <script type="module">
         import { ${view.getClassName()} } from '${view.getFilePath()}';
-        const view = new ${view.getClassName()}();
+        const params = new URL(window.location.href).searchParams;
+        const view = new ${view.getClassName()}(params.get("lang"));
         view.draw();
       </script>
       `
