@@ -1,5 +1,6 @@
 import { AestheticView } from "../../../modules/UIPainter/View";
 import { GlobalDrawers } from "../../GlobalDrawers";
+import { HTMLAnimator } from "../../HTMLAnimator";
 import { HTMLView } from "../../HTMLView";
 import { TextStyle } from "../../static/styles/TextStyle";
 
@@ -17,5 +18,7 @@ export class TextView extends AestheticView<HTMLView> {
       }, 
       GlobalDrawers.text()
     ));
+    
+    this.setAnimator(new HTMLAnimator());
   }
 }

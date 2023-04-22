@@ -1,6 +1,7 @@
 import { ConstructiveView } from "../../../modules/UIPainter/View";
 import { GlobalDrawers } from "../../GlobalDrawers";
 import { HTMLView } from "../../HTMLView";
+import { FadeIn } from "../../static/animations/FadeIn";
 import { getParagraphes } from "../../static/strings/paragraphes";
 import { HomeStyle } from "../../static/styles/HomeStyle";
 import { Container } from "../mini-components/Container";
@@ -29,12 +30,14 @@ const leftpart = (lang: string) => {
     HomeStyle.overview_sec.leftpart.body
   );
 
-  container.addView(new TextView(
+  const descView = new TextView(
     "home_overview_desc",
     getParagraphes(lang).overview,
     HomeStyle.overview_sec.leftpart.text
-  ));
+  )
+  descView.animateOnDraw(FadeIn);
 
+  container.addView(descView);
   return container;
 }
 

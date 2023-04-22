@@ -1,9 +1,9 @@
 import { View } from "./Storage/View";
-import { ViewAnimator } from "./Storage/ViewAnimator";
-import { ViewData } from "./Storage/ViewData";
+import { ViewAnimation } from "./Storage/ViewAnimation";
+import { ViewAnimator } from "./ViewAnimator";
 
 export abstract class AestheticView<V extends View<any, any>> {
-  private animator: ViewAnimator<ViewData, any>;
+  private animator: ViewAnimator<any>;
   private view: V;
 
   constructor(view: V) {
@@ -18,21 +18,25 @@ export abstract class AestheticView<V extends View<any, any>> {
     this.view.draw();
   }
 
-  setAnimator(animator: ViewAnimator<ViewData, any>) {
+  setAnimator(animator: ViewAnimator<any>) {
     this.animator = animator;
   }
 
-  animate(from: Object, to: Object) {
+  animate(anim: ViewAnimation<any>) {
     if (!this.animator) {
       throw new Error("Animator not found!");
     }
-    this.animator.animate(this.myView(), from, to);
+    this.animator.animate(this.myView(), anim);
   }
 
-  animateTo(style: any) {
+  animateTo(anim: ViewAnimation<any>) {
     if (!this.animator) {
       throw new Error("Animator not found!");
     }
-    this.animator.animateTo(this.myView(), style);
+    this.animator.animateTo(this.myView(), anim);
+  }
+
+  animateOnDraw(anim: ViewAnimation<any>) {
+    this.view.setOnDraw(() => this.animate(anim));
   }
 }
