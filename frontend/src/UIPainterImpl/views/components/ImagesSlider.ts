@@ -4,7 +4,7 @@ import { HTMLAnimator } from "../../HTMLAnimator";
 import { HTMLView } from "../../HTMLView";
 
 import { ImageView } from "../mini-components/ImageView";
-import { ImageSliderStyle } from "../../static/styles/ImageSlideStyle";
+import { ImageSliderStyle } from "../../static/styles/ImageSliderStyle";
 
 import { FadeIn } from "../../static/animations/FadeIn";
 import { FadeOut } from "../../static/animations/FadeOut";

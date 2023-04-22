@@ -1,14 +1,17 @@
 import { ConstructiveView } from "../../../modules/UIPainter/View";
 import { GlobalDrawers } from "../../GlobalDrawers";
 import { HTMLView } from "../../HTMLView";
-import { FadeIn } from "../../static/animations/FadeIn";
-import { getParagraphes } from "../../static/strings/paragraphes";
-import { getPaths } from "../../static/strings/paths";
 import { HomeStyle } from "../../static/styles/HomeStyle";
 import { ImagesSlider } from "../components/ImagesSlider";
 import { Container } from "../mini-components/Container";
 import { ImageView } from "../mini-components/ImageView";
 import { TextView } from "../mini-components/TextView";
+
+import { FadeIn } from "../../static/animations/FadeIn";
+
+import { getParagraphes } from "../../static/strings/paragraphes";
+import { getPaths } from "../../static/strings/paths";
+import { Button } from "../mini-components/Button";
 
 export class Home_Overview extends ConstructiveView<HTMLView> {
   constructor() {
@@ -56,10 +59,26 @@ const leftpart = (lang: string) => {
   return container;
 }
 
+
 const rightpart = (() => {
   const container = new Container(
     "home_overview_rightpart", 
     HomeStyle.overview_sec.rightpart.body
   );
+
+  const exploreBtn = new Button(
+    "home_overview_explore", "",
+    HomeStyle.overview_sec.rightpart.button("#718093")
+  );
+
+  exploreBtn.setText("explore_btn_text", "Explore", {color: "inheret"});
+  exploreBtn.setIcon("explore_btn_icon", getPaths().explore_icon);
+  exploreBtn.setHover({
+    color: "#f1f1f1",
+    backgroundColor: "#71809388",
+    transition: "250ms"
+  });
+  
+  container.addView(exploreBtn);
   return container;
 })()
