@@ -3,7 +3,7 @@ import { ViewDrawer } from "./ViewDrawer";
 
 type V = View<ViewData, any>;
 
-export abstract class View<D extends ViewData, S> {
+export abstract class View<D extends ViewData, S extends Object> {
   private data: D;
   private style: S;
   private drawer: ViewDrawer<V>;
@@ -28,11 +28,11 @@ export abstract class View<D extends ViewData, S> {
   }
 
   getData(): D {
-    return this.data;
+    return Object.create(this.data);
   }
 
   getStyle(): S {
-    return this.style;
+    return Object.create(this.style);
   }
 
   setData(data: D) {
@@ -52,6 +52,13 @@ export abstract class View<D extends ViewData, S> {
 
     if (invokeUpdate)
       this.update();
+  }
+
+  setParentId(id: string) {
+    if (this.drawn)
+      throw new Error("Cannot change parentId after drawing.");
+
+    this.data.parentId = id;
   }
 
   setStyle(style: S) {

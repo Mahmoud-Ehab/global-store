@@ -28,10 +28,7 @@ export class ConstructiveView<V extends View<ViewData, any>> {
       throw new Error("Cannot add the same view more than once.");
     }
 
-    const data = view.myView().getData();
-    data.parentId = this.view.getId();
-    view.myView().setData(data);
-    
+    view.myView().setParentId(this.view.getId());
     this.children.push(view);
     this.update();
   }
