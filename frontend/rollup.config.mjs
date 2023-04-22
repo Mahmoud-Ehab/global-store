@@ -3,6 +3,7 @@ import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import json from '@rollup/plugin-json';
+import copy from 'rollup-plugin-copy'
 
 export default [
   {
@@ -30,7 +31,12 @@ export default [
     },
     plugins: [
       typescript(),
-      nodeResolve()
+      nodeResolve(),
+      copy({
+        targets: [
+          { src: './src/UIPainterImpl/static/images/**/*', dest: 'dist/images' }
+        ]
+      })
     ]
   }
 ];

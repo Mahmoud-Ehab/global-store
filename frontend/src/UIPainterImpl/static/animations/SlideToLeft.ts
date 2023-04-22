@@ -1,14 +1,13 @@
 import { ViewAnimation } from "../../../modules/UIPainter/View/Storage/ViewAnimation";
 
-export const FadeIn: ViewAnimation<Partial<CSSStyleDeclaration>> = {
+export const SlideToLeft: ViewAnimation<Partial<CSSStyleDeclaration>> = {
   from: {
-    opacity: '0',
+    transform: "translateX(0)",
     transitionDuration: "0",
   },
   to: [
-    {
-      opacity: "1",
-      transitionDuration: "1s",
+    { 
+      transform: "translateX(-200%)", 
     }
   ],
   durs: [1000]

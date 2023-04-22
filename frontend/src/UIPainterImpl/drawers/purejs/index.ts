@@ -15,4 +15,16 @@ export class PureJS_Drawers implements DrawersFacade<HTMLView> {
   button() {
     return new HTMLDrawer("button");
   }
+
+  image() {
+    const drawer = new HTMLDrawer("img");
+    const extfunc = (element, view) => {
+      element.src = view.getData().src;
+    };
+    
+    drawer.setDrawExtention(extfunc);
+    drawer.setUpdateExtention(extfunc);
+
+    return drawer;
+  }
 }

@@ -3,7 +3,7 @@ import { GlobalDrawers } from "../../GlobalDrawers";
 import { HTMLView } from "../../HTMLView";
 
 export class Container extends ConstructiveView<HTMLView> {
-  constructor(id: string, style: Partial<CSSStyleDeclaration>) {
+  constructor(id: string, style?: Partial<CSSStyleDeclaration>) {
     super(new HTMLView(
       {
         id,

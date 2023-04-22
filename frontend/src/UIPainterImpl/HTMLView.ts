@@ -1,6 +1,8 @@
 import { StateManager } from "../StateManagerImpl";
 import { ClassFile } from "../modules/UIPainter/Screen";
+import { AestheticView } from "../modules/UIPainter/View";
 import { View } from "../modules/UIPainter/View/Storage/View";
+import { HTMLAnimator } from "./HTMLAnimator";
 import { HTMLDrawer } from "./drawers/purejs/HTMLDrawer";
 
 type HTMLData = {
@@ -9,6 +11,7 @@ type HTMLData = {
   viewName?: string; // the name of both file & class
   text?: string;
   href?: string;
+  src?: string;
 }
 
 type HTMLStyle = Partial<CSSStyleDeclaration>
