@@ -1,4 +1,4 @@
-import { AppState, Controller, Entity } from "../../../modules/StateManager";
+import { AppState, Controller, Entity } from ".";
 
 type AnyEntity = Entity<any, any, any>;
 

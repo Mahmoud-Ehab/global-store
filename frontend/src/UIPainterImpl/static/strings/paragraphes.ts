@@ -7,4 +7,4 @@ const strings = {
   }
 }
 
-export const getParagraphes = (lang: string) => strings[lang] ? strings[lang] : strings.en;
+export const getParagraphes = (lang: string): typeof strings.en => strings[lang] ? strings[lang] : strings.en;

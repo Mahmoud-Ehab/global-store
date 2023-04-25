@@ -1,7 +1,7 @@
-import { Request } from "./types/Request";
-import { Response } from "./types/Response";
-import { Proxy } from "./types/Proxy";
-import { Headers } from "./types/Headers";
+import { Request } from "./Storage/Request";
+import { Response } from "./Storage/Response";
+import { Proxy } from "./Storage/Proxy";
+import { Headers } from "./Storage/Headers";
 
 export interface Dispatcher {
   dispatch(req: Request): Response;

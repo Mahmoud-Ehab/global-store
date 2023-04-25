@@ -4,7 +4,7 @@ const {
   UserReqBuilder,
   PubReqBuilder,
   RevReqBuilder
-} = require("../dist/frontend/src/RequestDispatcherImpl");
+} = require("../js/frontend/src/RequestDispatcherImpl");
 
 // Mock Users Data
 const mockUser1 = {

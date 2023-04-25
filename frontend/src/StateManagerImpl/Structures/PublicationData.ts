@@ -1,4 +1,4 @@
-export type Publication = {
+export type PublicationData = {
   id: number,
   user_id: string,
   title: string,

@@ -12,6 +12,7 @@ import { FadeIn } from "../../static/animations/FadeIn";
 import { getParagraphes } from "../../static/strings/paragraphes";
 import { getPaths } from "../../static/strings/paths";
 import { Button } from "../mini-components/Button";
+import { getLabels } from "../../static/strings/labels";
 
 export class Home_Overview extends ConstructiveView<HTMLView> {
   constructor() {
@@ -26,7 +27,7 @@ export class Home_Overview extends ConstructiveView<HTMLView> {
     
     const lang = this.myView().lang;
     this.addView(leftpart(lang));
-    this.addView(rightpart);
+    this.addView(rightpart(lang));
   }
 }
 
@@ -60,7 +61,7 @@ const leftpart = (lang: string) => {
 }
 
 
-const rightpart = (() => {
+const rightpart = (lang: string) => {
   const container = new Container(
     "home_overview_rightpart", 
     HomeStyle.overview_sec.rightpart.body
@@ -71,7 +72,11 @@ const rightpart = (() => {
     HomeStyle.overview_sec.rightpart.button("#718093")
   );
 
-  exploreBtn.setText("explore_btn_text", "Explore", {color: "inheret"});
+  exploreBtn.setText(
+    "explore_btn_text", 
+    getLabels(lang).buttons.explore, 
+    {color: "inheret"}
+  );
   exploreBtn.setIcon("explore_btn_icon", getPaths().explore_icon);
   exploreBtn.setHover({
     color: "#f1f1f1",
@@ -81,4 +86,4 @@ const rightpart = (() => {
   
   container.addView(exploreBtn);
   return container;
-})()
+}

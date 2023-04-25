@@ -1,5 +1,5 @@
 import { Dispatcher } from "../../modules/RequestDispatcher/Dispatcher";
-import { Request, Response, Proxy, Headers } from "../../modules/RequestDispatcher/types";
+import { Request, Response, Proxy, Headers } from "../../modules/RequestDispatcher/Storage";
 
 const axios = require("axios").default;
 

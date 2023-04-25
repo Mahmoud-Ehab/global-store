@@ -1,4 +1,4 @@
-import { Endpoint, Request } from "./types";
+import { Endpoint, Request } from "./Storage";
 
 type ReqFunc = (body?: Object, ...params: any[]) => Request;
 

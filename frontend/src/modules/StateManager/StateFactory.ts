@@ -1,6 +1,6 @@
-import { Entity } from "../../modules/StateManager";
-import { ListState } from "./states/ListState";
-import { SingleState } from "./states/SingleState";
+import { Entity } from ".";
+import { ListState } from "./ListState";
+import { SingleState } from "./SingleState";
 
 export class StateFactory<S extends {}> {
   create(): [

@@ -1,8 +1,6 @@
-import { StateManager } from "../StateManagerImpl";
+import { StateManager } from "../StateManagerImpl/StateManager";
 import { ClassFile } from "../modules/UIPainter/Screen";
-import { AestheticView } from "../modules/UIPainter/View";
 import { View } from "../modules/UIPainter/View/Storage/View";
-import { HTMLAnimator } from "./HTMLAnimator";
 import { HTMLDrawer } from "./drawers/purejs/HTMLDrawer";
 
 type HTMLData = {

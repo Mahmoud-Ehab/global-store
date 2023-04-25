@@ -1,14 +1,16 @@
 const strings = {
   en: {
     buttons: {
-      login: "login"
+      login: "login",
+      explore: "explore"
     }
   },
   ar: {
     buttons: {
-      login: "تسجيل الدخول"
+      login: "تسجيل الدخول",
+      explore: "تصفح"
     }
   }
 }
 
-export const getLabels = (lang: string) => strings[lang] ? strings[lang] : strings.en;
+export const getLabels = (lang: string): typeof strings.en => strings[lang] ? strings[lang] : strings.en;

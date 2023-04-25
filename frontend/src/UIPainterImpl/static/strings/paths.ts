@@ -6,4 +6,4 @@ const strings = {
   explore_icon: "./images/icons/explore_icon.svg",
 }
 
-export const getPaths = () => strings;
+export const getPaths = (): typeof strings => strings;
