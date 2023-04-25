@@ -21,7 +21,7 @@ export class HTMLView extends View<HTMLData, HTMLStyle> implements ClassFile {
   constructor(data: HTMLData, style: HTMLStyle, drawer: HTMLDrawer) {
     super(data, style, drawer);
     if (StateManager.get("lang")) {
-      this.lang = StateManager.get("lang").get("info").value;
+      this.lang = StateManager.get("lang").toObject().value;
     }
   }
 

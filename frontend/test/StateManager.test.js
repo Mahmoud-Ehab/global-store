@@ -23,9 +23,9 @@ describe("#StateManager", function() {
       StateManager.addEntity("user3", new User(user3));
       
       const data = StateManager.toObject();
-      expect(data.user1.info).to.eql(user1);
-      expect(data.user2.info).to.eql(user2);
-      expect(data.user3.info).to.eql(user3);
+      expect(data.user1).to.eql(user1);
+      expect(data.user2).to.eql(user2);
+      expect(data.user3).to.eql(user3);
     });
 
     it("should create UsersList and add users to it", function() {
@@ -36,9 +36,9 @@ describe("#StateManager", function() {
       StateManager.addEntity("users", users);
       
       const data = StateManager.toObject();
-      expect(data.users.user1.info).to.eql(user1);
-      expect(data.users.user2.info).to.eql(user2);
-      expect(data.users.user3.info).to.eql(user3);
+      expect(data.users.user1).to.eql(user1);
+      expect(data.users.user2).to.eql(user2);
+      expect(data.users.user3).to.eql(user3);
     });
 
     it("should subscribe callbacks to states", function() {
@@ -53,25 +53,25 @@ describe("#StateManager", function() {
 
     it("should update user 1 info and invoke the callback", function() {
       const user1 = StateManager.get("user1");
-      user1.update("info", {username: "MoEhab"});
+      user1.update({username: "MoEhab"});
 
       const data = StateManager.toObject();
-      expect(data.user1.info.username).to.equal("MoEhab");
-      expect(data.users.user1.info.username).to.equal("MoEhab");
+      expect(data.user1.username).to.equal("MoEhab");
+      expect(data.users.user1.username).to.equal("MoEhab");
       expect(lic).to.equal("user1");
     });
 
     it("should NOT invoke user 2 callbacks when get updated with the same info", function() {
       const user2_state = StateManager.get("user2");
-      user2_state.update("info", user2);
+      user2_state.update(user2);
       expect(lic).to.not.equal("user2");
     });
     
     it("should erase user 1 info", function() {
-      const removed = StateManager.get("user1").remove("info");
+      const removed = StateManager.get("user1").remove();
       const data = StateManager.toObject();
       expect(removed).to.be(true);
-      expect(data.user1.info).to.equal(undefined);
+      expect(data.user1).to.eql({});
     });
 
     it("should remove user1 state from StateManager", function() {
