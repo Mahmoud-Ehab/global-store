@@ -16,8 +16,8 @@ export class StateFactory<S extends {}> {
   }
   
   createListState() {
-    const UserState = this.createSingleState();
-    type E = Entity<string, typeof UserState, {}>;
+    const SingleState = this.createSingleState();
+    type E = Entity<string, typeof SingleState, {}>;
     return ListState<E>;
   }
 }
