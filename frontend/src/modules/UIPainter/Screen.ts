@@ -12,7 +12,7 @@ export abstract class Screen<S extends object> {
     throw Error("method is not implemented.");
   }
 
-  apply(view: View<any, any>) {
+  addView(view: View<any, any>) {
     throw Error("method is not implemented.");
   }
 

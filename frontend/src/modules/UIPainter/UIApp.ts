@@ -1,8 +1,7 @@
 import { Screen } from "./Screen";
-import { View, ViewData } from "./View";
 
-export interface UIApp<V extends View<ViewData, any>> {
-  addScreen(screen: Screen<object>, views: Array<V>): void;
+export interface UIApp<S extends Screen<object>> {
+  addScreen(screen: S): void;
   start(callback: Function): void;
   close(callback: Function): void;
 }

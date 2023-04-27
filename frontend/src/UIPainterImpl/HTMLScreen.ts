@@ -56,12 +56,7 @@ export class HTMLScreen extends Screen<HTMLScreenInfo> {
     );
   }
 
-  apply(view: HTMLView): void {
-    if (!this.appRootDir) {
-      throw Error(`HTMLScreen: setRootDir should be invoked 
-      first before apply method.`);
-    }
-
+  addView(view: HTMLView): void {
     this.chunks.push(
       `
       <script type="module">
