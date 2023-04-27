@@ -3,7 +3,6 @@ import { Server, createServer } from 'http';
 import { existsSync, mkdirSync } from 'fs';
 
 import { UIApp } from "../modules/UIPainter/UIApp";
-import { ClassFile } from "../modules/UIPainter/Screen";
 
 import { HTMLScreen } from "./HTMLScreen";
 import { HTMLView } from "./HTMLView";
@@ -23,7 +22,7 @@ export class HTMLApp implements UIApp<HTMLView> {
     }
   }
 
-  addScreen(screen: HTMLScreen, views: Array<HTMLView & ClassFile>): void {
+  addScreen(screen: HTMLScreen, views: Array<HTMLView>): void {
     screen.setRootDir(this.rootdir);
 
     for (let view of views)

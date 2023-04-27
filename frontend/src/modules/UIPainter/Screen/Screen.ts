@@ -1,4 +1,3 @@
-import { ClassFile } from "./Storage/ClassFile";
 import { ScreenInfo } from "./Storage/ScreenInfo";
 import { View } from "../View";
 
@@ -18,7 +17,7 @@ export abstract class Screen<S extends ScreenInfo> {
     throw Error("method is not implemented.");
   }
 
-  apply(view: View<any, any> & ClassFile) {
+  apply(view: View<any, any>) {
     throw Error("method is not implemented.");
   }
 

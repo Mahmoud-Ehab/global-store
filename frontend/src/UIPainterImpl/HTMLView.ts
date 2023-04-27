@@ -1,5 +1,4 @@
 import { StateManager } from "../StateManagerImpl/StateManager";
-import { ClassFile } from "../modules/UIPainter/Screen";
 import { View } from "../modules/UIPainter/View/Storage/View";
 import { HTMLDrawer } from "./drawers/purejs/HTMLDrawer";
 
@@ -14,7 +13,7 @@ type HTMLData = {
 
 type HTMLStyle = Partial<CSSStyleDeclaration>
 
-export class HTMLView extends View<HTMLData, HTMLStyle> implements ClassFile {
+export class HTMLView extends View<HTMLData, HTMLStyle> {
   private element: HTMLElement;
   public lang: string;
 

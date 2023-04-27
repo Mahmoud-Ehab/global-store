@@ -1,6 +1,5 @@
 import { writeFileSync } from 'fs';
 
-import { ClassFile } from '../modules/UIPainter/Screen';
 import { Screen } from '../modules/UIPainter/Screen';
 
 import { HTMLScreenInfo } from './HTMLScreenInfo';
@@ -59,7 +58,7 @@ export class HTMLScreen extends Screen<HTMLScreenInfo> {
     );
   }
 
-  apply(view: HTMLView & ClassFile): void {
+  apply(view: HTMLView): void {
     if (!this.appRootDir) {
       throw Error(`HTMLScreen: setRootDir should be invoked 
       first before apply method.`);
