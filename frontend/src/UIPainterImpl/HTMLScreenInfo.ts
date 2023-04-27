@@ -1,6 +1,4 @@
-import { ScreenInfo } from "../modules/UIPainter/Screen";
-
-export interface HTMLScreenInfo extends ScreenInfo {
+export interface HTMLScreenInfo {
   author?: string;
   description?: string;
   charset?: string;

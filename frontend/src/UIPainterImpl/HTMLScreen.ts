@@ -6,7 +6,6 @@ import { HTMLScreenInfo } from './HTMLScreenInfo';
 import { HTMLView } from './HTMLView';
 
 export class HTMLScreen extends Screen<HTMLScreenInfo> {
-  private info: HTMLScreenInfo;
   private chunks: Array<string>;
 
   private appRootDir: string;
@@ -16,7 +15,6 @@ export class HTMLScreen extends Screen<HTMLScreenInfo> {
   }
   
   protected init(info: HTMLScreenInfo): void {
-    this.info = info;
     this.chunks = [];
     this.chunks.push(
       `
@@ -88,6 +86,6 @@ export class HTMLScreen extends Screen<HTMLScreenInfo> {
         ${this.chunks.join('')}
       </html>
     `;
-    writeFileSync(`${this.appRootDir}/${this.info.name}.html`, page);
+    writeFileSync(`${this.appRootDir}/${this.name}.html`, page);
   }
 }
