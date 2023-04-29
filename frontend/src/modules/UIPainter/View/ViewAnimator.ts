@@ -25,7 +25,7 @@ export class ViewAnimator<S> {
         }
       }
       const dur = anim.durs[i] || anim.durs[0] || 1000;
-      setTimeout(() => view.setStyle(stage), dur);
+      setTimeout(() => view.setStyle(stage), i > 0 ? dur * i : dur);
     });
   }
 }
