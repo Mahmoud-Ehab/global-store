@@ -3,7 +3,10 @@ import { InteractiveView } from "./InteractiveView";
 import { View } from "./Storage/View";
 import { ViewData } from "./Storage/ViewData";
 
-type ViewTypes = ConstructiveView<any> | InteractiveView<any> | AestheticView<any>;
+type TypicalView = View<ViewData, any>;
+type ViewTypes = ConstructiveView<TypicalView> | 
+InteractiveView<TypicalView> | 
+AestheticView<TypicalView>;
 
 export class ConstructiveView<V extends View<ViewData, any>> {
   private children: Array<ViewTypes>;
@@ -26,6 +29,9 @@ export class ConstructiveView<V extends View<ViewData, any>> {
     const alreadyExist = this.children.find((v) => v === view)
     if (alreadyExist) {
       throw new Error("Cannot add the same view more than once.");
+    }
+    else if (view.myView().isDrawn()) {
+      throw new Error("Cannot add drawn views to a constructive view.");
     }
 
     view.myView().setParentId(this.view.getId());
