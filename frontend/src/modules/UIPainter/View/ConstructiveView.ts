@@ -8,7 +8,7 @@ type ViewTypes = ConstructiveView<TypicalView> |
 InteractiveView<TypicalView> | 
 AestheticView<TypicalView>;
 
-export class ConstructiveView<V extends View<ViewData, any>> {
+export abstract class ConstructiveView<V extends View<ViewData, any>> {
   private children: Array<ViewTypes>;
   private view: V;
 
