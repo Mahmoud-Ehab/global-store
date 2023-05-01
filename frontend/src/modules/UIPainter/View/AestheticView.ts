@@ -1,21 +1,13 @@
+import { ExtendedView } from "./Storage/ExtendedView";
 import { View } from "./Storage/View";
 import { ViewAnimation } from "./Storage/ViewAnimation";
 import { ViewAnimator } from "./ViewAnimator";
 
-export abstract class AestheticView<V extends View<any, any>> {
+export abstract class AestheticView<V extends View<any, any>> extends ExtendedView<V> {
   private animator: ViewAnimator<any>;
-  private view: V;
-
-  constructor(view: V) {
-    this.view = view;
-  }
-
-  myView() {
-    return this.view;
-  }
 
   draw() {
-    this.view.draw();
+    this.myView().draw();
   }
 
   setAnimator(animator: ViewAnimator<any>) {
@@ -37,6 +29,6 @@ export abstract class AestheticView<V extends View<any, any>> {
   }
 
   animateOnDraw(anim: ViewAnimation<any>) {
-    this.view.setOnDraw(() => this.animate(anim));
+    this.myView().setOnDraw(() => this.animate(anim));
   }
 }

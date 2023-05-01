@@ -1,3 +1,4 @@
+import { ExtendedView } from "./Storage/ExtendedView";
 import { View } from "./Storage/View";
 
 type InteractiveViewCallback = (view: View<any, any>) => void;
@@ -5,17 +6,12 @@ type CallbacksObject = {
   [name: string]: Array<InteractiveViewCallback>
 }
 
-export abstract class InteractiveView<V extends View<any, any>> {
+export abstract class InteractiveView<V extends View<any, any>> extends ExtendedView<V> {
   protected callbacks: CallbacksObject;
-  private view: V;
 
   constructor(view: V) {
-    this.view = view;
+    super(view);
     this.callbacks = {};
-  }
-
-  myView() {
-    return this.view;
   }
 
   setEvent(name: string, callback: InteractiveViewCallback) {
@@ -32,7 +28,7 @@ export abstract class InteractiveView<V extends View<any, any>> {
   }
 
   draw() {
-    this.view.draw();
+    this.myView().draw();
     this.apply();
   }
 

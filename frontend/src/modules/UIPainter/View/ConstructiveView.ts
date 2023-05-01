@@ -1,31 +1,20 @@
-import { AestheticView } from "./AestheticView";
-import { InteractiveView } from "./InteractiveView";
+import { ExtendedView } from "./Storage/ExtendedView";
 import { View } from "./Storage/View";
 import { ViewData } from "./Storage/ViewData";
 
-type TypicalView = View<ViewData, any>;
-type ViewTypes = ConstructiveView<TypicalView> | 
-InteractiveView<TypicalView> | 
-AestheticView<TypicalView>;
-
-export abstract class ConstructiveView<V extends View<ViewData, any>> {
-  private children: Array<ViewTypes>;
-  private view: V;
+export abstract class ConstructiveView<V extends View<ViewData, any>> extends ExtendedView<V> {
+  private children: Array<ExtendedView<V>>;
 
   constructor(view: V) {
-    this.view = view;
+    super(view);
     this.children = [];
-  }
-
-  myView(): V {
-    return this.view;
   }
 
   getView(id: string) {
     return this.children.find((v) => v.myView().getId() === id);
   }
 
-  addView(view: ViewTypes) {
+  addView(view: ExtendedView<V>) {
     const alreadyExist = this.children.find((v) => v === view)
     if (alreadyExist) {
       throw new Error("Cannot add the same view more than once.");
@@ -34,12 +23,12 @@ export abstract class ConstructiveView<V extends View<ViewData, any>> {
       throw new Error("Cannot add drawn views to a constructive view.");
     }
 
-    view.myView().setParentId(this.view.getId());
+    view.myView().setParentId(this.myView().getId());
     this.children.push(view);
     this.update();
   }
 
-  addViews(...views: ViewTypes[]) {
+  addViews(...views: ExtendedView<V>[]) {
     for (let view of views)
       this.addView(view);
   }
