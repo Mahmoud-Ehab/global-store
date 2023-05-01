@@ -66,8 +66,8 @@ export class Button extends InteractiveView<HTMLView> {
     const element = this.myView().getElement();
     for (let key in this.callbacks) {
       element[key] = () => {
-        for (let call of this.callbacks[key]) {
-          call(this.myView());
+        for (let handler of this.callbacks[key]) {
+          handler(this.myView());
         }
       }
     }

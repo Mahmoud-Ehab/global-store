@@ -6,10 +6,6 @@ import { ViewAnimator } from "./ViewAnimator";
 export abstract class AestheticView<V extends View<any, any>> extends ExtendedView<V> {
   private animator: ViewAnimator<any>;
 
-  draw() {
-    this.myView().draw();
-  }
-
   setAnimator(animator: ViewAnimator<any>) {
     this.animator = animator;
   }
