@@ -1,6 +1,6 @@
 # About
 
-> This project is a trial of [Storage-Facilities Architecture]().
+> This project is a trial of [Storage-Facilities Architecture](https://moehab.substack.com/p/storage-facilities-architecture).
 
 GlobalStore is a free open-source software application. It’s intended to be a self-organized store application, where any one on the web can publish his or her service or product. The application is self-organized in the sense that the community or the users (vendors & customers) are playing a big role in the administration. 
 
