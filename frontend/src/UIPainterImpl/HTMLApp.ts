@@ -7,10 +7,14 @@ import { HTMLScreen } from "./HTMLScreen";
 
 export class HTMLApp implements UIApp<HTMLScreen> {
   private server: Server;
+  private host: string;
+  private port: number;
   protected rootdir: string;
 
-  constructor(rootdir: string) {
+  constructor(rootdir: string, host?: string, port?: number) {
     try {
+      this.host = host || "127.0.0.1";
+      this.port = port || 3000;
       this.rootdir = rootdir;
       if (!existsSync(rootdir))
         mkdirSync(rootdir);
@@ -26,9 +30,6 @@ export class HTMLApp implements UIApp<HTMLScreen> {
   }
 
   start(callback: Function): void {
-    const port = 3000;
-    const host = 'localhost';
-
     this.server = createServer((req: any, res: any) => {
       return handler(req, res, {
         public: this.rootdir,
@@ -37,9 +38,9 @@ export class HTMLApp implements UIApp<HTMLScreen> {
     });
     
     this.server.listen(
-      port, 
-      host, 
-      callback(port, host)
+      this.port, 
+      this.host, 
+      callback(this.port, this.host)
     );
   }
 
