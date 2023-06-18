@@ -6,8 +6,11 @@ import { HTMLScreen } from "./UIPainterImpl/HTMLScreen";
 try {
   const app = new HTMLApp(normalize(__dirname + "/"));
 
-  const homeScreen = new HTMLScreen("index", {title: "Global Store"});
-  homeScreen.addView((new Home("")).myView());
+  const homeScreen = new HTMLScreen("index", {
+    title: "Global Store",
+    viewport: "width=device-width, initial-scale=1.0"
+  });
+  homeScreen.addView((new Home("", 0, 0)).myView());
 
   app.addScreen(homeScreen);
 

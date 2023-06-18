@@ -58,11 +58,22 @@ export class HTMLScreen extends Screen<HTMLScreenInfo> {
 
   addView(view: HTMLView): void {
     this.chunks.push(
+      /* 
+        Notice that the script block shall pass the language, screen width, 
+        and screen height info to the view constructor which is usually a 
+        page view.
+
+        - the width and the height are necessary for media query.
+      */
       `
       <script type="module">
         import { ${view.getClassName()} } from '${view.getFilePath()}';
         const params = new URL(window.location.href).searchParams;
-        const view = new ${view.getClassName()}(params.get("lang"));
+        const view = new ${view.getClassName()}(
+          params.get("lang"),
+          document.body.clientWidth,
+          document.body.clientHeight
+        );
         view.draw();
       </script>
       `

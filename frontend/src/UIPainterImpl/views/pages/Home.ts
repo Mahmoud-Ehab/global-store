@@ -1,4 +1,4 @@
-import { StateManager, StringState } from "../../../StateManagerImpl";
+import { NumberState, StateManager, StringState } from "../../../StateManagerImpl";
 import { ConstructiveView } from "../../../modules/UIPainter/View";
 import { GlobalDrawers } from "../../GlobalDrawers";
 import { HTMLView } from "../../HTMLView";
@@ -8,8 +8,10 @@ import { Header } from "../components/Header";
 import { Home_Overview } from "../sections/Home_Overview";
 
 export class Home extends ConstructiveView<HTMLView> {
-  constructor(lang: string) {
+  constructor(lang: string, width: number, height: number) {
     StateManager.addEntity("lang", new StringState({value: lang}));
+    StateManager.addEntity("screenWidth", new NumberState({value: width}));
+    StateManager.addEntity("screenHeight", new NumberState({value: height}));
 
     super(new HTMLView(
       {
