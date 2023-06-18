@@ -2,6 +2,7 @@ import { NumberState, StateManager, StringState } from "../../../StateManagerImp
 import { ConstructiveView } from "../../../modules/UIPainter/View";
 import { GlobalDrawers } from "../../GlobalDrawers";
 import { HTMLView } from "../../HTMLView";
+import { MediaQuery } from "../../MediaQuery";
 import { HomeStyle } from "../../static/styles/HomeStyle";
 
 import { Header } from "../components/Header";
@@ -19,7 +20,7 @@ export class Home extends ConstructiveView<HTMLView> {
         parentId: "root", 
         viewName: "Home"
       }, 
-      HomeStyle.body, 
+      HomeStyle(new MediaQuery()).body, 
       GlobalDrawers.div()
     ));
     

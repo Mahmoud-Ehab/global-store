@@ -1,4 +1,6 @@
-export const ImageSliderStyle: Partial<CSSStyleDeclaration> = {
+import { MediaQuery } from "../../MediaQuery";
+
+export const ImageSliderStyle = (mq: MediaQuery): Partial<CSSStyleDeclaration> => ({
   position: "relative",
   display: "flex",
 
@@ -7,7 +9,7 @@ export const ImageSliderStyle: Partial<CSSStyleDeclaration> = {
   justifyContent: "space-around",
 
   width: "100%",
-  height: "100%",
+  height: mq.minWidth(768) ? "100%" : "25vh",
 
   overflow: "hidden",
-}
+})

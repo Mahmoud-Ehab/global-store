@@ -13,34 +13,36 @@ import { getParagraphes } from "../../static/strings/paragraphes";
 import { getPaths } from "../../static/strings/paths";
 import { Button } from "../mini-components/Button";
 import { getLabels } from "../../static/strings/labels";
+import { MediaQuery } from "../../MediaQuery";
 
 export class Home_Overview extends ConstructiveView<HTMLView> {
   constructor() {
+    const mq = new MediaQuery();
     super(new HTMLView(
       {
         id: "home_overview", 
         parentId: "", 
       }, 
-      HomeStyle.overview_sec.body, 
+      HomeStyle(mq).overview_sec.body, 
       GlobalDrawers.div()
     ));
     
     const lang = this.myView().lang;
-    this.addView(leftpart(lang));
-    this.addView(rightpart(lang));
+    this.addView(leftpart(lang, mq));
+    this.addView(rightpart(lang, mq));
   }
 }
 
-const leftpart = (lang: string) => {
+const leftpart = (lang: string, mq: MediaQuery) => {
   const container = new Container(
     "home_overview_leftpart", 
-    HomeStyle.overview_sec.leftpart.body
+    HomeStyle(mq).overview_sec.leftpart.body
   );
 
   const descView = new TextView(
     "home_overview_desc",
     getParagraphes(lang).overview,
-    HomeStyle.overview_sec.leftpart.text
+    HomeStyle(mq).overview_sec.leftpart.text
   );
   descView.animateOnDraw(FadeIn);
   container.addView(descView);
@@ -61,29 +63,84 @@ const leftpart = (lang: string) => {
 }
 
 
-const rightpart = (lang: string) => {
+const rightpart = (lang: string, mq: MediaQuery) => {
   const container = new Container(
     "home_overview_rightpart", 
-    HomeStyle.overview_sec.rightpart.body
+    HomeStyle(mq).overview_sec.rightpart.body
+  );
+  
+  container.addView(createNavBtn({
+    name: "explore",
+    label: getLabels(lang).buttons.explore,
+    iconPath: getPaths().explore_icon,
+    lang: lang,
+    mediaQuery: mq
+  }));
+
+  container.addView(createNavBtn({
+    name: "favorite",
+    label: getLabels(lang).buttons.favorites,
+    iconPath: getPaths().favorites_icon,
+    color: "#FF7675",
+    lang: lang,
+    mediaQuery: mq
+  }));
+
+  container.addView(createNavBtn({
+    name: "dashboard",
+    label: getLabels(lang).buttons.dashboard,
+    iconPath: getPaths().dashboard_icon,
+    color: "#545454",
+    lang: lang,
+    mediaQuery: mq
+  }));
+
+  container.addView(createNavBtn({
+    name: "Polls",
+    label: getLabels(lang).buttons.polls,
+    iconPath: getPaths().polls_icon,
+    color: "#718093",
+    lang: lang,
+    mediaQuery: mq
+  }));
+
+  container.addView(createNavBtn({
+    name: "Settings",
+    label: getLabels(lang).buttons.settings,
+    iconPath: getPaths().settings_icon,
+    color: "#36C0C8",
+    lang: lang,
+    mediaQuery: mq
+  }));
+
+  return container;
+}
+
+
+const createNavBtn = (data: {
+  name: string,
+  label: string,
+  iconPath: string,
+  lang: string,
+  mediaQuery: MediaQuery,
+  color?: string,
+}) => {
+  const btn = new Button(
+    "nav_btn_" + data.name, "",
+    HomeStyle(data.mediaQuery).overview_sec.rightpart.button(data.color || "#718093")
   );
 
-  const exploreBtn = new Button(
-    "home_overview_explore", "",
-    HomeStyle.overview_sec.rightpart.button("#718093")
-  );
-
-  exploreBtn.setText(
-    "explore_btn_text", 
-    getLabels(lang).buttons.explore, 
+  btn.setText(
+    data.name + "_btn_text", 
+    data.label, 
     {color: "inheret"}
   );
-  exploreBtn.setIcon("explore_btn_icon", getPaths().explore_icon);
-  exploreBtn.setHover({
+  btn.setIcon(data.name + "_btn_icon", data.iconPath);
+  btn.setHover({
     color: "#f1f1f1",
-    backgroundColor: "#71809388",
+    backgroundColor: (data.color || "#718093") + "88",
     transition: "250ms"
   });
-  
-  container.addView(exploreBtn);
-  return container;
+
+  return btn;
 }

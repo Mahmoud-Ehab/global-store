@@ -1,3 +1,5 @@
+import { MediaQuery } from "../../MediaQuery"
+
 type ObjectOfStyles = {
   [name: string]: Partial<CSSStyleDeclaration>
 }
@@ -9,23 +11,23 @@ const body: Partial<CSSStyleDeclaration> = {
   alignItems: "center",
   justifyContent: "space-between",
 
-  width: "100%",
-  height: "12vh",
+  width: "100vw",
+  height: "10vh",
   
   backgroundColor: "#2F3542",
   boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
 }
 
-const title: Partial<CSSStyleDeclaration> = {
-  fontSize: "200%",
-  marginLeft: "1em",
-}
+const title = (mq: MediaQuery): Partial<CSSStyleDeclaration> => ({
+  fontSize: mq.minWidth(768) ? "200%" : "150%",
+  marginLeft: mq.minWidth(768) ? "3em" : "1em",
+})
 
 const loginBtn: ObjectOfStyles = {
   normal: {  
-    fontSize: "80%",
+    fontSize: "125%",
     height: "100%",
-    width: "8em",
+    width: "6em",
 
     borderLeft: "solid 1px",
     color: "#fff",

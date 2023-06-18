@@ -1,6 +1,7 @@
 import { ConstructiveView } from "../../../modules/UIPainter/View";
 import { GlobalDrawers } from "../../GlobalDrawers";
 import { HTMLView } from "../../HTMLView";
+import { MediaQuery } from "../../MediaQuery";
 import { getLabels } from "../../static/strings/labels";
 import { HeaderStyle } from "../../static/styles/HeaderStyle";
 import { Button } from "../mini-components/Button";
@@ -18,18 +19,18 @@ export class Header extends ConstructiveView<HTMLView> {
     ));
     
     const lang = this.myView().lang;
-    this.addView(textView);
+    this.addView(textView());
     this.addView(loginButton(lang));
   }
 }
 
-const textView = (() => {
+const textView = () => {
   return new TextView(
     "header-title",
     "Global Store",
-    HeaderStyle.title
+    HeaderStyle.title(new MediaQuery())
   )
-})();
+}
 
 const loginButton = (lang: string) => {
   const button = new Button(
