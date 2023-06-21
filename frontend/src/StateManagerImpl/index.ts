@@ -7,6 +7,7 @@ import { StringState } from "./States/StringState";
 import { NumberState } from "./States/NumberState";
 
 import { StateManager } from "./StateManager";
+import { ObjectState } from "./States/ObjectState";
 
 export { 
   UserData,
@@ -15,6 +16,7 @@ export {
 
   StringState,
   NumberState,
+  ObjectState,
   User, UserList,
   StateManager
 };
