@@ -13,10 +13,10 @@ export class Navigation extends ConstructiveView<HTMLView> {
 		const mq = new MediaQuery();
 		super(new HTMLView(
 			{
-			id: "navigation", 
-			parentId: "", 
+				id: "navigation", 
+				parentId: "", 
 			}, 
-			getNavStyle().body, 
+			getNavStyle(mq).body, 
 			GlobalDrawers.div()
 		));
 		const lang = this.myView().lang;
@@ -29,7 +29,7 @@ export class Navigation extends ConstructiveView<HTMLView> {
 		}) => {
 			const btn = new Button(
 				"nav_btn_" + data.name, "",
-				getNavStyle().button(data.color || "#718093")
+				getNavStyle(mq).button(data.color || "#718093")
 			);
 		
 			btn.setText(

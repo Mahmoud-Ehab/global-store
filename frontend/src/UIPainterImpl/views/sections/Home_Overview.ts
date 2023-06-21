@@ -14,6 +14,7 @@ import { getPaths } from "../../static/strings/paths";
 import { MediaQuery } from "../../MediaQuery";
 
 import { FadeIn } from "../../static/animations/FadeIn";
+import { Button } from "../mini-components/Button";
 
 export class Home_Overview extends ConstructiveView<HTMLView> {
   constructor() {
@@ -34,18 +35,18 @@ export class Home_Overview extends ConstructiveView<HTMLView> {
 }
 
 const leftpart = (lang: string, mq: MediaQuery) => {
+  const style = HomeStyle(mq).overview_sec.leftpart;
   const container = new Container(
     "home_overview_leftpart", 
-    HomeStyle(mq).overview_sec.leftpart.body
+    style.body
   );
 
   const descView = new TextView(
     "home_overview_desc",
     getParagraphes(lang).overview,
-    HomeStyle(mq).overview_sec.leftpart.text
+    style.text
   );
   descView.animateOnDraw(FadeIn);
-  container.addView(descView);
 
   const imageSlider = new ImagesSlider(
     "home_overview_images",
@@ -54,10 +55,33 @@ const leftpart = (lang: string, mq: MediaQuery) => {
       new ImageView("home_sec1_img2", getPaths().home_sec1_img2),
       new ImageView("home_sec1_img3", getPaths().home_sec1_img3)
     ],
-    4000
+    4000,
+    style.imageSlider,
+    mq.maxWidth(720)
   );
   imageSlider.play();
-  container.addView(imageSlider);
 
+  const signDiv = new Container(
+    "home_overview_signdiv",
+    style.signDiv.body
+  );
+  signDiv.addViews(
+    new Button(
+      "home_overview_signdiv_registerbtn", 
+      "Register",
+      style.signDiv.registerBtn
+    ),
+    new Button(
+      "home_overview_signdiv_loginbtn", 
+      "Login", 
+      style.signDiv.loginBtn
+    ),
+  );
+
+  container.addViews(
+    descView, 
+    imageSlider, 
+    signDiv
+  );
   return container;
 }

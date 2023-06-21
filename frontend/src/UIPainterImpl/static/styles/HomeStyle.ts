@@ -24,13 +24,53 @@ export const HomeStyle = (mq: MediaQuery) => ({
         display: "flex",
         flexFlow: "column",
         alignItems: "center",
-        padding: "2em"
+        justifyContent: "space-around",
+        padding: mq.minWidth(1000) ? "2em" : "1em",
       },
 
       text: {
-        fontSize: "125%",
+        flex: mq.minWidth(1000) ? "" : "1",
+        display: "flex",
+        fontSize: mq.minWidth(1000) ? "135%" : "100%",
         textAlign: "center",
-        margin: mq.minWidth(768) ? "0 10em 4em 10em" : "1em",
+        alignItems: "center",
+        margin: mq.minWidth(1000) ? "0 5vw 4em 5vw" : "0 1em",
+      },
+
+      imageSlider: {
+        flex: mq.minWidth(1000) ? "" : "2",
+        width: "100%",
+        height: "100%",
+      },
+
+      signDiv: {
+        body: {
+          flex: "1",
+          display: mq.minWidth(1000) ? "none" : "flex",
+          flexFlow: "column",
+          justifyContent: "space-between",
+          width: mq.minWidth(680) ? "65%" : "100%",
+          height: "100%"
+        },
+
+        registerBtn: {
+          fontSize: "150%",
+          height: "100%",
+          marginBottom: "12px",
+          borderRadius: "30px",
+          border: "solid 5px #2F3542",
+          color: "#2F3542",
+          backgroundColor: "#FFF",
+        },
+
+        loginBtn: {
+          fontSize: "150%",
+          height: "80%",
+          borderRadius: "30px",
+          border: "solid 5px #FFF",
+          color: "#FFF",
+          backgroundColor: "#2F3542",
+        }
       }
     }
   }
