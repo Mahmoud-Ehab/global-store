@@ -19,8 +19,8 @@ const body: Partial<CSSStyleDeclaration> = {
 }
 
 const title = (mq: MediaQuery): Partial<CSSStyleDeclaration> => ({
-  fontSize: mq.minWidth(768) ? "200%" : "150%",
-  marginLeft: mq.minWidth(768) ? "3em" : "1em",
+  fontSize: mq.minWidth("taplet_medium") ? "200%" : "150%",
+  marginLeft: mq.minWidth("taplet_medium") ? "3em" : "1em",
 })
 
 const loginBtn: ObjectOfStyles = {

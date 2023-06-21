@@ -10,7 +10,6 @@ import { FadeIn } from "../../static/animations/FadeIn";
 import { FadeOut } from "../../static/animations/FadeOut";
 import { SlideFromLeft } from "../../static/animations/SlideFromLeft";
 import { SlideToLeft } from "../../static/animations/SlideToLeft";
-import { MediaQuery } from "../../MediaQuery";
 
 export class ImagesSlider extends ConstructiveView<HTMLView> {
   private loop: boolean;

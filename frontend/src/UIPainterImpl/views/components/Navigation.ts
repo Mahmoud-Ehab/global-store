@@ -2,15 +2,17 @@ import { ConstructiveView } from "../../../modules/UIPainter/View";
 import { GlobalDrawers } from "../../GlobalDrawers";
 import { HTMLView } from "../../HTMLView";
 import { Button } from "../mini-components/Button";
-import { MediaQuery } from "../../MediaQuery";
+
 import { getLabels } from "../../static/strings/labels";
 import { getPaths } from "../../static/strings/paths";
 import { getNavStyle } from "../../static/styles/NavigationStyle";
 
+import { StateManager } from "../../../StateManagerImpl";
+
 
 export class Navigation extends ConstructiveView<HTMLView> {
   	constructor() {
-		const mq = new MediaQuery();
+		const mq = StateManager.get("mediaQuery").toObject().value;
 		super(new HTMLView(
 			{
 				id: "navigation", 

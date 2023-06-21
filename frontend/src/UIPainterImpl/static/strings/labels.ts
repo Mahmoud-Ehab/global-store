@@ -1,5 +1,8 @@
 const strings = {
   en: {
+    titles: {
+      header: "Global Store"
+    },
     buttons: {
       login: "Login",
       explore: "Explore",

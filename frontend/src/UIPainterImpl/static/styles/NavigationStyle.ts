@@ -3,7 +3,7 @@ import { TextStyle } from "./TextStyle";
 
 export const getNavStyle = (mq?: MediaQuery) => ({
     body: {
-        display: mq.minWidth(1000) ? "flex" : "none",
+        display: mq.minWidth("laptop_small") ? "flex" : "none",
         flex: "1",
         flexFlow: "column",
         alignItems: "center",
@@ -17,7 +17,7 @@ export const getNavStyle = (mq?: MediaQuery) => ({
 
         fontFamily: TextStyle.fontFamily,
         fontSize: "120%",
-        width: mq.minWidth(1150) ? "70%" : "100%",
+        width: mq.minWidth("laptop_medium") ? "70%" : "100%",
         height: "auto",
         padding: "20px",
         margin: "auto",

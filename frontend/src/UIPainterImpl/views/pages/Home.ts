@@ -1,4 +1,10 @@
-import { NumberState, StateManager, StringState } from "../../../StateManagerImpl";
+import { 
+  NumberState, 
+  StringState, 
+  ObjectState,
+  StateManager 
+} from "../../../StateManagerImpl";
+
 import { ConstructiveView } from "../../../modules/UIPainter/View";
 import { GlobalDrawers } from "../../GlobalDrawers";
 import { HTMLView } from "../../HTMLView";
@@ -14,13 +20,16 @@ export class Home extends ConstructiveView<HTMLView> {
     StateManager.addEntity("screenWidth", new NumberState({value: width}));
     StateManager.addEntity("screenHeight", new NumberState({value: height}));
 
+    const mediaQuery = new MediaQuery();
+    StateManager.addEntity("mediaQuery", new ObjectState({value: mediaQuery}));
+
     super(new HTMLView(
       {
         id: "home", 
         parentId: "root", 
         viewName: "Home"
       }, 
-      HomeStyle(new MediaQuery()).body, 
+      HomeStyle(mediaQuery).body, 
       GlobalDrawers.div()
     ));
     

@@ -15,10 +15,11 @@ import { MediaQuery } from "../../MediaQuery";
 
 import { FadeIn } from "../../static/animations/FadeIn";
 import { Button } from "../mini-components/Button";
+import { StateManager } from "../../../StateManagerImpl";
 
 export class Home_Overview extends ConstructiveView<HTMLView> {
   constructor() {
-    const mq = new MediaQuery();
+    const mq = StateManager.get("mediaQuery").toObject().value;
     super(new HTMLView(
       {
         id: "home_overview", 
@@ -57,7 +58,7 @@ const leftpart = (lang: string, mq: MediaQuery) => {
     ],
     4000,
     style.imageSlider,
-    mq.maxWidth(720)
+    mq.maxWidth("taplet_small")
   );
   imageSlider.play();
 

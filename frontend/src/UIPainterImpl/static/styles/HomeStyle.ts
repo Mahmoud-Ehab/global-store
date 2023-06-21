@@ -12,7 +12,7 @@ export const HomeStyle = (mq: MediaQuery) => ({
   overview_sec: {
     body: {
       display: "flex",
-      flexFlow: mq.minWidth(1000) ? "row" : "column",
+      flexFlow: mq.minWidth("laptop_small") ? "row" : "column",
       height: "100vh",
       paddingTop: HeaderStyle.body.height,
       boxSizing: "border-box",
@@ -25,20 +25,20 @@ export const HomeStyle = (mq: MediaQuery) => ({
         flexFlow: "column",
         alignItems: "center",
         justifyContent: "space-around",
-        padding: mq.minWidth(1000) ? "2em" : "1em",
+        padding: mq.minWidth("laptop_small") ? "2em" : "1em",
       },
 
       text: {
-        flex: mq.minWidth(1000) ? "" : "1",
+        flex: mq.minWidth("laptop_small") ? "" : "1",
         display: "flex",
-        fontSize: mq.minWidth(1000) ? "135%" : "100%",
+        fontSize: mq.minWidth("laptop_small") ? "135%" : "100%",
         textAlign: "center",
         alignItems: "center",
-        margin: mq.minWidth(1000) ? "0 5vw 4em 5vw" : "0 1em",
+        margin: mq.minWidth("laptop_small") ? "0 5vw 4em 5vw" : "0 1em",
       },
 
       imageSlider: {
-        flex: mq.minWidth(1000) ? "" : "2",
+        flex: mq.minWidth("laptop_small") ? "" : "2",
         width: "100%",
         height: "100%",
       },
@@ -46,10 +46,10 @@ export const HomeStyle = (mq: MediaQuery) => ({
       signDiv: {
         body: {
           flex: "1",
-          display: mq.minWidth(1000) ? "none" : "flex",
+          display: mq.minWidth("laptop_small") ? "none" : "flex",
           flexFlow: "column",
           justifyContent: "space-between",
-          width: mq.minWidth(680) ? "65%" : "100%",
+          width: mq.minWidth("taplet_small") ? "65%" : "100%",
           height: "100%"
         },
 
