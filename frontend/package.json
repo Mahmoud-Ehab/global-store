@@ -43,6 +43,6 @@
   },
   "dependencies": {
     "@sfawd/axios": "^1.0.0",
-    "@sfawd/html": "^1.0.8"
+    "@sfawd/html": "^1.1.2"
   }
 }
