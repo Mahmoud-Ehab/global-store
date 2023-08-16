@@ -1,9 +1,8 @@
 import * as Controllers from "./Controllers"
-import { PostgresQueryManager } from "./PostgresQueryManager"
-import { PostgresQueryGenerator } from "./PostgresQueryGenerator"
+
+import { PostgresQueryManager } from "@sfawd/postgres"
 
 export {
   Controllers,
-  PostgresQueryManager,
-  PostgresQueryGenerator
+  PostgresQueryManager as QueryManager,
 }

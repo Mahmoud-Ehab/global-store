@@ -1,4 +1,4 @@
-import { Endpoint } from "../../_modules/Server/Storage/Endpoint"
+import { Endpoint } from "sfawd"
 
 export const getReview: Endpoint = {
   path: (pubid, userid) => `/review/of/publication/${pubid}/of/user/${userid}`,

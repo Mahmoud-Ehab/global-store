@@ -1,6 +1,14 @@
-import { DataController } from "../../_modules/Database/DataController";
-import { User } from "../../_modules/Database/Storage";
+import { DataController } from "sfawd";
 
+export type User = {
+  id: string,
+  token: string,
+  username: string,
+  password: string,
+  nickname: string, 
+  cr: number,
+  trw: number,
+}
 type Credentials = {
   username: string,
   password: string

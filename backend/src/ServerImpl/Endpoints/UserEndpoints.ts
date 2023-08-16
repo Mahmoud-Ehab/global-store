@@ -1,4 +1,4 @@
-import { Endpoint } from "../../_modules/Server/Storage/Endpoint"
+import { Endpoint } from "sfawd"
 
 export const getUser: Endpoint = {
   path: (id) => `/user/${id}`,

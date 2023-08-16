@@ -1,13 +1,19 @@
-import { ExpressServer } from './ServerImpl';
-import { PostgresQueryManager } from './DatabaseImpl';
+import { Server } from './ServerImpl';
+import { QueryManager } from './DatabaseImpl';
 import { 
 	UserRouterInitializer,
 	PublicationRouterInitializer,
 	ReviewRouterInitializer
 } from './ServerImpl/ExpressRouterInitializers';
 
-const server = new ExpressServer("localhost", 5000);
-const queryManager = new PostgresQueryManager();
+const server = new Server("localhost", 5000);
+const queryManager = new QueryManager({
+	host: 'localhost',
+	port: 5432,
+	database: 'globalstore',
+	user: 'postgres',
+	password: 'postgres',
+});
 
 const userRI = new UserRouterInitializer(queryManager);
 const pubRI = new PublicationRouterInitializer(queryManager);

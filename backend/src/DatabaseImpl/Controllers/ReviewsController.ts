@@ -1,6 +1,11 @@
-import { DataController } from "../../_modules/Database/DataController";
-import { Review } from "../../_modules/Database/Storage";
+import { DataController } from "sfawd";
 
+export type Review = {
+  user_id: string,
+  publication_id: number,
+  title: string,
+  body: string,
+}
 export class ReviewsController extends DataController<Review> {
   protected parseData(data: any, all?: boolean): Review {
     const review: Review = !all ? {

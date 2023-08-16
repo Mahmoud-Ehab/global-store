@@ -1,8 +1,9 @@
-import { QueryManager } from "../../_modules/Database/QueryManager";
-import { ExpressHandler } from "../ExpressHandler";
+import { QueryManager, Request, Responses } from "sfawd";
+import { ExpressHandler } from "@sfawd/express";
+
 import { StrategiesFacade } from "../QueryStrategies";
-import { Request } from "../../_modules/Server/Storage";
-import { BadRequest, Done } from "../../_modules/Server/Responses";
+
+const { BadRequest, Done } = Responses;
 
 export class ReviewHandler extends ExpressHandler {
   private sf: StrategiesFacade;

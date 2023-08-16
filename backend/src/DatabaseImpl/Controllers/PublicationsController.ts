@@ -1,5 +1,14 @@
-import { DataController } from "../../_modules/Database/DataController";
-import { Publication } from "../../_modules/Database/Storage";
+import { DataController } from "sfawd";
+
+export type Publication = {
+  id: number,
+  user_id: string,
+  title: string,
+  description: string,
+  price: number,
+  currency: string,
+  phone: string,
+}
 
 export class PublicationsController extends DataController<Publication> {
   protected parseData(data: Publication, all?: boolean): Publication {

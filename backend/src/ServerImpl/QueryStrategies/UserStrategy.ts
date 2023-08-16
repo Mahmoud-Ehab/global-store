@@ -1,11 +1,13 @@
-import { User } from "../../_modules/Database/Storage";
-import { QueryManager } from "../../_modules/Database/QueryManager";
-import { QueryStrategy } from "../../_modules/Server/QueryStrategy";
-import { 
+import { QueryManager, QueryStrategy, Responses } from "sfawd";
+const { 
   AuthenticationFailed, 
   InteranlError, 
   InvalidToken 
-} from "../../_modules/Server/Responses";
+} = Responses;
+
+import { User } from "../../DatabaseImpl/Controllers/UsersController";
+
+
 
 export class UserStrategy extends QueryStrategy<User> {
   constructor(qm: QueryManager) {

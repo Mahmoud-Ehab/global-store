@@ -1,6 +1,6 @@
-import { RouterInitializer } from "../../_modules/Server/RouterInitializer";
-import { QueryManager } from "../../_modules/Database/QueryManager";
-import { ExpressRouter } from "../ExpressRouter";
+import { QueryManager, RouterInitializer } from "sfawd";
+import { ExpressRouter } from "@sfawd/express";
+
 import { ReviewEndpoints } from "../Endpoints";
 import { ReviewHandler } from "../ExpressHandlers/ReviewHandler";
 

@@ -1,4 +1,5 @@
-import { ExpressServer } from "./ExpressServer";
+import { ExpressServer as Server } from "@sfawd/express";
+
 import { 
   UserEndpoints,
   PublicationEndpoints,
@@ -6,7 +7,7 @@ import {
 } from "./Endpoints";
 
 export {
-  ExpressServer,
+  Server,
   UserEndpoints,
   PublicationEndpoints,
   ReviewEndpoints

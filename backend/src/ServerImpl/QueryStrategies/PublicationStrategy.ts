@@ -1,6 +1,5 @@
-import { Publication } from "../../_modules/Database/Storage";
-import { QueryManager } from "../../_modules/Database/QueryManager";
-import { QueryStrategy } from "../../_modules/Server/QueryStrategy";
+import { QueryManager, QueryStrategy } from "sfawd";
+import { Publication } from "../../DatabaseImpl/Controllers/PublicationsController";
 
 export class PublicationStrategy extends QueryStrategy<Publication> {
   constructor(qm: QueryManager) {

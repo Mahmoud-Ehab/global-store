@@ -1,6 +1,5 @@
-import { Review } from "../../_modules/Database/Storage";
-import { QueryManager } from "../../_modules/Database/QueryManager";
-import { QueryStrategy } from "../../_modules/Server/QueryStrategy";
+import { QueryManager, QueryStrategy } from "sfawd";
+import { Review } from "../../DatabaseImpl/Controllers/ReviewsController";
 
 export class ReviewStrategy extends QueryStrategy<Review> {
   constructor(qm: QueryManager) {

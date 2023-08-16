@@ -1,4 +1,4 @@
-import { Endpoint } from "../../_modules/Server/Storage/Endpoint"
+import { Endpoint } from "sfawd"
 
 export const getPublication: Endpoint = {
   path: (pubid: number) => `/publication/${pubid}`,

@@ -1,10 +1,10 @@
+import { QueryManager, Request, Responses } from "sfawd";
+import { ExpressHandler } from "@sfawd/express";
 import { createHmac } from "node:crypto";
 
-import { ExpressHandler } from "../ExpressHandler";
 import { StrategiesFacade } from "../QueryStrategies";
-import { Request } from "../../_modules/Server/Storage";
-import { QueryManager } from "../../_modules/Database/QueryManager";
-import { Authenticated, BadRequest, Done } from "../../_modules/Server/Responses";
+
+const { Authenticated, BadRequest, Done } = Responses;
 
 export class UserHandler extends ExpressHandler {
   private sf: StrategiesFacade;

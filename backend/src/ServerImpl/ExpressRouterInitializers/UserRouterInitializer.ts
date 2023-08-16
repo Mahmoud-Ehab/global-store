@@ -1,7 +1,7 @@
-import { RouterInitializer } from "../../_modules/Server/RouterInitializer";
-import { QueryManager } from "../../_modules/Database/QueryManager";
+import { QueryManager, RouterInitializer } from "sfawd";
+import { ExpressRouter } from "@sfawd/express";
+
 import { UserEndpoints } from "../Endpoints";
-import { ExpressRouter } from "../ExpressRouter";
 import { UserHandler } from "../ExpressHandlers/UserHandler";
 
 export class UserRouterInitializer extends RouterInitializer {

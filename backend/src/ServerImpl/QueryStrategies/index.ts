@@ -1,7 +1,8 @@
+import { QueryManager } from "sfawd";
+
 import { UserStrategy } from "./UserStrategy";
 import { PublicationStrategy } from "./PublicationStrategy";
 import { ReviewStrategy } from "./ReviewStrategy";
-import { QueryManager } from "../../_modules/Database/QueryManager";
 
 export class StrategiesFacade {
   private userStrategy: UserStrategy;
