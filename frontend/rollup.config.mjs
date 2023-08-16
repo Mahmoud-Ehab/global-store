@@ -6,7 +6,8 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 import nodePolyfills from 'rollup-plugin-polyfill-node';
 
 import json from '@rollup/plugin-json';
-import copy from 'rollup-plugin-copy'
+import copy from 'rollup-plugin-copy';
+import terser from '@rollup/plugin-terser';
 
 export default [
   {
@@ -41,7 +42,8 @@ export default [
         targets: [
           { src: './src/UIPainterImpl/static/images/**/*', dest: 'dist/images' }
         ]
-      })
+      }),
+      terser()
     ]
   },
 ];
