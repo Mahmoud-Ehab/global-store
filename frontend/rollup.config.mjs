@@ -1,25 +1,25 @@
 // rollup.config.js
 import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
+
 import { nodeResolve } from '@rollup/plugin-node-resolve';
+import nodePolyfills from 'rollup-plugin-polyfill-node';
+
 import json from '@rollup/plugin-json';
 import copy from 'rollup-plugin-copy'
 
 export default [
   {
     input: './src/app.ts',
-    output: {
-      dir: 'dist',
-      format: 'cjs'
+    output:{
+      file: 'dist/app.js',
+      format: 'cjs',
     },
     plugins: [
-      json(),
       commonjs(),
-      typescript(),
-      nodeResolve({
-        preferBuiltins: true  
-      })
-    ]
+      typescript()
+    ],
+    external: ["sfawd", "@sfawd/html", "path"]
   },
   {
     input: [
@@ -30,11 +30,12 @@ export default [
       format: 'es'
     },
     plugins: [
-      commonjs(),
       typescript(),
       json(),
+      commonjs(),
+      nodePolyfills(),
       nodeResolve({
-        preferBuiltins: true
+        preferBuiltins: false
       }),
       copy({
         targets: [
@@ -42,5 +43,5 @@ export default [
         ]
       })
     ]
-  }
+  },
 ];

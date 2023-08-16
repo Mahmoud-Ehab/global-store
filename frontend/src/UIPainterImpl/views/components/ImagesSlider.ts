@@ -4,7 +4,7 @@ import { HTMLView, HTMLAnimator } from "@sfawd/html";
 import { GlobalDrawers } from "../../GlobalDrawers";
 
 import { ImageView } from "../mini-components/ImageView";
-import { ImageSliderStyle } from "../../static/styles/ImageSliderStyle";
+import { getImageSliderStyle } from "../../static/styles/ImageSliderStyle";
 
 import { FadeIn } from "../../static/animations/FadeIn";
 import { FadeOut } from "../../static/animations/FadeOut";
@@ -16,21 +16,21 @@ export class ImagesSlider extends ConstructiveView<HTMLView> {
   private images: ImageView[];
   private dur: number;
 
-  constructor(id: string, images: ImageView[], dur: number) {
+  constructor(id: string, images: ImageView[], dur: number, style?: Partial<CSSStyleDeclaration>, fitWidth?: boolean) {
     super(new HTMLView(
       {
         id, 
         parentId: "", 
       }, 
-      ImageSliderStyle, 
+      {...getImageSliderStyle(), ...style}, 
       GlobalDrawers.div()
     ));
 
     images.forEach((image) => {
       image.myView().setStyle({
         position: "absolute",
-        width: "auto",
-        height: "100%",
+        width: fitWidth ? "100%" : "auto",
+        height: fitWidth ? "auto" : "100%",
         ...SlideFromLeft.from
       });
       image.setAnimator(new HTMLAnimator());

@@ -1,8 +1,13 @@
+import { StateManager } from "sfawd";
+
 import { UserData } from "./Structures/UserData";
 import { PublicationData } from "./Structures/PublicationData";
 import { ReviewData } from "./Structures/ReviewData";
-import { User, UserList } from "./UserState";
-import { StringState } from "./StringState";
+
+import { User, UserList } from "./States/UserState";
+import { StringState } from "./States/StringState";
+import { NumberState } from "./States/NumberState";
+import { ObjectState } from "./States/ObjectState";
 
 export { 
   UserData,
@@ -10,5 +15,8 @@ export {
   ReviewData,
 
   StringState,
-  User, UserList
+  NumberState,
+  ObjectState,
+  User, UserList,
+  StateManager
 };

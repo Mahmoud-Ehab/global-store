@@ -1,5 +1,5 @@
-import { ConstructiveView } from "sfawd";
-import { HTMLView } from "@sfawd/html";
+import { StateManager, ConstructiveView } from "sfawd";
+import { HTMLView, MediaQuery } from "@sfawd/html";
 
 import { GlobalDrawers } from "../../GlobalDrawers";
 import { HomeStyle } from "../../static/styles/HomeStyle";
@@ -7,44 +7,45 @@ import { ImagesSlider } from "../components/ImagesSlider";
 import { Container } from "../mini-components/Container";
 import { ImageView } from "../mini-components/ImageView";
 import { TextView } from "../mini-components/TextView";
-
-import { FadeIn } from "../../static/animations/FadeIn";
+import { Navigation } from "../components/Navigation";
 
 import { getParagraphes } from "../../static/strings/paragraphes";
 import { getPaths } from "../../static/strings/paths";
+
+import { FadeIn } from "../../static/animations/FadeIn";
 import { Button } from "../mini-components/Button";
-import { getLabels } from "../../static/strings/labels";
 
 export class Home_Overview extends ConstructiveView<HTMLView> {
   constructor() {
+    const mq = StateManager.get("mediaQuery").toObject().value;
     super(new HTMLView(
       {
         id: "home_overview", 
         parentId: "", 
       }, 
-      HomeStyle.overview_sec.body, 
+      HomeStyle(mq).overview_sec.body, 
       GlobalDrawers.div()
     ));
     
     const lang = this.myView().lang;
-    this.addView(leftpart(lang));
-    this.addView(rightpart(lang));
+    this.addView(leftpart(lang, mq));
+    this.addView(new Navigation());
   }
 }
 
-const leftpart = (lang: string) => {
+const leftpart = (lang: string, mq: MediaQuery) => {
+  const style = HomeStyle(mq).overview_sec.leftpart;
   const container = new Container(
     "home_overview_leftpart", 
-    HomeStyle.overview_sec.leftpart.body
+    style.body
   );
 
   const descView = new TextView(
     "home_overview_desc",
     getParagraphes(lang).overview,
-    HomeStyle.overview_sec.leftpart.text
+    style.text
   );
   descView.animateOnDraw(FadeIn);
-  container.addView(descView);
 
   const imageSlider = new ImagesSlider(
     "home_overview_images",
@@ -53,38 +54,33 @@ const leftpart = (lang: string) => {
       new ImageView("home_sec1_img2", getPaths().home_sec1_img2),
       new ImageView("home_sec1_img3", getPaths().home_sec1_img3)
     ],
-    4000
+    4000,
+    style.imageSlider,
+    mq.maxWidth("taplet_small")
   );
   imageSlider.play();
-  container.addView(imageSlider);
 
-  return container;
-}
-
-
-const rightpart = (lang: string) => {
-  const container = new Container(
-    "home_overview_rightpart", 
-    HomeStyle.overview_sec.rightpart.body
+  const signDiv = new Container(
+    "home_overview_signdiv",
+    style.signDiv.body
+  );
+  signDiv.addViews(
+    new Button(
+      "home_overview_signdiv_registerbtn", 
+      "Register",
+      style.signDiv.registerBtn
+    ),
+    new Button(
+      "home_overview_signdiv_loginbtn", 
+      "Login", 
+      style.signDiv.loginBtn
+    ),
   );
 
-  const exploreBtn = new Button(
-    "home_overview_explore", "",
-    HomeStyle.overview_sec.rightpart.button("#718093")
+  container.addViews(
+    descView, 
+    imageSlider, 
+    signDiv
   );
-
-  exploreBtn.setText(
-    "explore_btn_text", 
-    getLabels(lang).buttons.explore, 
-    {color: "inheret"}
-  );
-  exploreBtn.setIcon("explore_btn_icon", getPaths().explore_icon);
-  exploreBtn.setHover({
-    color: "#f1f1f1",
-    backgroundColor: "#71809388",
-    transition: "250ms"
-  });
-  
-  container.addView(exploreBtn);
   return container;
 }

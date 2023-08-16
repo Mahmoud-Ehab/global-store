@@ -1,14 +1,22 @@
 const strings = {
   en: {
+    titles: {
+      header: "Global Store"
+    },
     buttons: {
-      login: "login",
-      explore: "explore"
+      login: "Login",
+      explore: "Explore",
+      favorites: "Favorites",
+      dashboard: "Dashboard",
+      polls: "Polls",
+      settings: "Settings",
     }
   },
   ar: {
     buttons: {
       login: "تسجيل الدخول",
-      explore: "تصفح"
+      explore: "تصفح",
+      favorite: "المفضلة"
     }
   }
 }
