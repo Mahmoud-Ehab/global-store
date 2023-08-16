@@ -1,10 +1,17 @@
 import { Server } from './ServerImpl';
 import { QueryManager } from './DatabaseImpl';
+
 import { 
 	UserRouterInitializer,
 	PublicationRouterInitializer,
 	ReviewRouterInitializer
 } from './ServerImpl/ExpressRouterInitializers';
+
+import {
+	UsersController,
+	PublicationsController,
+	ReviewsController
+} from "./DatabaseImpl/Controllers"
 
 const server = new Server("localhost", 5000);
 const queryManager = new QueryManager({
@@ -15,7 +22,11 @@ const queryManager = new QueryManager({
 	password: 'postgres',
 });
 
-const userRI = new UserRouterInitializer(queryManager);
+queryManager.addContoller("users", UsersController);
+queryManager.addContoller("publications", PublicationsController);
+queryManager.addContoller("reviews", ReviewsController);
+
+const userRI = new UserRouterInitializer(queryManager)
 const pubRI = new PublicationRouterInitializer(queryManager);
 const reviewRI = new ReviewRouterInitializer(queryManager);
 
