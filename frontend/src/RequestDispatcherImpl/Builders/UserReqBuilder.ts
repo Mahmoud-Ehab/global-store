@@ -1,4 +1,4 @@
-import { Builder } from "../../modules/RequestDispatcher/Builder";
+import { Builder } from "sfawd";
 import { UserEndpoints } from "../../../../backend/src/ServerImpl/Endpoints";
 
 type Credentials = {

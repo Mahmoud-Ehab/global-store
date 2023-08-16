@@ -1,6 +1,7 @@
-import { ConstructiveView } from "../../../modules/UIPainter/View";
+import { ConstructiveView } from "sfawd";
+import { HTMLView } from "@sfawd/html";
+
 import { GlobalDrawers } from "../../GlobalDrawers";
-import { HTMLView } from "../../HTMLView";
 import { getLabels } from "../../static/strings/labels";
 import { HeaderStyle } from "../../static/styles/HeaderStyle";
 import { Button } from "../mini-components/Button";

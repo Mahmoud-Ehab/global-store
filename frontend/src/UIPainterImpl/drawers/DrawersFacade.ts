@@ -1,4 +1,4 @@
-import { View, ViewDrawer } from "../../modules/UIPainter/View";
+import { View, ViewDrawer } from "sfawd";
 
 export interface DrawersFacade<V extends View<any, any>> {
   div(): ViewDrawer<V>;

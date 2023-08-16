@@ -1,4 +1,4 @@
-import { Builder } from "../../modules/RequestDispatcher/Builder";
+import { Builder } from "sfawd";
 import { PublicationEndpoints } from "../../../../backend/src/ServerImpl/Endpoints";
 
 type PubInfo = {

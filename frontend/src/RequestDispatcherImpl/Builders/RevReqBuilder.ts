@@ -1,4 +1,4 @@
-import { Builder } from "../../modules/RequestDispatcher/Builder";
+import { Builder } from "sfawd";
 import { ReviewEndpoints } from "../../../../backend/src/ServerImpl/Endpoints";
 
 type RevInfo = {

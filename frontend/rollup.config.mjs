@@ -30,8 +30,12 @@ export default [
       format: 'es'
     },
     plugins: [
+      commonjs(),
       typescript(),
-      nodeResolve(),
+      json(),
+      nodeResolve({
+        preferBuiltins: true
+      }),
       copy({
         targets: [
           { src: './src/UIPainterImpl/static/images/**/*', dest: 'dist/images' }

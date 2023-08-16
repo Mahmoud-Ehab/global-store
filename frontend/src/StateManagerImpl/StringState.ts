@@ -1,3 +1,3 @@
-import { StateFactory } from "../modules/StateManager/StateFactory";
+import { StateFactory } from "sfawd";
 
 export const StringState = new StateFactory<{value: string}>().createSingleState();

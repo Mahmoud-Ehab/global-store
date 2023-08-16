@@ -1,7 +1,7 @@
-import { AestheticView } from "../../../modules/UIPainter/View";
+import { AestheticView } from "sfawd";
+import { HTMLView, HTMLAnimator } from "@sfawd/html";
+
 import { GlobalDrawers } from "../../GlobalDrawers";
-import { HTMLAnimator } from "../../HTMLAnimator";
-import { HTMLView } from "../../HTMLView";
 import { TextStyle } from "../../static/styles/TextStyle";
 
 export class TextView extends AestheticView<HTMLView> {

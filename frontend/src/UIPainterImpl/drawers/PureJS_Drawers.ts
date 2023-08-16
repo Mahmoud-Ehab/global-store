@@ -1,7 +1,5 @@
-import { ViewDrawer } from "../../../modules/UIPainter/View";
-import { HTMLView } from "../../HTMLView";
-import { DrawersFacade } from "../DrawersFacade";
-import { HTMLDrawer } from "./HTMLDrawer";
+import { HTMLView, HTMLDrawer } from "@sfawd/html";
+import { DrawersFacade } from "./DrawersFacade";
 
 export class PureJS_Drawers implements DrawersFacade<HTMLView> {
   div() {

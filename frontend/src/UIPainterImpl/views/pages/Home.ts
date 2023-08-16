@@ -1,9 +1,11 @@
-import { StateManager, StringState } from "../../../StateManagerImpl";
-import { ConstructiveView } from "../../../modules/UIPainter/View";
-import { GlobalDrawers } from "../../GlobalDrawers";
-import { HTMLView } from "../../HTMLView";
-import { HomeStyle } from "../../static/styles/HomeStyle";
+import { ConstructiveView } from "sfawd";
+import { HTMLView } from "@sfawd/html";
 
+import { StateManager } from "sfawd";
+import { StringState } from "../../../StateManagerImpl";
+
+import { GlobalDrawers } from "../../GlobalDrawers";
+import { HomeStyle } from "../../static/styles/HomeStyle";
 import { Header } from "../components/Header";
 import { Home_Overview } from "../sections/Home_Overview";
 

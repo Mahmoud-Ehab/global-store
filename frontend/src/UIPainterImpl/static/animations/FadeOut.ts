@@ -1,4 +1,4 @@
-import { ViewAnimation } from "../../../modules/UIPainter/View/Storage/ViewAnimation";
+import { ViewAnimation } from "sfawd";
 
 export const FadeOut: ViewAnimation<Partial<CSSStyleDeclaration>> = {
   from: {

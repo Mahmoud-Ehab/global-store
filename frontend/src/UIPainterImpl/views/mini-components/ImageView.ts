@@ -1,6 +1,7 @@
-import { AestheticView } from "../../../modules/UIPainter/View";
+import { AestheticView } from "sfawd";
+import { HTMLView } from "@sfawd/html";
+
 import { GlobalDrawers } from "../../GlobalDrawers";
-import { HTMLView } from "../../HTMLView";
 
 export class ImageView extends AestheticView<HTMLView> {
   constructor(id: string, src: string, style?: Partial<CSSStyleDeclaration>) {

@@ -1,6 +1,7 @@
-import { InteractiveView } from "../../../modules/UIPainter/View";
+import { InteractiveView } from "sfawd";
+import { HTMLView } from "@sfawd/html";
+
 import { GlobalDrawers } from "../../GlobalDrawers";
-import { HTMLView } from "../../HTMLView";
 import { ButtonStyle } from "../../static/styles/ButtonStyle";
 import { ImageView } from "./ImageView";
 import { TextView } from "./TextView";

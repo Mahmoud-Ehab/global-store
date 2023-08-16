@@ -1,6 +1,7 @@
-import { ConstructiveView } from "../../../modules/UIPainter/View";
+import { ConstructiveView } from "sfawd";
+import { HTMLView } from "@sfawd/html";
+
 import { GlobalDrawers } from "../../GlobalDrawers";
-import { HTMLView } from "../../HTMLView";
 
 export class Container extends ConstructiveView<HTMLView> {
   constructor(id: string, style?: Partial<CSSStyleDeclaration>) {

@@ -1,7 +1,7 @@
-import { ConstructiveView } from "../../../modules/UIPainter/View";
+import { ConstructiveView } from "sfawd";
+import { HTMLView, HTMLAnimator } from "@sfawd/html";
+
 import { GlobalDrawers } from "../../GlobalDrawers";
-import { HTMLAnimator } from "../../HTMLAnimator";
-import { HTMLView } from "../../HTMLView";
 
 import { ImageView } from "../mini-components/ImageView";
 import { ImageSliderStyle } from "../../static/styles/ImageSliderStyle";

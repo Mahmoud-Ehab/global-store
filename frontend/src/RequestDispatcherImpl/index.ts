@@ -1,4 +1,5 @@
-import { AxiosDispatcher } from "./Dispatchers/AxiosDispatcher";
+import { AxiosDispatcher } from "@sfawd/axios";
+
 import { UserReqBuilder } from "./Builders/UserReqBuilder";
 import { PubReqBuilder } from "./Builders/PubReqBuilder";
 import { RevReqBuilder } from "./Builders/RevReqBuilder";
